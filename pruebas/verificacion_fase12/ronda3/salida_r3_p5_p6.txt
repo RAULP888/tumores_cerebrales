@@ -1,0 +1,37 @@
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1795257641.426442    1712 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1795257647.637157    1712 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+WARNING:tensorflow:TensorFlow GPU support is not available on native Windows for TensorFlow >= 2.11. Even if CUDA/cuDNN are installed, GPU will not be used. Please use WSL2 or the TensorFlow-DirectML plugin.
+== Punto 6 · Diagnóstico contra historial_epocas.csv ==
+[cabeza] 20 épocas de 60 (paciencia 8) · mejor época recalculada 12 (val 0.341103) · info.json 12 (val 0.341103) · n - mejor = 8
+   subida de val tras la mejor 5.3% (regla > 10 %) · brecha final 83.8% (> 30 %) · ent siguió bajando True · etiqueta a mano 'convergió' · info.json 'convergió' · coincide True
+   en la mejor época: pérdida ent 0.0883 / val 0.3411 (razón 0.26; advertencia si < 0.25) · exactitud ent 0.9923 / val 0.9709 (advertencia si ent >= 0.995 y brecha >= 0.01)
+   advertencias en info.json: 0 · mejoro_punto_de_partida None · val inicial None
+   diagnosticar(historial del CSV) → 'convergió' · mejor época 12 · advertencias 0
+[ajuste_fino] 8 épocas de 8 (paciencia 3) · mejor época recalculada 6 (val 0.395586) · info.json 6 (val 0.395586) · n - mejor = 2
+   subida de val tras la mejor 1.3% (regla > 10 %) · brecha final 67.3% (> 30 %) · ent siguió bajando True · etiqueta a mano 'convergió' · info.json 'convergió' · coincide True
+   en la mejor época: pérdida ent 0.1562 / val 0.3956 (razón 0.39; advertencia si < 0.25) · exactitud ent 0.9826 / val 0.9806 (advertencia si ent >= 0.995 y brecha >= 0.01)
+   advertencias en info.json: 1 · mejoro_punto_de_partida False · val inicial 0.34110337495803833
+   diagnosticar(historial del CSV) → 'convergió' · mejor época 6 · advertencias 1
+info.json: etapa exportada cabeza · mejor_epoca 12 · diagnóstico convergió · val cabeza 0.341103 · val ajuste fino 0.395586 · usó ajuste fino False
+Explicación: La pérdida de validación llegó a su mínimo en la época 12 (0.3411) y la detención temprana actuó en la época 20 de 60 tras 8 épocas sin mejorar. Se conservan los pesos de esa época. Es un mínimo de la pérdida de validación, no una garantía de mínimo global.
+Advertencias: []
+
+== Punto 5 · Modelo exportado por la ruta de la app (muestra de 150 imágenes de prueba) ==
+150 imágenes en 50 s (0.33 s por imagen) · umbral usado 0.5205068290233612 · info.json 0.5205068290233612
+Diferencia máxima de probabilidad contra predicciones_prueba.csv: 1.669e-06 · decisiones distintas: 0 · tipo distinto: 0 · aviso presente: True
+Lote contra una por una: diferencia máxima 1.669e-06 · decisiones distintas 0 · distancia mínima al umbral en toda la prueba (CSV): 1.439e-02
+En la muestra: FN 5 de 110 tumores · FP 5 de 40 sin tumor (el CSV dice FN 5, FP 5)
+
+== Grad-CAM ==
+tumor · Te-pi_329.jpg · prob 0.9998 · hay_tumor True · mapa (5, 5) min 0.032 max 1.000 desv 0.257 · constante False · finito True
+tumor · Tr-gl_614.jpg · prob 0.9992 · hay_tumor True · mapa (5, 5) min 0.000 max 1.000 desv 0.274 · constante False · finito True
+sin tumor · Tr-no_462.jpg · prob 0.0093 · hay_tumor False · mapa (5, 5) min 0.118 max 1.000 desv 0.236 · constante False · finito True
+sin tumor · Tr-no_185.jpg · prob 0.0752 · hay_tumor False · mapa (5, 5) min 0.000 max 1.000 desv 0.254 · constante False · finito True
+Mapas constantes o no finitos en 30 imágenes de la muestra: 0
+
+== Pesos de MobileNetV2 contra ImageNet ==
+Capas comparadas 104 · diferencia máxima 0.000e+00
+Rasgos en el orden del manifiesto: True · filas (3600, 1280)
+Rasgos guardados contra extractor independiente (120 imágenes): diferencia máxima 1.478e-05

@@ -1,0 +1,103 @@
+== Qué se eliminó ==
+accion      conservada  quitada_contradictoria  quitada_duplicado   All
+clase                                                                  
+glioma             334                      11                370   715
+meningioma         721                      24                816  1561
+notumor            180                      13               1447  1640
+pituitary          795                      13                843  1651
+All               2030                      61               3476  5567
+Causa de las quitadas por duplicado, por clase:
+clase                                            glioma  meningioma  notumor  pituitary   All
+causa                                                                                        
+casi idéntica (correlación > 0.98 sin voltear)        2          32      364          2   400
+copia exacta (SHA-256 idéntico)                      20         111      143         35   309
+espejo o giro (correlación > 0.98 volteada)         304         647      254        775  1980
+hash perceptual o huella de la imagen preparada      44          26      686         31   787
+All                                                 370         816     1447        843  3476
+Grupos de 10 o más imágenes: 56 · imágenes en ellos: 1247 · clase de esos grupos: {'notumor': 55, 'glioma': 1}
+
+== Correlación (mi medida) de cada imagen quitada por duplicado ==
+con la más parecida de su grupo (eslabón): n = 3476 · < 0.98: 57 (1.6%) · < 0.95: 27 (0.8%) · < 0.9: 17 (0.5%) · < 0.8: 5 (0.1%) · mediana 0.9999
+con la CONSERVADA de su grupo: n = 3476 · < 0.98: 417 (12.0%) · < 0.95: 155 (4.5%) · < 0.9: 87 (2.5%) · < 0.8: 28 (0.8%) · mediana 0.9999
+con la más parecida que quedó en el manifiesto: n = 3476 · < 0.98: 416 (12.0%) · < 0.95: 138 (4.0%) · < 0.9: 52 (1.5%) · < 0.8: 18 (0.5%) · mediana 0.9999
+
+Por clase, quitadas cuya correlación con lo que quedó en el manifiesto es < 0.95 (encadenadas lejos de todo lo conservado):
+            sum  count   mean
+clase                        
+glioma       19    370  0.051
+meningioma   49    816  0.060
+notumor      63   1447  0.044
+pituitary     7    843  0.008
+Por causa, lo mismo:
+                                                 sum  count   mean
+causa                                                             
+casi idéntica (correlación > 0.98 sin voltear)    32    400  0.080
+copia exacta (SHA-256 idéntico)                   12    309  0.039
+espejo o giro (correlación > 0.98 volteada)       38   1980  0.019
+hash perceptual o huella de la imagen preparada   56    787  0.071
+
+== Diferencia a resolución completa, quitada contra la conservada de su grupo (muestra 1200, mismo tamaño 1111) ==
+Niveles de gris de diferencia media: < 1: 682 (61.4%) · < 2: 732 (65.9%) · < 3: 784 (70.6%) · < 5: 834 (75.1%) · < 8: 869 (78.2%) · < 12: 897 (80.7%) · mediana 0.83
+Por causa (fracción con diferencia media < 3 = recompresión / misma toma):
+                                                 sum  count   mean
+causa                                                             
+casi idéntica (correlación > 0.98 sin voltear)    23    118  0.195
+copia exacta (SHA-256 idéntico)                   91     97  0.938
+espejo o giro (correlación > 0.98 volteada)      597    670  0.891
+hash perceptual o huella de la imagen preparada   73    226  0.323
+Por clase:
+            sum  count   mean
+clase                        
+glioma      111    128  0.867
+meningioma  265    286  0.927
+notumor     139    416  0.334
+pituitary   269    281  0.957
+Por tramo de correlación con la conservada:
+                       n  dif_mediana  frac_misma_toma
+corr_con_conservada                                   
+(-1.0, 0.9]           17       15.103            0.000
+(0.9, 0.95]           21       11.626            0.000
+(0.95, 0.98]          68       19.216            0.000
+(0.98, 0.99]          85       24.193            0.012
+(0.99, 0.995]         28       26.863            0.036
+(0.995, 1.01]        892        0.793            0.877
+
+== Tomas distintas según el umbral de agrupación (mi correlación, componentes conexas sobre las 7,200) ==
+   umbral 0.98: 3785 grupos (sin los contradictorios) · por clase {'glioma': 1454, 'meningioma': 999, 'notumor': 375, 'pituitary': 957} · grupo más grande 79
+   umbral 0.985: 3829 grupos (sin los contradictorios) · por clase {'glioma': 1458, 'meningioma': 1007, 'notumor': 406, 'pituitary': 958} · grupo más grande 63
+   umbral 0.99: 3876 grupos (sin los contradictorios) · por clase {'glioma': 1458, 'meningioma': 1013, 'notumor': 447, 'pituitary': 958} · grupo más grande 58
+   umbral 0.995: 3943 grupos (sin los contradictorios) · por clase {'glioma': 1458, 'meningioma': 1017, 'notumor': 510, 'pituitary': 958} · grupo más grande 56
+   umbral 0.999: 4107 grupos (sin los contradictorios) · por clase {'glioma': 1458, 'meningioma': 1022, 'notumor': 668, 'pituitary': 959} · grupo más grande 27
+   El manifiesto conserva 3663 · por clase {'glioma': 1419, 'meningioma': 960, 'pituitary': 944, 'notumor': 340}
+   Sin encadenar (se conserva toda imagen que no tenga gemela > 0.98 ya conservada): 3813 imágenes · por clase {'glioma': 1454, 'meningioma': 1003, 'notumor': 399, 'pituitary': 957}
+   Sin encadenar (se conserva toda imagen que no tenga gemela > 0.99 ya conservada): 3886 imágenes · por clase {'glioma': 1458, 'meningioma': 1013, 'notumor': 457, 'pituitary': 958}
+
+Grupos más grandes:
+ grupo  tamano_grupo   clase  contradictorio
+  2860            79 notumor           False
+  2811            62 notumor           False
+  2800            53 notumor           False
+  2832            47 notumor           False
+  2813            39 notumor           False
+  2828            32 notumor           False
+  2816            32 notumor           False
+  2974            31 notumor           False
+  2851            27 notumor           False
+  2861            27 notumor           False
+  2873            27 notumor           False
+  2892            27 notumor           False
+
+Pares con mi correlación en (0.98, 0.99]: 3115 · por clase {'notumor': 3078, 'meningioma': 26, 'pituitary': 6, 'glioma': 5}
+Pares con mi correlación > 0.99: 13389
+Banda 0.98-0.99, diferencia a resolución completa (muestra 499 con mismo tamaño): < 1: 0.0% · < 2: 0.0% · < 3: 0.0% · < 5: 0.0% · < 8: 0.4% · mediana 24.79
+            sum  count  mean
+clase                       
+glioma        0      1   0.0
+meningioma    0      3   0.0
+notumor       0    495   0.0
+Pares > 0.99, diferencia a resolución completa (muestra 476): < 1: 24.4% · < 2: 36.3% · < 3: 53.6% · < 5: 67.9% · < 8: 74.4% · mediana 2.78
+
+Quitadas por 'hash perceptual o huella preparada': 787 · corr con la conservada < 0.98: 184 · < 0.95: 65 · < 0.90: 33
+
+Prueba<->entrenamiento, banda 0.95-0.98: 69 pares · mismo tamaño 69 · diferencia media < 3: 0 · < 5: 0 · mediana 9.64
+Montajes y CSV en C:\proyectos\tumores-cerebrales\pruebas\verificacion_fase12\ronda2

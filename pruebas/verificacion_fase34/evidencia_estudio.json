@@ -1,0 +1,40 @@
+[
+  {
+    "prediccion_id": 3601,
+    "archivo": "Tr-gl_100.jpg",
+    "hay_tumor": true,
+    "etiqueta": "Se detecta posible tumor",
+    "probabilidad_tumor": 0.9992740154266357,
+    "confianza": 0.9992740154266357,
+    "umbral": 0.5205068290233612,
+    "tipo_probable": "meningioma",
+    "tipo_nombre": "Meningioma",
+    "probabilidad_tipo": 0.5330272316932678,
+    "imagen_url": "/media/d414c360fa613c54dca0e5daf1426285_img.png",
+    "gradcam_url": "/media/26f63bd33fb233d189d7012e8a15ad9c_cam.png",
+    "modelo_version": "v001",
+    "tiempo_respuesta_ms": 547.9,
+    "aviso": "Resultado de apoyo. No sustituye el diagnóstico de un médico especialista."
+  },
+  {
+    "prediccion_id": 3602,
+    "archivo": "Tr-no_100.jpg",
+    "hay_tumor": false,
+    "etiqueta": "No se detecta tumor",
+    "probabilidad_tumor": 0.0034798323176801205,
+    "confianza": 0.9965201676823199,
+    "umbral": 0.5205068290233612,
+    "tipo_probable": null,
+    "tipo_nombre": null,
+    "probabilidad_tipo": null,
+    "imagen_url": "/media/7793ee5d018ddb0f3f2bc4c4538536e3_img.png",
+    "gradcam_url": "/media/440c3402f774d5ab31eb9b62ba5a76f7_cam.png",
+    "modelo_version": "v001",
+    "tiempo_respuesta_ms": 378.9,
+    "aviso": "Resultado de apoyo. No sustituye el diagnóstico de un médico especialista."
+  },
+  {
+    "archivo": "notas.txt",
+    "error": "El archivo no es una imagen JPG o PNG."
+  }
+]

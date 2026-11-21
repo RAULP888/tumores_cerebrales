@@ -1,0 +1,4 @@
+frontera,imagenes_revisadas,gemelas_corr_mayor_098,gemelas_corr_mayor_095,gemelas_banda_090_095,gemelas_corr_mayor_090,porcentaje_mayor_090,correlacion_maxima
+prueba ↔ entrenamiento,720,0,0,318,318,44.17,0.9497823715209961
+validación apartada ↔ su entrenamiento,412,0,0,169,169,41.02,0.9498318433761597
+entre pliegues (cada imagen contra los otros 4 pliegues),2880,0,0,1057,1057,36.7,0.9498324394226074

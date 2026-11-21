@@ -1,0 +1,306 @@
+{
+  "resultados": [
+    {
+      "punto": 9,
+      "prueba": "título exacto de bienvenida",
+      "ok": true,
+      "evidencia": "Bienvenido al Sistema de Apoyo para Detección de Tumores Cerebrales"
+    },
+    {
+      "punto": 9,
+      "prueba": "botón 'Iniciar' visible",
+      "ok": true,
+      "evidencia": "Iniciar"
+    },
+    {
+      "punto": 9,
+      "prueba": "login doctor muestra panel del doctor",
+      "ok": true,
+      "evidencia": "doctor1"
+    },
+    {
+      "punto": 9,
+      "prueba": "cookie de sesión no visible para JavaScript (HttpOnly)",
+      "ok": true,
+      "evidencia": "''"
+    },
+    {
+      "punto": 9,
+      "prueba": "identificador XSS no ejecuta ni crea <img src=x>",
+      "ok": true,
+      "evidencia": "El identificador debe tener el formato PAC-0001 (de 2 a 5 letras mayúsculas, guion y de 1 a 6 dígitos)."
+    },
+    {
+      "punto": 9,
+      "prueba": "tarjetas de resultado (la interfaz acumula la imagen del intento anterior: 1 + 2 = 3)",
+      "ok": true,
+      "evidencia": "3"
+    },
+    {
+      "punto": 9,
+      "prueba": "tarjeta 0: etiqueta válida",
+      "ok": true,
+      "evidencia": "Se detecta posible tumor"
+    },
+    {
+      "punto": 9,
+      "prueba": "tarjeta 0: porcentaje",
+      "ok": true,
+      "evidencia": "99.9 %"
+    },
+    {
+      "punto": 9,
+      "prueba": "tarjeta 0: tipo probable",
+      "ok": true,
+      "evidencia": "Tipo más probable: Meningioma (53 %)"
+    },
+    {
+      "punto": 9,
+      "prueba": "tarjeta 0: imagen y Grad-CAM con rótulo 'Zona que más influyó'",
+      "ok": true,
+      "evidencia": "['Imagen original', 'Zona que más influyó']"
+    },
+    {
+      "punto": 9,
+      "prueba": "tarjeta 0: las 2 imágenes cargan",
+      "ok": true,
+      "evidencia": "[160, 160]"
+    },
+    {
+      "punto": 9,
+      "prueba": "tarjeta 0: versión del modelo",
+      "ok": true,
+      "evidencia": ""
+    },
+    {
+      "punto": 9,
+      "prueba": "tarjeta 0: aviso exacto",
+      "ok": true,
+      "evidencia": "Resultado de apoyo. No sustituye el diagnóstico de un médico especialista."
+    },
+    {
+      "punto": 9,
+      "prueba": "tarjeta 0: 'ubicación del tumor' no aparece",
+      "ok": true,
+      "evidencia": ""
+    },
+    {
+      "punto": 9,
+      "prueba": "tarjeta 1: etiqueta válida",
+      "ok": true,
+      "evidencia": "Se detecta posible tumor"
+    },
+    {
+      "punto": 9,
+      "prueba": "tarjeta 1: porcentaje",
+      "ok": true,
+      "evidencia": "99.9 %"
+    },
+    {
+      "punto": 9,
+      "prueba": "tarjeta 1: tipo probable",
+      "ok": true,
+      "evidencia": "Tipo más probable: Meningioma (53 %)"
+    },
+    {
+      "punto": 9,
+      "prueba": "tarjeta 1: imagen y Grad-CAM con rótulo 'Zona que más influyó'",
+      "ok": true,
+      "evidencia": "['Imagen original', 'Zona que más influyó']"
+    },
+    {
+      "punto": 9,
+      "prueba": "tarjeta 1: las 2 imágenes cargan",
+      "ok": true,
+      "evidencia": "[160, 160]"
+    },
+    {
+      "punto": 9,
+      "prueba": "tarjeta 1: versión del modelo",
+      "ok": true,
+      "evidencia": ""
+    },
+    {
+      "punto": 9,
+      "prueba": "tarjeta 1: aviso exacto",
+      "ok": true,
+      "evidencia": "Resultado de apoyo. No sustituye el diagnóstico de un médico especialista."
+    },
+    {
+      "punto": 9,
+      "prueba": "tarjeta 1: 'ubicación del tumor' no aparece",
+      "ok": true,
+      "evidencia": ""
+    },
+    {
+      "punto": 9,
+      "prueba": "tarjeta 2: etiqueta válida",
+      "ok": true,
+      "evidencia": "No se detecta tumor"
+    },
+    {
+      "punto": 9,
+      "prueba": "tarjeta 2: porcentaje",
+      "ok": true,
+      "evidencia": "99.7 %"
+    },
+    {
+      "punto": 9,
+      "prueba": "tarjeta 2: sin tipo cuando no hay tumor",
+      "ok": true,
+      "evidencia": ""
+    },
+    {
+      "punto": 9,
+      "prueba": "tarjeta 2: imagen y Grad-CAM con rótulo 'Zona que más influyó'",
+      "ok": true,
+      "evidencia": "['Imagen original', 'Zona que más influyó']"
+    },
+    {
+      "punto": 9,
+      "prueba": "tarjeta 2: las 2 imágenes cargan",
+      "ok": true,
+      "evidencia": "[160, 160]"
+    },
+    {
+      "punto": 9,
+      "prueba": "tarjeta 2: versión del modelo",
+      "ok": true,
+      "evidencia": ""
+    },
+    {
+      "punto": 9,
+      "prueba": "tarjeta 2: aviso exacto",
+      "ok": true,
+      "evidencia": "Resultado de apoyo. No sustituye el diagnóstico de un médico especialista."
+    },
+    {
+      "punto": 9,
+      "prueba": "tarjeta 2: 'ubicación del tumor' no aparece",
+      "ok": true,
+      "evidencia": ""
+    },
+    {
+      "punto": 9,
+      "prueba": "nombre de archivo XSS se muestra como texto",
+      "ok": true,
+      "evidencia": "['Tr-gl_100.jpg', 'Tr-gl_100.jpg', '<img src=x onerror=alert(1)>.jpg']"
+    },
+    {
+      "punto": 9,
+      "prueba": "confirmación 'No estoy de acuerdo' desde la tarjeta",
+      "ok": true,
+      "evidencia": "Confirmación registrada: en desacuerdo con el resultado. Diagnóstico real indicado: Sin tumor. opciones=['Sin tumor']"
+    },
+    {
+      "punto": 9,
+      "prueba": "historial muestra el estudio PAC-3003",
+      "ok": true,
+      "evidencia": "35 estudios"
+    },
+    {
+      "punto": 9,
+      "prueba": "filtro de historial 'desacuerdo'",
+      "ok": true,
+      "evidencia": "35 estudios"
+    },
+    {
+      "punto": 9,
+      "prueba": "filtro con XSS no ejecuta",
+      "ok": true,
+      "evidencia": "0 estudios"
+    },
+    {
+      "punto": 9,
+      "prueba": "resumen del administrador con indicadores",
+      "ok": true,
+      "evidencia": "Estudios registrados\n\n36\n\nEstudios de hoy\n\n36\n\nCon posible tumor\n\n44.4 %\n\n16 de 36 estudios\n\nConfirmados por un doctor\n\n4\n\nDesacuerdos del doctor\n\n4\n\nEl doctor no coincidió con el sistema\n\nFalsos nega"
+    },
+    {
+      "punto": 9,
+      "prueba": "reentrenar desde la interfaz con progreso y resultado",
+      "ok": true,
+      "evidencia": "estado=Terminado; vistos=[('En cola', '0 %'), ('En curso', '0 %'), ('En curso', '95 %'), ('En curso', '97 %'), ('Terminado', '100 %')]; detalle=Resultado del entrenamiento #7\nVersión generada: v006\n\nLas métricas del candidato son de validación (datos apartados del entrenamiento), no del conjunto de prueba. El candidato pasa a producción solo si usted lo aprueba.\n\nPérdida por época\n0.20\n0.30\n"
+    },
+    {
+      "punto": 9,
+      "prueba": "curvas visibles en el resultado",
+      "ok": true,
+      "evidencia": "[1690]"
+    },
+    {
+      "punto": 9,
+      "prueba": "versiones del modelo",
+      "ok": true,
+      "evidencia": "Versión\tNombre\tTipo\tEstado\tUmbral\tSensibilidad\tEspecificidad\tF1\tAUC\tFecha\tAcciones\nlogistica_basica\tLogística (rasgos básicos)\tClásico\t\nReferencia\t0.02\t97.7 %\t30.1 %\t0.950\t0.939\t21 nov 2026, 04:35 a.m.\t—\nlogistica_mobilenet\tLogística (MobileNetV2)\tClásico\t\nReferencia\t0.63\t97.8 %\t86.3 %\t0.981\t0.981\t2"
+    },
+    {
+      "punto": 9,
+      "prueba": "umbral con vista previa (cambia al mover el valor)",
+      "ok": true,
+      "evidencia": "antes='Indicador\\tUmbral actual (0.5205)\\tUmbral propuesto (0.5205)\\tCambio\\nFalsos negativos (tumores no detectados)\\t51\\t51\\tSin cambio\\nFalsos positivos (falsas a' despues='Indicador\\tUmbral actual (0.5205)\\tUmbral propuesto (0.3)\\tCambio\\nFalsos negativos (tumores no detectados)\\t51\\t35\\t −16 casos (mejora)\\nFalsos positivos (fa'"
+    },
+    {
+      "punto": 9,
+      "prueba": "usuarios",
+      "ok": true,
+      "evidencia": "Usuario\tRol\tEstado\tCreado\tAcciones\ndoctor1\tDoctor\t\nActivo\t21 nov 2026, 04:41 a.m.\t\nDesactivar\nCambiar contraseña\n\ndoctor2\tDoctor\t\nActivo\t21 nov 2026, 04:41 a.m.\t\nDesactivar\nCambiar contraseña\n\nadmin1\t"
+    },
+    {
+      "punto": 9,
+      "prueba": "bitácora",
+      "ok": true,
+      "evidencia": "104 eventos"
+    },
+    {
+      "punto": 9,
+      "prueba": "sección Power BI",
+      "ok": true,
+      "evidencia": "Todavía no hay un tablero de Power BI configurado.\n\nCómo configurarlo\nConstruya el informe en Power BI Desktop siguiendo tablero/GUIA_POWER_BI.md y publíquelo en el servicio de Power BI.\nEn el servici"
+    },
+    {
+      "punto": 9,
+      "prueba": "asistente responde (Fase 5 pendiente) sin XSS",
+      "ok": true,
+      "evidencia": "Respuesta\nError\n\nPregunta: ¿Cuántos estudios hay? <img src=x onerror=alert(1)>\n\nEl asistente de consultas se habilita en la Fase 5."
+    },
+    {
+      "punto": 9,
+      "prueba": "la clave falsa no aparece en el DOM",
+      "ok": true,
+      "evidencia": ""
+    },
+    {
+      "punto": 9,
+      "prueba": "sin peticiones a dominios externos",
+      "ok": true,
+      "evidencia": "[]"
+    },
+    {
+      "punto": 9,
+      "prueba": "sin errores de JavaScript (pageerror)",
+      "ok": true,
+      "evidencia": "[]"
+    },
+    {
+      "punto": 9,
+      "prueba": "sin diálogos (alert) disparados",
+      "ok": true,
+      "evidencia": "[]"
+    },
+    {
+      "punto": 9,
+      "prueba": "consola sin errores",
+      "ok": false,
+      "evidencia": "['error: Failed to load resource: the server responded with a status of 401 (Unauthorized)']"
+    }
+  ],
+  "consola": [
+    "error: Failed to load resource: the server responded with a status of 401 (Unauthorized)"
+  ],
+  "externas": [],
+  "errores_pagina": [],
+  "http_errores": [
+    "401 GET http://127.0.0.1:8765/api/yo"
+  ]
+}

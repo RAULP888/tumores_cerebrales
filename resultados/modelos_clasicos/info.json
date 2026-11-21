@@ -1,0 +1,23 @@
+{
+  "Logística (rasgos básicos)": {
+    "archivo": "logistica_basica.joblib",
+    "rasgos": "basicos",
+    "umbral": 0.022482717409729958
+  },
+  "Logística (MobileNetV2)": {
+    "archivo": "logistica_mobilenet.joblib",
+    "rasgos": "mobilenet",
+    "umbral": 0.627570241689682
+  },
+  "Random Forest (MobileNetV2)": {
+    "archivo": "random_forest.joblib",
+    "rasgos": "mobilenet",
+    "umbral": 0.6366666666666667
+  },
+  "SVM RBF (MobileNetV2)": {
+    "archivo": "svm_rbf.joblib",
+    "rasgos": "mobilenet",
+    "umbral": 0.7493011128166187
+  },
+  "_mejor_por_validacion_cruzada": "SVM RBF (MobileNetV2)"
+}

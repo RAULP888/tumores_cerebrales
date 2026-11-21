@@ -1,0 +1,39 @@
+== Mejor época recalculada desde historial_epocas.csv ==
+
+[cabeza] épocas corridas 27 de 60 (paciencia 8) · épocas consecutivas 1..n: True
+   mejor época recalculada = 19 (val 0.204216) · info.json = 19 (val 0.204216)
+   épocas corridas info.json = 27 · n - mejor = 8 (¿igual a la paciencia? True)
+   baja de la pérdida de entrenamiento = 98.4% · mejor exactitud val = 0.9876
+   subida de val tras la mejor = 5.7% (regla sobreajuste: > 10 %) · brecha final (val - ent)/val = 96.0% (regla: > 30 %) · entrenamiento siguió bajando: True
+   etiqueta según las reglas del docstring (aplicadas a mano) = 'convergió' · info.json = 'convergió' · coincide: True
+   la tasa de aprendizaje cambia en las épocas: [16, 24] · valores: [np.float64(0.0010000000474974513), np.float64(0.0003000000142492354), np.float64(9.000000136438757e-05)]
+
+[ajuste_fino] épocas corridas 4 de 8 (paciencia 3) · épocas consecutivas 1..n: True
+   mejor época recalculada = 1 (val 0.252438) · info.json = 1 (val 0.252438)
+   épocas corridas info.json = 4 · n - mejor = 3 (¿igual a la paciencia? True)
+   baja de la pérdida de entrenamiento = 39.5% · mejor exactitud val = 0.9821
+   subida de val tras la mejor = 7.5% (regla sobreajuste: > 10 %) · brecha final (val - ent)/val = 69.5% (regla: > 30 %) · entrenamiento siguió bajando: True
+   etiqueta según las reglas del docstring (aplicadas a mano) = 'convergió' · info.json = 'convergió' · coincide: True
+   la tasa de aprendizaje cambia en las épocas: [3, 4] · valores: [np.float64(9.999999747378752e-06), np.float64(2.9999998787388904e-06), np.float64(8.999999749903509e-07)]
+
+info.json mejor_epoca (modelo exportado, etapa cabeza) = 19 · diagnóstico = convergió
+Comparación: val cabeza 0.204216 · val ajuste fino 0.252438 · se usó ajuste fino: False · coherente (ajuste < cabeza): True
+   mínimo val de la cabeza en el historial: 0.204216 · mínimo val del ajuste fino en el historial: 0.252438
+
+== `diagnosticar` con historiales sintéticos propios ==
+   esperado 'convergió' → obtenido 'convergió' (mejor época 14) · OK
+       La pérdida de validación llegó a su mínimo en la época 14 (0.1500) y la detención temprana actuó en la época 20 de 60 tras 6 épocas sin mejorar. Se conservan los pesos de esa época. Es un mínimo de la pérdida de validación, no una garantía de mínimo global.
+   esperado 'se detuvo antes de converger' → obtenido 'se detuvo antes de converger' (mejor época 20) · OK
+       Se agotaron las 20 épocas permitidas y la mejor fue la 20, de las últimas: la pérdida de validación todavía estaba bajando (0.3300). Con más épocas podría mejorar un poco.
+   esperado 'sobreajuste' → obtenido 'sobreajuste' (mejor época 6) · OK
+       Después de la época 6 la pérdida de validación subió 133% (de 0.3000 a 0.7000) mientras la de entrenamiento siguió bajando (a 0.0200). El modelo empezó a memorizar. Se conservan los pesos de la época 6.
+   esperado 'no aprende' → obtenido 'no aprende' (mejor época 11) · OK
+       La pérdida de entrenamiento casi no bajó (1.4%) y la exactitud de validación (84.0%) no supera a decir siempre la clase más frecuente (84%). El modelo no está aprendiendo.
+   Casos límite:
+      historial vacío → 'no aprende'
+      sobreajuste claro agotando las épocas (6 de 6, mejor = 2) → 'sobreajuste'
+      el ajuste fino real (mejor época 1, empeoró respecto a la cabeza 0.2042) → 'convergió'
+      pérdidas NaN → 'no aprende' (mejor época 1)
+      entrenamiento CANCELADO en la época 2 de 30 (validación todavía bajando) → 'convergió' · detencion_temprana=True
+        explicación devuelta: La pérdida de validación llegó a su mínimo en la época 2 (0.4300) y la detención temprana actuó en la época 2 de 30 tras 8 épocas sin mejorar. Se conservan los pesos de esa época. Es un mínimo de la pérdida de validación, no una garantía de mínimo global.
+Los 4 sintéticos principales clasificados como se esperaba: True

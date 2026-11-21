@@ -1,0 +1,58 @@
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1795217323.686495   36184 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1795217326.405282   36184 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+WARNING:tensorflow:TensorFlow GPU support is not available on native Windows for TensorFlow >= 2.11. Even if CUDA/cuDNN are installed, GPU will not be used. Please use WSL2 or the TensorFlow-DirectML plugin.
+== Punto 7 · Mejor época y etiqueta recalculadas desde historial_epocas.csv (clase mayoritaria 0.9072) ==
+
+[cabeza] 14 épocas de 60 (paciencia 8) · n - mejor = 8
+   mejor época recalculada = 6 (val 0.393975) · info.json = 6 (val 0.393975) · épocas corridas info.json = 14
+   subida de val tras la mejor = 16.7% (regla > 10 %) · brecha final = 90.3% (regla > 30 %) · entrenamiento siguió bajando = True · épocas después = 8 (regla >= 2)
+   etiqueta por las reglas (a mano) = 'sobreajuste' · info.json = 'sobreajuste' · coincide: True
+   en la mejor época: pérdida ent 0.1570 / val 0.3940 (razón 0.40; advertencia si < 0.25) · exactitud ent 0.9791 / val 0.9432
+   advertencias en info.json: 0 · mejoro_punto_de_partida = None · perdida_val_inicial = None · cancelado = False
+   tasa de aprendizaje cambia en las épocas [11]
+
+[ajuste_fino] 6 épocas de 8 (paciencia 3) · n - mejor = 3
+   mejor época recalculada = 3 (val 0.458744) · info.json = 3 (val 0.458744) · épocas corridas info.json = 6
+   subida de val tras la mejor = 10.0% (regla > 10 %) · brecha final = 67.6% (regla > 30 %) · entrenamiento siguió bajando = True · épocas después = 3 (regla >= 2)
+   etiqueta por las reglas (a mano) = 'sobreajuste' · info.json = 'sobreajuste' · coincide: True
+   en la mejor época: pérdida ent 0.1858 / val 0.4587 (razón 0.41; advertencia si < 0.25) · exactitud ent 0.9747 / val 0.9659
+   advertencias en info.json: 1 · mejoro_punto_de_partida = False · perdida_val_inicial = 0.39397522807121277 · cancelado = False
+   tasa de aprendizaje cambia en las épocas [3, 5, 6]
+
+info.json: etapa exportada = cabeza · mejor_epoca = 6 · diagnóstico = sobreajuste
+Comparación: val cabeza 0.393975 · val ajuste fino 0.458744 · se usó ajuste fino = False · mínimo val de la cabeza en el historial 0.393975 · del ajuste fino 0.458744
+Explicación guardada: Después de la época 6 la pérdida de validación subió 17% (de 0.3940 a 0.4597) mientras la de entrenamiento siguió bajando (a 0.0447). El modelo empezó a memorizar. Se conservan los pesos de la época 6.
+
+== Punto 7 · `diagnosticar` con historiales sintéticos propios ==
+   esperado 'convergió' → 'convergió' · mejor época 14 · detencion_temprana True · cancelado False · advertencias 0 · OK
+       La pérdida de validación llegó a su mínimo en la época 14 (0.1500) y la detención temprana actuó en la época 20 de 60 tras 6 épocas sin mejorar. Se conservan los pesos de esa época. Es un mínimo de la pérdida de validación, no una garantía de mínimo global.
+   esperado 'se detuvo antes de converger' → 'se detuvo antes de converger' · mejor época 20 · detencion_temprana False · cancelado False · advertencias 0 · OK
+       Se agotaron las 20 épocas permitidas y la mejor fue la 20, de las últimas: la pérdida de validación todavía estaba bajando (0.3300). Con más épocas podría mejorar un poco.
+   esperado 'sobreajuste' → 'sobreajuste' · mejor época 6 · detencion_temprana True · cancelado False · advertencias 0 · OK
+       Después de la época 6 la pérdida de validación subió 133% (de 0.3000 a 0.7000) mientras la de entrenamiento siguió bajando (a 0.0200). El modelo empezó a memorizar. Se conservan los pesos de la época 6.
+   esperado 'no aprende' → 'no aprende' · mejor época 11 · detencion_temprana False · cancelado False · advertencias 0 · OK
+       La pérdida de entrenamiento casi no bajó (1.4%) y la exactitud de validación (90.7%) no supera a decir siempre la clase más frecuente (91%). El modelo no está aprendiendo.
+   esperado 'cancelado' → 'cancelado' · mejor época 2 · detencion_temprana False · cancelado True · advertencias 0 · OK
+       El entrenamiento se canceló en la época 2 de 30, antes de terminar. No se puede decir si convergió. Los pesos que quedan son los de la mejor época hasta ese momento (la 2, pérdida de validación 0.4300).
+   esperado 'cancelado' → 'cancelado' · mejor época 2 · detencion_temprana False · cancelado True · advertencias 0 · OK
+       El entrenamiento se canceló en la época 2 de 30, antes de terminar. No se puede decir si convergió. Los pesos que quedan son los de la mejor época hasta ese momento (la 2, pérdida de validación 0.4300).
+   esperado 'cancelado' → 'cancelado' · mejor época 0 · detencion_temprana False · cancelado True · advertencias 0 · OK
+       El entrenamiento se canceló antes de terminar la primera época. No hay nada que evaluar.
+   no mejora el punto de partida (val inicial 0.2042, mejor 0.2524) → etiqueta 'convergió' · mejoro_punto_de_partida False · advertencias 1 · OK
+       El entrenamiento no mejoró el modelo de partida: la pérdida de validación antes de empezar era 0.2042 y la mejor que se logró fue 0.2524 (época 1). Conviene quedarse con el modelo de partida. La pérdida de validación llegó a su mínimo en la época 1 (0.2524) y la detención temprana actuó en la época 4 de 8 tras 3 épocas sin mejorar. Se conservan los pesos de esa época. Es un mínimo de la pérdida de
+   sí mejora el punto de partida → mejoro_punto_de_partida True · advertencias 0 · OK
+   memorización sin subida de validación → 'convergió' · advertencias 1 · OK
+       Convergió, con señales de memorización. La pérdida de validación llegó a su mínimo en la época 3 (0.2040) y la detención temprana actuó en la época 5 de 60 tras 2 épocas sin mejorar. Se conservan los pesos de esa época. Es un mínimo de la pérdida de validación, no una garantía de mínimo global. Señales de memorización: en la época 3 la pérdida de entrenamiento (0.0130) quedó muy por debajo de la de validación (0.2040
+   (límite) pérdidas NaN → 'no aprende' · mejor época 1
+Todos los sintéticos como se esperaba: True
+
+== Punto 8 · Cancelación real de extremo a extremo ==
+Llamadas al callback: [1, 2] · épocas en el historial: 2 · hist['cancelado'] = True · val_loss [0.7114, 0.6135]
+El modelo devuelto predice valores finitos: True
+diagnosticar(historial real cancelado) → etiqueta 'cancelado' · cancelado True · detencion_temprana False · mejor época 2
+    El entrenamiento se canceló en la época 2 de 30, antes de terminar. No se puede decir si convergió. Los pesos que quedan son los de la mejor época hasta ese momento (la 2, pérdida de validación 0.6135).
+PASA punto 8: True
+Control sin cancelar (4 épocas de 4): cancelado = False · etiqueta 'se detuvo antes de converger'
+kfold_cabeza cancelado: cancelado = True · pliegues hechos 1 · diagnóstico del pliegue interrumpido 'cancelado'

@@ -1,0 +1,55 @@
+Modelos en predicciones_prueba: ['Logística (rasgos básicos)', 'Logística (MobileNetV2)', 'Random Forest (MobileNetV2)', 'SVM RBF (MobileNetV2)', 'Red Keras (MobileNetV2)']
+Modelos en predicciones_oof: ['Logística (rasgos básicos)', 'Logística (MobileNetV2)', 'Random Forest (MobileNetV2)', 'SVM RBF (MobileNetV2)', 'Red Keras (MobileNetV2)']
+Rutas de prueba que aparecen también en predicciones_oof: 0
+Imágenes con pliegue distinto entre modelos: 0
+Imágenes cuyo pliegue difiere de StratifiedKFold(5, shuffle=True, random_state=42) por clase: 0
+
+== PRUEBA: recalculado desde predicciones_prueba.csv ==
+                               umbral    vp   vn  fp  fn  sensibilidad  especificidad  precision        f1       auc  exactitud
+modelo                                                                                                                         
+Logística (rasgos básicos)   0.070816   990   98  95  30      0.970588       0.507772   0.912442  0.940618  0.923413   0.896950
+Logística (MobileNetV2)      0.848959   996  188   5  24      0.976471       0.974093   0.995005  0.985651  0.997993   0.976092
+Random Forest (MobileNetV2)  0.630000  1003  181  12  17      0.983333       0.937824   0.988177  0.985749  0.995890   0.976092
+SVM RBF (MobileNetV2)        0.834199   998  190   3  22      0.978431       0.984456   0.997003  0.987630  0.998501   0.979390
+Red Keras (MobileNetV2)      0.745934   990  190   3  30      0.970588       0.984456   0.996979  0.983607  0.998476   0.972795
+
+== CV: recalculado desde predicciones_oof.csv (media y desviación ddof=1 entre pliegues) ==
+modelo                       Logística (rasgos básicos)  Logística (MobileNetV2)  Random Forest (MobileNetV2)  SVM RBF (MobileNetV2)  Red Keras (MobileNetV2)
+umbral                                         0.070816                 0.848959                     0.630000               0.834199                 0.455257
+sensibilidad_media                             0.980158                 0.980158                     0.980402               0.980158                 0.980155
+sensibilidad_std                               0.005222                 0.005565                     0.002999               0.003809                 0.013127
+especificidad_media                            0.538961                 0.955844                     0.925974               0.975325                 0.961039
+especificidad_std                              0.033427                 0.024896                     0.020328               0.016169                 0.025974
+precision_media                                0.918531                 0.991602                     0.985973               0.995282                 0.992600
+precision_std                                  0.005343                 0.004653                     0.003775               0.003065                 0.004801
+f1_media                                       0.948330                 0.985830                     0.983173               0.987656                 0.986286
+f1_std                                         0.003309                 0.002405                     0.001860               0.002273                 0.005934
+auc_media                                      0.925726                 0.992942                     0.993772               0.996233                 0.994698
+auc_std                                        0.019861                 0.005030                     0.002521               0.003644                 0.003947
+exactitud_media                                0.910139                 0.976298                     0.971764               0.979390                 0.977121
+exactitud_std                                  0.005820                 0.003992                     0.003143               0.003786                 0.009686
+umbral_fuerza_bruta                            0.070816                 0.848959                     0.630000               0.834199                 0.455257
+sens_oof_en_umbral                             0.980157                 0.980157                     0.980402               0.980157                 0.980157
+sens_oof_en_siguiente_valor                    0.979912                 0.979912                     0.979912               0.979912                 0.979912
+
+== tabla_comparativa.md ==
+Filas de modelos revisadas en el .md: 5
+
+== Umbral de la red exportada (validacion.npz) ==
+n validación = 728 · tumores = 612 · umbral más alto con sens >= 0.98 = np.float64(0.7459336519241333) · info.json = 0.7459336519241333
+Métricas de validación recalculadas: {'vp': 600.0, 'vn': 112.0, 'fp': 4.0, 'fn': 12.0, 'sensibilidad': 0.980392, 'especificidad': 0.965517, 'precision': 0.993377, 'f1': 0.986842, 'auc': 0.993182, 'exactitud': 0.978022}
+Rutas de validación que NO son de entrenamiento: 0 · que son de prueba: 0
+validacion.npz usa exactamente la división 15 % esperada: True
+prob_oof_cabeza del npz contra predicciones_oof.csv, diferencia máxima: 0.0
+
+== McNemar red contra cada clásico (recalculado) ==
+Mejor clásico por CV (recalculado: mayor especificidad OOF, desempate AUC): SVM RBF (MobileNetV2) · declarado: SVM RBF (MobileNetV2) · marcado en mcnemar.csv: ['SVM RBF (MobileNetV2)']
+  Logística (rasgos básicos): b=110 c=18 · p exacta=2.65414e-17 · p ji con corrección=8.74226e-16 · reportado p=8.74226e-16 (ji cuadrada con corrección)
+  Logística (MobileNetV2): b=11 c=15 · p exacta=0.557197 · p ji con corrección=0.556298 · reportado p=0.556298 (ji cuadrada con corrección)
+  Random Forest (MobileNetV2): b=17 c=21 · p exacta=0.627103 · p ji con corrección=0.626496 · reportado p=0.626496 (ji cuadrada con corrección)
+  SVM RBF (MobileNetV2): b=6 c=14 · p exacta=0.115318 · p ji con corrección=0.117525 · reportado p=0.115318 (exacta (binomial))
+  (statsmodels no está instalado; se usó scipy)
+  Informativo, solo imágenes con tumor (sensibilidad) red contra SVM RBF (MobileNetV2): b=6 c=14 p exacta=0.1153
+
+Diferencia máxima entre recalculado y reportado en todas las comparaciones: 4.3e-05
+FALLAS (0):

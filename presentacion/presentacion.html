@@ -1,0 +1,1253 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Detección de tumores cerebrales con IA</title>
+<style>
+:root{
+  --fondo:#0d1020; --texto:#eef0f7; --tenue:#9aa3c0; --tenue2:#69708c;
+  --azul:#4b8dff; --verde:#2dd4bf; --naranja:#fb7a1e; --morado:#a78bfa; --rosa:#f0607f; --amarillo:#fbbf24;
+  --tarjeta:rgba(20,24,44,.72); --borde:#2c3456;
+  --sans:"Inter","Segoe UI Variable Display","Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;
+  --mono:"JetBrains Mono","Cascadia Code","Consolas","Courier New",monospace;
+  --acento:var(--azul);
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:#070912;color:var(--texto);font-family:var(--sans);overflow:hidden}
+button{font-family:inherit}
+#escenario{position:absolute;left:50%;top:50%;width:1920px;height:1080px;transform-origin:center center;overflow:hidden;border-radius:6px}
+
+/* ---------- fondo animado ---------- */
+.fondo{position:absolute;inset:0;background:
+  radial-gradient(1100px 700px at 12% 8%, rgba(56,82,190,.55), transparent 60%),
+  radial-gradient(900px 700px at 92% 95%, rgba(110,54,170,.45), transparent 60%),
+  radial-gradient(700px 500px at 75% 20%, rgba(30,120,150,.18), transparent 60%),
+  linear-gradient(160deg,#141a3a 0%,#0e1126 45%,#1a1230 100%);
+  animation:respira 18s ease-in-out infinite alternate}
+@keyframes respira{from{filter:hue-rotate(0deg) brightness(1)}to{filter:hue-rotate(-14deg) brightness(1.08)}}
+.rejilla{position:absolute;inset:0;background-image:radial-gradient(rgba(150,165,220,.12) 1.4px,transparent 1.6px);background-size:44px 44px;mask-image:radial-gradient(ellipse at center,#000 40%,transparent 85%)}
+#particulas{position:absolute;inset:0}
+
+/* ---------- cabecera fija ---------- */
+.pildora{position:absolute;left:96px;top:58px;padding:9px 22px;border-radius:999px;font-size:21px;font-weight:700;letter-spacing:.06em;
+  color:var(--acento);border:2px solid color-mix(in srgb,var(--acento) 70%,transparent);background:color-mix(in srgb,var(--acento) 14%,transparent);
+  transition:color .6s,border-color .6s,background .6s;z-index:5}
+.puntos{position:absolute;right:96px;top:64px;display:flex;gap:12px;align-items:center;z-index:5}
+.puntos button{width:14px;height:14px;border-radius:999px;border:0;padding:0;background:#3a4266;cursor:pointer;transition:all .5s cubic-bezier(.2,.8,.2,1)}
+.puntos button.visto{background:#5b6694}
+.puntos button.actual{width:auto;height:30px;padding:0 16px;background:color-mix(in srgb,var(--acento) 22%,transparent);border:2px solid var(--acento);color:var(--acento);font-weight:700;font-size:17px}
+
+/* ---------- diapositivas ---------- */
+.slide{position:absolute;inset:0;opacity:0;visibility:hidden;transition:opacity .7s ease,visibility 0s linear .7s}
+.slide.activa{opacity:1;visibility:visible;transition:opacity .7s ease}
+.titulo{position:absolute;left:96px;top:118px;margin:0;font-size:68px;font-weight:800;letter-spacing:-.02em;line-height:1.08}
+.subrayado{position:absolute;left:96px;top:208px;height:6px;width:0;border-radius:6px;background:var(--acento);transition:width .9s cubic-bezier(.2,.8,.2,1) .35s}
+.slide.activa .subrayado{width:110px}
+.cuerpo{position:absolute;left:96px;right:96px;top:268px;bottom:150px}
+
+.en{opacity:0;transform:translateY(34px) scale(.98);filter:blur(6px)}
+.slide.activa .en{opacity:1;transform:none;filter:none;transition:opacity .9s cubic-bezier(.2,.8,.2,1),transform .9s cubic-bezier(.2,.8,.2,1),filter .9s;transition-delay:calc(var(--d,0) * 1s)}
+.slide.activa .en.izq{transition-delay:calc(var(--d,0) * 1s)}
+.en.izq{transform:translateX(-50px)}
+.en.der{transform:translateX(50px)}
+.en.zoom{transform:scale(.85)}
+
+.tarjeta{--c:var(--azul);position:relative;background:var(--tarjeta);border:2px solid var(--borde);border-radius:26px;padding:30px 34px;backdrop-filter:blur(6px)}
+.tarjeta.brillo{border-color:color-mix(in srgb,var(--c) 75%,transparent);box-shadow:0 0 0 1px color-mix(in srgb,var(--c) 20%,transparent),0 0 42px -6px color-mix(in srgb,var(--c) 55%,transparent)}
+.tarjeta.pulso{animation:pulso 2.6s ease-in-out infinite}
+@keyframes pulso{50%{box-shadow:0 0 0 1px color-mix(in srgb,var(--c) 30%,transparent),0 0 70px 4px color-mix(in srgb,var(--c) 60%,transparent)}}
+.c-azul{--c:var(--azul)} .c-verde{--c:var(--verde)} .c-naranja{--c:var(--naranja)} .c-morado{--c:var(--morado)} .c-rosa{--c:var(--rosa)} .c-amarillo{--c:var(--amarillo)}
+.etiqueta{font-size:22px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--tenue)}
+.grande{font-size:44px;font-weight:800;line-height:1.15}
+.texto{font-size:30px;line-height:1.35;color:#d7dbea}
+.tenue{color:var(--tenue)}
+.mono{font-family:var(--mono)}
+.chip{display:inline-flex;align-items:center;gap:10px;padding:10px 20px;border-radius:14px;border:2px solid var(--borde);background:#161a2e;font-size:24px;font-weight:600;color:#dfe3f2}
+.chip b{font-family:var(--mono);font-weight:700}
+.icono{width:1em;height:1em;vertical-align:-.12em}
+
+/* ---------- narración ---------- */
+.narracion{position:absolute;left:50%;bottom:62px;transform:translateX(-50%);max-width:1500px;padding:16px 34px;border-radius:999px;background:rgba(8,10,20,.78);
+  border:1px solid #262c48;font-size:28px;font-weight:600;color:#f3f5fb;text-align:center;white-space:nowrap;z-index:5;transition:opacity .5s,transform .5s}
+.narracion.cambia{opacity:0;transform:translateX(-50%) translateY(16px)}
+.barra-avance{position:absolute;left:0;bottom:0;height:7px;width:0;background:linear-gradient(90deg,var(--azul),var(--morado),var(--verde));transition:width .8s cubic-bezier(.2,.8,.2,1);z-index:5}
+
+/* ---------- controles (fuera del escenario) ---------- */
+.controles{position:fixed;right:18px;bottom:16px;display:flex;gap:8px;z-index:50;opacity:.92;transition:opacity .6s}
+.controles.oculto{opacity:0;pointer-events:none}
+.controles button{min-width:46px;height:46px;border-radius:14px;border:1px solid #2f3657;background:rgba(15,18,34,.88);color:#e8ebf6;font-size:20px;cursor:pointer;padding:0 14px}
+.controles button:hover,.controles button:focus-visible{background:#232a4b;outline:2px solid var(--azul);outline-offset:1px}
+.reloj{font-family:var(--mono);font-size:18px!important}
+.reloj.tarde{color:var(--naranja)}
+.panel{position:fixed;left:0;top:0;bottom:0;width:380px;max-width:92vw;background:#0a0c18;box-shadow:20px 0 60px rgba(0,0,0,.6);border-right:1px solid #262c48;z-index:60;
+  transform:translateX(-102%);transition:transform .45s cubic-bezier(.2,.8,.2,1);display:flex;flex-direction:column;color:var(--texto)}
+.panel.abierto{transform:none}
+.panel header{padding:22px 22px 10px;display:flex;justify-content:space-between;align-items:center}
+.panel h2{margin:0;font-size:22px}
+.panel .ayuda{padding:0 22px 12px;color:var(--tenue);font-size:14px;line-height:1.5}
+.panel ol{list-style:none;margin:0;padding:6px 12px 20px;overflow:auto;flex:1}
+.panel li{display:flex;align-items:center;gap:6px;margin:4px 0;border-radius:12px}
+.panel li.actual{background:#1b2140}
+.panel li.oculta .ir{opacity:.42;text-decoration:line-through}
+.panel .ir{flex:1;text-align:left;background:none;border:0;color:inherit;font-size:16px;padding:11px 10px;border-radius:10px;cursor:pointer;display:flex;gap:10px}
+.panel .ir span{font-family:var(--mono);color:var(--tenue);min-width:24px}
+.panel .ojo{background:none;border:1px solid #2f3657;color:#cfd4e6;border-radius:10px;width:44px;height:38px;cursor:pointer;font-size:16px}
+.panel .ojo[aria-pressed="false"]{color:#ff9b7a;border-color:#5a3a3a}
+.panel .ir:hover,.panel .ojo:hover{background:#20274a}
+.panel footer{padding:14px 22px;border-top:1px solid #262c48;display:flex;gap:10px}
+.panel footer button,.panel header button{background:#1b2140;border:1px solid #2f3657;color:#e8ebf6;border-radius:10px;padding:9px 14px;cursor:pointer;font-size:14px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+
+/* =================== DIAPOSITIVA 1 · portada =================== */
+.portada .sobre{position:absolute;left:0;right:0;top:170px;text-align:center}
+.portada h1{margin:22px 0 0;font-size:96px;font-weight:800;letter-spacing:-.03em;line-height:1.02}
+.portada h1 em{font-style:normal;background:linear-gradient(90deg,#7fb0ff,#b79cff,#5ee6d2);-webkit-background-clip:text;background-clip:text;color:transparent;background-size:200% 100%;animation:brillo 6s linear infinite}
+@keyframes brillo{to{background-position:200% 0}}
+.portada .sub{margin-top:18px;font-size:34px;color:#c9cee2}
+.flujo{position:absolute;left:180px;right:180px;top:520px;height:330px;display:flex;align-items:center;justify-content:space-between}
+.mri{position:relative;width:260px;height:260px;border-radius:30px;overflow:hidden;border:2px solid #34406a;background:#05060c;box-shadow:0 0 50px -10px rgba(75,141,255,.6)}
+.mri img{width:100%;height:100%;object-fit:cover;opacity:.92}
+.mri::after{content:"";position:absolute;left:0;right:0;height:70px;top:-70px;background:linear-gradient(180deg,transparent,rgba(94,230,210,.55),transparent);animation:escaneo 2.8s ease-in-out infinite}
+@keyframes escaneo{to{top:260px}}
+.esquinas{position:absolute;inset:12px;border:3px solid transparent;border-image:linear-gradient(#5ee6d2,#5ee6d2) 1;clip-path:polygon(0 0,22% 0,22% 4px,4px 4px,4px 22%,0 22%,0 78%,4px 78%,4px calc(100% - 4px),22% calc(100% - 4px),22% 100%,78% 100%,78% calc(100% - 4px),calc(100% - 4px) calc(100% - 4px),calc(100% - 4px) 78%,100% 78%,100% 22%,calc(100% - 4px) 22%,calc(100% - 4px) 4px,78% 4px,78% 0,100% 0,100% 100%,0 100%)}
+.flecha{position:relative;flex:1;height:3px;margin:0 30px;background:linear-gradient(90deg,#3b4675,#6b78b0)}
+.flecha::after{content:"";position:absolute;right:-2px;top:-7px;border:8px solid transparent;border-left:12px solid #6b78b0}
+.flecha i{position:absolute;top:-6px;width:15px;height:15px;border-radius:50%;background:#ffd36b;box-shadow:0 0 18px 6px rgba(255,190,80,.7);animation:viaja 2.2s linear infinite}
+.flecha i:nth-child(2){animation-delay:1.1s}
+@keyframes viaja{from{left:0;opacity:0}15%{opacity:1}85%{opacity:1}to{left:100%;opacity:0}}
+.capas{position:relative;display:flex;gap:18px;align-items:center;height:280px}
+.capas span{display:block;width:48px;border-radius:14px;background:linear-gradient(180deg,#4b8dff,#8a7cf6);animation:late 2.4s ease-in-out infinite}
+.capas span:nth-child(1){height:270px}.capas span:nth-child(2){height:230px;animation-delay:.15s}.capas span:nth-child(3){height:195px;animation-delay:.3s}
+.capas span:nth-child(4){height:160px;animation-delay:.45s}.capas span:nth-child(5){height:125px;animation-delay:.6s}.capas span:nth-child(6){height:95px;animation-delay:.75s}
+@keyframes late{50%{filter:brightness(1.45);box-shadow:0 0 26px rgba(138,124,246,.7)}}
+.salidas{display:flex;flex-direction:column;gap:18px;width:480px}
+.salida{display:flex;align-items:center;gap:16px;padding:18px 22px;border-radius:18px;font-size:27px;font-weight:700;border:2px solid}
+.salida.si{color:#ffb3a1;border-color:rgba(240,96,127,.7);background:rgba(240,96,127,.12)}
+.salida.no{color:#9ff2e4;border-color:rgba(45,212,191,.7);background:rgba(45,212,191,.1)}
+.salida.zona{color:#ffd99a;border-color:rgba(251,191,36,.6);background:rgba(251,191,36,.08);font-size:23px}
+.leyenda-flujo{position:absolute;left:180px;right:180px;top:862px;height:30px;color:var(--tenue);font-size:22px;font-weight:600}
+.leyenda-flujo span{position:absolute;transform:translateX(-50%);white-space:nowrap}
+.autor{position:absolute;left:0;right:0;top:418px;text-align:center;font-size:24px;color:var(--tenue)}
+
+/* =================== 2 · el reto =================== */
+.reto{display:grid;grid-template-columns:1fr 1fr;gap:56px}
+.reto .casos{display:flex;flex-direction:column;gap:30px;justify-content:center}
+.caso h3{margin:0 0 10px;font-size:40px}
+.insignia{position:absolute;right:26px;top:-20px;padding:7px 16px;border-radius:999px;font-size:19px;font-weight:800;letter-spacing:.04em}
+.rejilla100{display:grid;grid-template-columns:repeat(10,32px);gap:9px;justify-content:center}
+.rejilla100 i{width:32px;height:32px;border-radius:50%;background:#2a3152;transition:background .3s,box-shadow .3s}
+.rejilla100 i.ok{background:var(--azul);box-shadow:0 0 12px rgba(75,141,255,.6)}
+.rejilla100 i.mal{background:var(--naranja);box-shadow:0 0 14px rgba(251,122,30,.8);animation:parpadeo 1.2s ease-in-out infinite}
+@keyframes parpadeo{50%{transform:scale(.8)}}
+
+/* =================== 3 · datos =================== */
+.datos{display:grid;grid-template-columns:1.25fr 1fr;gap:54px}
+.contadores{display:flex;align-items:center;gap:30px}
+.contador{font-family:var(--mono);font-size:110px;font-weight:800;line-height:1}
+.apilada{display:flex;height:64px;border-radius:16px;overflow:hidden;margin-top:36px;background:#1d2340}
+.apilada span{height:100%;width:0;transition:width 1.4s cubic-bezier(.2,.8,.2,1)}
+.lista-causas{display:grid;grid-template-columns:1fr 1fr;gap:12px 30px;margin-top:26px;font-size:24px}
+.lista-causas div{display:flex;align-items:center;gap:12px}
+.lista-causas i{width:18px;height:18px;border-radius:5px;flex:none}
+.lista-causas b{font-family:var(--mono);margin-left:auto}
+.espejo{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px}
+.par{display:flex;gap:26px}
+.par figure{margin:0;text-align:center}
+.par img{width:300px;height:300px;border-radius:22px;border:2px solid #34406a;display:block}
+.par figcaption{margin-top:10px;font-size:20px;color:var(--tenue)}
+.gira{animation:gira 5s ease-in-out infinite}
+@keyframes gira{0%,30%{transform:perspective(900px) rotateY(0)}45%,85%{transform:perspective(900px) rotateY(180deg)}100%{transform:perspective(900px) rotateY(360deg)}}
+.credito{position:absolute;left:0;bottom:0;font-size:17px;color:var(--tenue2)}
+
+/* =================== 4 · sin trampa =================== */
+.division{display:flex;height:140px;border-radius:22px;overflow:hidden;font-weight:800}
+.division div{display:flex;flex-direction:column;justify-content:center;padding:0 34px;position:relative}
+.division .ent{flex:80;background:linear-gradient(90deg,rgba(75,141,255,.35),rgba(75,141,255,.18));border:2px solid rgba(75,141,255,.7);border-radius:22px 0 0 22px}
+.division .exa{flex:20;background:rgba(251,122,30,.18);border:2px solid rgba(251,122,30,.8);border-radius:0 22px 22px 0;animation:pulsoN 2.4s ease-in-out infinite}
+@keyframes pulsoN{50%{box-shadow:inset 0 0 40px rgba(251,122,30,.4)}}
+.division .num{font-family:var(--mono);font-size:46px}
+.division small{font-size:22px;color:#d7dbea;font-weight:600}
+.candado{position:absolute;right:24px;top:50%;transform:translateY(-50%);font-size:54px}
+.kfold{display:grid;grid-template-columns:150px repeat(5,1fr);gap:10px;align-items:center}
+.kfold span{height:46px;border-radius:10px;background:rgba(75,141,255,.25);border:1px solid rgba(75,141,255,.5);transition:all .5s}
+.kfold span.prueba{background:rgba(167,139,250,.75);border-color:#c4b5fd;box-shadow:0 0 20px rgba(167,139,250,.7)}
+.kfold label{font-size:21px;color:var(--tenue);font-weight:600}
+
+/* =================== 5 · EDA =================== */
+.eda{display:grid;grid-template-columns:1fr 1fr;gap:56px}
+.grafica-brillo{position:relative;height:calc(100% - 40px)}
+.barra-v{position:absolute;bottom:90px;width:170px;border-radius:18px 18px 6px 6px;height:0;transition:height 1.5s cubic-bezier(.2,.8,.2,1)}
+.bigote{position:absolute;width:3px;background:#fff;opacity:0;transition:opacity .6s 1.5s}
+.bigote::before,.bigote::after{content:"";position:absolute;left:-14px;width:31px;height:3px;background:#fff}
+.bigote::before{top:0}.bigote::after{bottom:0}
+.slide.activa .bigote{opacity:.9}
+.valor-v{position:absolute;font-family:var(--mono);font-size:40px;font-weight:800;text-align:center;width:170px}
+.nombre-v{position:absolute;bottom:40px;width:170px;text-align:center;font-size:25px;font-weight:700}
+.eje-v{position:absolute;left:40px;right:20px;bottom:88px;height:3px;background:#3b4675}
+
+/* =================== 6 · cómo aprende =================== */
+.tuberia{display:flex;align-items:center;gap:0;height:310px}
+.tuberia .paso{flex:none;text-align:center}
+.mini-mri{width:200px;height:200px;border-radius:22px;overflow:hidden;border:2px solid #34406a;position:relative}
+.mini-mri img{width:100%;height:100%;object-fit:cover}
+.mini-mri::after{content:"";position:absolute;left:0;right:0;height:50px;top:-50px;background:linear-gradient(180deg,transparent,rgba(94,230,210,.5),transparent);animation:escaneo2 2.4s ease-in-out infinite}
+@keyframes escaneo2{to{top:200px}}
+.vector{display:grid;grid-template-columns:repeat(8,26px);gap:6px}
+.vector i{width:26px;height:26px;border-radius:6px;background:var(--verde);animation:titila 1.8s ease-in-out infinite}
+@keyframes titila{0%,100%{opacity:.25}50%{opacity:1}}
+.competidores{display:flex;gap:18px;margin-top:40px;flex-wrap:wrap}
+.competidor{cursor:pointer;border:2px solid #34406a;background:#141a32;color:var(--texto);border-radius:18px;padding:18px 24px;font-size:25px;font-weight:700;transition:all .35s}
+.competidor:hover,.competidor:focus-visible{transform:translateY(-4px);border-color:var(--azul);outline:none}
+.competidor.sel{border-color:var(--c);background:color-mix(in srgb,var(--c) 18%,#141a32);box-shadow:0 0 30px -4px color-mix(in srgb,var(--c) 70%,transparent)}
+.descripcion{margin-top:28px;min-height:120px;font-size:32px;line-height:1.35;color:#e2e6f3;transition:opacity .4s}
+
+/* =================== 7 · curva =================== */
+.curva{display:grid;grid-template-columns:1.55fr 1fr;gap:46px}
+.curva svg{width:100%;height:100%;overflow:visible}
+.curva text{font-family:var(--sans);fill:var(--tenue);font-size:22px}
+.trazo{fill:none;stroke-width:6;stroke-linecap:round;stroke-linejoin:round}
+.lado{display:flex;flex-direction:column;gap:24px;justify-content:center}
+
+/* =================== 8 · quién ganó =================== */
+.pestanas{display:flex;gap:14px;margin-bottom:34px}
+.pestana{border:2px solid #34406a;background:#141a32;color:#dfe3f2;border-radius:999px;padding:12px 26px;font-size:24px;font-weight:700;cursor:pointer;transition:all .3s}
+.pestana[aria-selected="true"]{border-color:var(--azul);background:rgba(75,141,255,.2);color:#fff;box-shadow:0 0 24px -4px rgba(75,141,255,.7)}
+.filas{position:relative;display:flex;flex-direction:column;gap:22px}
+.fila{display:grid;grid-template-columns:400px 1fr 170px;align-items:center;gap:24px}
+.fila .nom{font-size:28px;font-weight:700;display:flex;align-items:center;gap:12px}
+.fila .pista{position:relative;height:56px;border-radius:14px;background:#1a2040;overflow:hidden}
+.fila .rel{position:absolute;left:0;top:0;bottom:0;width:0;border-radius:14px;transition:width 1.2s cubic-bezier(.2,.8,.2,1),background .5s}
+.fila .val{font-family:var(--mono);font-size:36px;font-weight:800;text-align:right}
+.fila.mejor .rel{box-shadow:0 0 30px rgba(45,212,191,.8)}
+.corona{font-size:28px;opacity:0;transition:opacity .4s}
+.fila.mejor .corona{opacity:1}
+.meta{position:absolute;top:-14px;bottom:-14px;width:0;border-left:4px dashed var(--amarillo);transition:left 1s,opacity .5s;z-index:2}
+.meta span{position:absolute;top:-34px;left:-60px;width:120px;text-align:center;color:var(--amarillo);font-weight:800;font-size:20px}
+.nota-escala{margin-top:22px;font-size:21px;color:var(--tenue)}
+
+/* =================== 9 · honesta =================== */
+.honesta{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto auto auto;gap:26px}
+.honesta .tarjeta{display:flex;gap:24px;align-items:center;padding:26px 30px}
+.honesta .tarjeta .ico{font-size:64px;flex:none;width:90px;text-align:center;line-height:1;animation:flota 4s ease-in-out infinite}
+.honesta .tarjeta div{font-size:28px;line-height:1.3}
+.honesta .tarjeta b.n{font-family:var(--mono);font-size:40px;display:block}
+.mensaje{grid-column:1 / -1;display:grid;place-items:center;text-align:center;font-size:44px;font-weight:800;padding:26px;border-radius:24px;
+  background:linear-gradient(90deg,rgba(75,141,255,.16),rgba(167,139,250,.2),rgba(45,212,191,.16));border:2px solid #3e4a7c}
+
+/* =================== 10 · app =================== */
+.app{display:grid;grid-template-columns:1.45fr 1fr;gap:48px;align-items:center}
+.pantalla{border-radius:22px;overflow:hidden;border:2px solid #3a4677;box-shadow:0 30px 80px -20px rgba(0,0,0,.8),0 0 60px -10px rgba(75,141,255,.5);animation:flota 6s ease-in-out infinite}
+.pantalla img{display:block;width:100%}
+@keyframes flota{50%{transform:translateY(-12px)}}
+.pasos{display:flex;flex-direction:column;gap:20px}
+.pasoapp{display:flex;align-items:center;gap:20px;font-size:30px;font-weight:700}
+.pasoapp i{font-style:normal;flex:none;width:58px;height:58px;border-radius:50%;display:grid;place-items:center;font-family:var(--mono);font-size:26px;background:rgba(75,141,255,.2);border:2px solid var(--azul);color:#cfe0ff}
+.pasoapp small{display:block;font-size:22px;font-weight:500;color:var(--tenue)}
+
+/* =================== 11 · admin =================== */
+.admin{display:grid;grid-template-columns:1fr 1.15fr;gap:48px}
+.funciones{display:grid;grid-template-columns:1fr 1fr;gap:22px;align-content:center}
+.funciones .tarjeta{padding:26px}
+.funciones .ico{font-size:48px}
+.funciones h3{margin:8px 0 6px;font-size:30px}
+.funciones p{margin:0;font-size:22px;color:var(--tenue);line-height:1.35}
+.deslizador input{width:100%;accent-color:var(--azul);height:34px;cursor:pointer}
+.marcas{display:flex;justify-content:space-between;font-family:var(--mono);color:var(--tenue);font-size:20px}
+.lectura{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:20px}
+.lectura .tarjeta{padding:22px 24px}
+.lectura .n{font-family:var(--mono);font-size:64px;font-weight:800;line-height:1.1}
+.mini-barra{height:14px;border-radius:8px;background:#1d2340;overflow:hidden;margin-top:12px}
+.mini-barra span{display:block;height:100%;transition:width .5s cubic-bezier(.2,.8,.2,1)}
+.umbral-valor{font-family:var(--mono);font-size:72px;font-weight:800;color:#cfe0ff}
+
+/* =================== 12 · datos e IA =================== */
+.bi{display:grid;grid-template-columns:1fr 1.1fr;gap:44px}
+.estrella svg{width:100%;height:100%;overflow:visible}
+.estrella text{font-family:var(--sans);font-weight:700;fill:#eef0f7;font-size:24px;text-anchor:middle;dominant-baseline:middle}
+.chat{display:flex;flex-direction:column;gap:16px;height:100%;padding:28px}
+.burbuja{max-width:88%;padding:16px 22px;border-radius:20px;font-size:26px;line-height:1.35;animation:aparece .45s cubic-bezier(.2,.8,.2,1) both}
+@keyframes aparece{from{opacity:0;transform:translateY(14px)}}
+.burbuja.usuario{align-self:flex-end;background:rgba(75,141,255,.25);border:1px solid rgba(75,141,255,.6);border-bottom-right-radius:6px}
+.burbuja.ia{align-self:flex-start;background:rgba(45,212,191,.14);border:1px solid rgba(45,212,191,.5);border-bottom-left-radius:6px}
+.burbuja.sql{align-self:flex-start;font-family:var(--mono);font-size:20px;white-space:pre;background:#0b0e1c;border:1px solid #2f3657;color:#a9c3ff}
+.burbuja.bloqueo{align-self:flex-start;background:rgba(240,96,127,.16);border:1px solid rgba(240,96,127,.7);color:#ffc2cf;font-weight:700}
+.cursor::after{content:"▍";animation:parpadeo2 .8s steps(1) infinite;margin-left:2px;color:#9fb4ff}
+@keyframes parpadeo2{50%{opacity:0}}
+
+/* =================== Power BI simulado =================== */
+.pbi{position:absolute;left:96px;right:96px;top:246px;bottom:132px;border-radius:14px;overflow:hidden;background:#f3f2f1;color:#252423;
+  font-family:"Segoe UI","Segoe UI Variable Text",var(--sans);display:grid;grid-template-rows:46px 1fr 42px;
+  box-shadow:0 30px 80px -20px rgba(0,0,0,.85),0 0 60px -12px rgba(242,200,17,.45)}
+.pbi-barra{background:#1b1a19;color:#fff;display:flex;align-items:center;gap:14px;padding:0 18px;font-size:18px}
+.pbi-barra .archivo{color:#c8c6c4;font-size:16px}
+.pbi-barra .sim{margin-left:auto;font-size:15px;color:#1b1a19;background:#f2c811;border-radius:999px;padding:4px 14px;font-weight:700}
+.pbi-lienzo{position:relative;padding:14px;display:grid;gap:12px;min-height:0}
+.pbi-l1{grid-template-columns:230px 1fr 1fr;grid-template-rows:132px 1fr;grid-template-areas:"slicer kpis kpis" "slicer barras disp"}
+.pbi-l2{grid-template-columns:1.3fr 1fr .78fr;grid-template-rows:1fr 1fr;grid-template-areas:"linea matriz gauge" "linea dona slicer"}
+.pbi-visual{background:#fff;border-radius:6px;box-shadow:0 1px 4px rgba(0,0,0,.13);padding:10px 16px;position:relative;min-height:0;display:flex;flex-direction:column;transition:box-shadow .3s}
+.pbi-visual:hover{box-shadow:0 0 0 2px #c8c6c4,0 4px 14px rgba(0,0,0,.12)}
+.pbi-visual h4{margin:0 0 4px;font-size:18px;font-weight:600;color:#252423}
+.pbi-visual svg{flex:1;width:100%;min-height:0;overflow:visible}
+.pbi-visual svg text{font-family:"Segoe UI",var(--sans);fill:#605e5c;font-size:15px}
+.pbi-slicer{gap:8px}
+.pbi-slicer button{display:flex;align-items:center;gap:10px;width:100%;text-align:left;border:1px solid #e1dfdd;background:#fff;border-radius:4px;padding:9px 10px;font:600 16px "Segoe UI",var(--sans);color:#323130;cursor:pointer;transition:all .25s}
+.pbi-slicer button i{width:16px;height:16px;border-radius:3px;border:2px solid #8a8886;flex:none;transition:all .25s}
+.pbi-slicer button[aria-pressed="true"]{background:#eff6fc;border-color:#118dff}
+.pbi-slicer button[aria-pressed="true"] i{background:var(--cm);border-color:var(--cm)}
+.pbi-slicer button:hover{background:#f3f2f1}
+.pbi-kpis{grid-area:kpis;display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.pbi-kpi{align-items:center;justify-content:center;text-align:center}
+.pbi-kpi .v{font-size:46px;font-weight:600;color:#252423;line-height:1.1;font-variant-numeric:tabular-nums}
+.pbi-kpi .l{font-size:16px;color:#605e5c}
+.pbi-kpi.alerta .v{color:#c4314b}
+.pbi-tip{position:absolute;z-index:9;pointer-events:none;background:#fff;color:#252423;border-radius:4px;box-shadow:0 4px 18px rgba(0,0,0,.28);padding:8px 12px;font-size:16px;line-height:1.45;opacity:0;transition:opacity .15s;white-space:nowrap}
+.pbi-tip b{display:block;font-size:15px;color:#605e5c;font-weight:600}
+.pbi-pestanas{background:#e1dfdd;display:flex;gap:3px;padding:0 14px;align-items:flex-end}
+.pbi-pestanas button{border:0;background:#f3f2f1;color:#605e5c;font:500 16px "Segoe UI",var(--sans);padding:9px 18px;border-radius:4px 4px 0 0;cursor:pointer}
+.pbi-pestanas button.act{background:#fff;color:#252423;font-weight:700;box-shadow:inset 0 -3px 0 #f2c811}
+.pbi-pestanas button:hover{color:#252423}
+.pbi-matriz{width:100%;table-layout:fixed;border-collapse:separate;border-spacing:6px;font-size:17px;margin-top:2px}
+.pbi-matriz th{font-weight:600;color:#605e5c;font-size:15px;text-align:center;padding:0 2px 2px}
+.pbi-matriz th:first-child{width:24%}
+.pbi-matriz th.fila{text-align:left;font-size:16px;color:#323130;vertical-align:middle}
+.pbi-matriz td{height:88px;text-align:center;font-size:36px;font-weight:600;line-height:1.05;border-radius:4px;transition:background .5s;cursor:default;font-variant-numeric:tabular-nums}
+.pbi-matriz td small{display:block;font-size:14px;font-weight:600;color:#3b3a39;opacity:.85}
+.pbi-leyenda{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:15px;color:#605e5c;margin-top:4px}
+.pbi-leyenda span{display:flex;align-items:center;gap:6px;cursor:pointer}
+.pbi-leyenda span i{width:12px;height:12px;border-radius:50%}
+.pbi-leyenda span.apagado{opacity:.4}
+.pbi-pista{position:absolute;right:18px;top:12px;font-size:14px;font-weight:700;color:#0f6cbd;background:#eff6fc;border-radius:999px;padding:3px 10px;animation:latido 1.6s ease-in-out infinite}
+@keyframes latido{50%{transform:scale(1.07)}}
+.pbi rect.barra-pbi{transition:width 1s cubic-bezier(.2,.8,.2,1),opacity .35s}
+.pbi circle.punto-pbi{transition:r .35s,opacity .35s,stroke-width .35s;cursor:pointer}
+.pbi path.linea-pbi{transition:stroke .35s,stroke-width .35s,opacity .35s}
+
+/* =================== 13 · cierre =================== */
+.cierre{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+.cierre .tarjeta{padding:34px 30px;min-height:250px}
+.cierre .n{font-family:var(--mono);font-size:58px;font-weight:800;opacity:.9}
+.cierre h3{margin:10px 0 0;font-size:34px;line-height:1.25}
+.limites{display:flex;gap:16px;justify-content:center;margin-top:40px;flex-wrap:wrap}
+.gracias{text-align:center;margin-top:44px;font-size:84px;font-weight:800;letter-spacing:-.02em}
+.gracias span{font-size:38px;font-weight:700;color:var(--tenue);display:block;margin-top:6px}
+</style>
+</head>
+<body>
+<div id="escenario" role="region" aria-roledescription="presentación" aria-label="Detección de tumores cerebrales con IA">
+  <div class="fondo"></div>
+  <div class="rejilla"></div>
+  <canvas id="particulas" width="1920" height="1080" aria-hidden="true"></canvas>
+
+  <div class="pildora" id="pildora">PROYECTO FINAL</div>
+  <nav class="puntos" id="puntos" aria-label="Diapositivas"></nav>
+
+  <!-- 1 · PORTADA -->
+  <section class="slide portada" data-titulo="Portada" data-parte="PROYECTO FINAL · DIPLOMADO" data-color="azul"
+    data-narracion="Un asistente que apoya al médico… no lo reemplaza.">
+    <div class="sobre">
+      <h1 class="en" style="--d:.1">¿Hay un <em>tumor</em> en esta resonancia?</h1>
+      <div class="sub en" style="--d:.35">Un sistema de inteligencia artificial que apoya al médico</div>
+    </div>
+    <div class="autor en" style="--d:.55">Raúl Pichardo Manzano · Diplomado en IA Generativa, BI y Ciencia de Datos · Universidad Anáhuac Querétaro</div>
+    <div class="flujo">
+      <div class="mri en zoom" style="--d:.7"><img src="img/par_b.jpg" alt="Resonancia magnética de ejemplo"><div class="esquinas"></div></div>
+      <div class="flecha en" style="--d:.9"><i></i><i></i></div>
+      <div class="capas en" style="--d:1.0" aria-label="Red neuronal"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="flecha en" style="--d:1.15"><i></i><i></i></div>
+      <div class="salidas">
+        <div class="salida si en der" style="--d:1.3">⚠ Se detecta posible tumor</div>
+        <div class="salida no en der" style="--d:1.45">✓ No se detecta tumor</div>
+        <div class="salida zona en der" style="--d:1.6">+ confianza y zona que más influyó</div>
+      </div>
+    </div>
+    <div class="leyenda-flujo en" style="--d:1.7"><span id="ley-mri">resonancia</span><span id="ley-red">red neuronal</span><span id="ley-res">resultado</span></div>
+  </section>
+
+  <!-- 2 · EL RETO -->
+  <section class="slide" data-titulo="El reto" data-parte="PARTE 1 · EL PROBLEMA" data-color="naranja"
+    data-narracion="Por eso medimos sobre todo cuántos tumores detecta: la sensibilidad.">
+    <h2 class="titulo en">No todos los errores pesan igual</h2><div class="subrayado"></div>
+    <div class="cuerpo reto">
+      <div class="casos">
+        <div class="tarjeta brillo pulso c-naranja caso en izq" style="--d:.3">
+          <span class="insignia" style="background:var(--naranja);color:#1a0d02">EL MÁS GRAVE</span>
+          <h3>Falso negativo</h3><div class="texto">Dice <b>“sin tumor”</b>… y sí había.</div>
+        </div>
+        <div class="tarjeta brillo c-azul caso en izq" style="--d:.55">
+          <span class="insignia" style="background:var(--azul);color:#06122b">UN ESTUDIO DE MÁS</span>
+          <h3>Falso positivo</h3><div class="texto">Dice <b>“tumor”</b>… y no había.</div>
+        </div>
+      </div>
+      <div class="tarjeta brillo c-verde en der" style="--d:.7;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:26px">
+        <div class="etiqueta">La meta · sensibilidad</div>
+        <div class="rejilla100" id="rejilla100" aria-label="98 de cada 100 tumores detectados"></div>
+        <div class="grande" style="text-align:center">Detectar <span class="mono" style="color:var(--verde)">98</span> de cada <span class="mono">100</span> tumores</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 · LOS DATOS -->
+  <section class="slide" data-titulo="Los datos" data-parte="PARTE 2 · LOS DATOS" data-color="verde"
+    data-narracion="Casi la mitad eran copias: sin quitarlas, el examen sería trampa.">
+    <h2 class="titulo en">La mitad eran copias</h2><div class="subrayado"></div>
+    <div class="cuerpo datos">
+      <div>
+        <div class="contadores en" style="--d:.3">
+          <div><div class="etiqueta">Descargadas</div><div class="contador" data-contar="7200">0</div></div>
+          <div style="font-size:70px;color:var(--tenue)">→</div>
+          <div><div class="etiqueta">Únicas</div><div class="contador" style="color:var(--verde)" data-contar="3600" data-retardo="900">0</div></div>
+        </div>
+        <div class="apilada en" style="--d:.6" id="apilada"></div>
+        <div class="lista-causas en" style="--d:.8" id="causas"></div>
+        <div class="en" style="--d:1;margin-top:30px;display:flex;gap:14px">
+          <span class="chip">Con tumor <b data-contar="3233">0</b></span>
+          <span class="chip">Sin tumor <b data-contar="367">0</b></span>
+        </div>
+      </div>
+      <div class="tarjeta brillo c-verde espejo en der" style="--d:.5">
+        <div class="par">
+          <figure><img src="img/par_a.jpg" alt="Resonancia original"><figcaption>original</figcaption></figure>
+          <figure><img class="gira" src="img/par_b.jpg" alt="La misma resonancia volteada en espejo"><figcaption>¿otra imagen?</figcaption></figure>
+        </div>
+        <div class="grande" style="text-align:center">¡La misma, volteada!</div>
+      </div>
+      <div class="credito">Dataset: Brain Tumor MRI Dataset · Masoud Nickparvar · Kaggle · CC BY 4.0</div>
+    </div>
+  </section>
+
+  <!-- 4 · SIN TRAMPA -->
+  <section class="slide" data-titulo="Sin hacer trampa" data-parte="PARTE 2 · LOS DATOS" data-color="morado"
+    data-narracion="Como estudiar con exámenes de práctica… y guardar el examen final bajo llave.">
+    <h2 class="titulo en">Un examen final que nadie vio</h2><div class="subrayado"></div>
+    <div class="cuerpo">
+      <div class="division en" style="--d:.3">
+        <div class="ent"><span class="num" data-contar="2880">0</span><small>para aprender · 80 %</small></div>
+        <div class="exa"><span class="num" data-contar="720">0</span><small>examen final · 20 %</small><span class="candado" aria-hidden="true">🔒</span></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1.35fr 1fr;gap:46px;margin-top:46px">
+        <div class="tarjeta en" style="--d:.6">
+          <div class="etiqueta" style="margin-bottom:18px">Validación cruzada · 5 rondas</div>
+          <div class="kfold" id="kfold"></div>
+          <div class="texto tenue" style="margin-top:16px;font-size:24px">Cada parte es “examen de práctica” una vez</div>
+        </div>
+        <div class="tarjeta brillo c-morado en der" style="--d:.8;display:flex;flex-direction:column;justify-content:center;gap:16px">
+          <div style="font-size:64px">🔗</div>
+          <div class="grande">Imágenes parecidas, siempre del mismo lado</div>
+          <div class="texto tenue" style="font-size:24px">Así ninguna “se copia” del entrenamiento</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 · EDA -->
+  <section class="slide" data-titulo="Lo que dicen los datos" data-parte="PARTE 3 · ESTADÍSTICA" data-color="amarillo"
+    data-narracion="La estadística nos avisó de una trampa antes de entrenar.">
+    <h2 class="titulo en">Las imágenes sin tumor brillan más</h2><div class="subrayado"></div>
+    <div class="cuerpo eda">
+      <div class="tarjeta en" style="--d:.3">
+        <div class="etiqueta">Brillo promedio · intervalo de confianza 95 %</div>
+        <div class="grafica-brillo" id="grafica-brillo"></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:26px;justify-content:center">
+        <div class="tarjeta brillo c-amarillo en der" style="--d:.6">
+          <div class="etiqueta">Prueba de hipótesis</div>
+          <div class="grande">Diferencia real, no casualidad</div>
+          <div class="texto" style="margin-top:8px"><span class="chip">Mann-Whitney · <b>p &lt; 0.001</b></span></div>
+        </div>
+        <div class="tarjeta brillo pulso c-naranja en der" style="--d:.85">
+          <div class="etiqueta" style="color:#ffb27a">⚠ Riesgo</div>
+          <div class="grande">La IA podría fijarse en el brillo… no en el tumor</div>
+          <div class="texto tenue" style="font-size:24px;margin-top:8px">Por eso un competidor solo mira el brillo</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 · CÓMO APRENDE -->
+  <section class="slide" data-titulo="Cómo aprende" data-parte="PARTE 4 · LOS MODELOS" data-color="azul"
+    data-narracion="Cinco competidores, el mismo examen y las mismas reglas.">
+    <h2 class="titulo en">Cómo aprende la computadora</h2><div class="subrayado"></div>
+    <div class="cuerpo">
+      <div class="tuberia">
+        <div class="paso en" style="--d:.3"><div class="mini-mri"><img src="img/par_a.jpg" alt="Resonancia"></div><div class="tenue" style="margin-top:10px;font-size:22px">imagen</div></div>
+        <div class="flecha en" style="--d:.45"><i></i><i></i></div>
+        <div class="paso tarjeta brillo c-azul en" style="--d:.6;padding:24px 30px">
+          <div class="capas" style="height:150px;gap:10px;justify-content:center"><span style="height:150px;width:30px"></span><span style="height:125px;width:30px"></span><span style="height:100px;width:30px"></span><span style="height:78px;width:30px"></span></div>
+          <div style="font-size:26px;font-weight:800;margin-top:10px">MobileNetV2</div><div class="tenue" style="font-size:20px">ya sabe ver bordes y formas</div>
+        </div>
+        <div class="flecha en" style="--d:.75"><i></i><i></i></div>
+        <div class="paso en" style="--d:.9"><div class="vector" id="vector"></div><div style="margin-top:12px;font-size:26px;font-weight:800"><span class="mono">1,280</span> números</div><div class="tenue" style="font-size:20px">por imagen</div></div>
+        <div class="flecha en" style="--d:1.05"><i></i><i></i></div>
+        <div class="paso en" style="--d:1.2"><div style="font-size:80px;line-height:1">🏁</div><div style="margin-top:12px;font-size:26px;font-weight:800">5 modelos</div></div>
+      </div>
+      <div class="competidores en" style="--d:1.3" id="competidores" role="tablist" aria-label="Modelos"></div>
+      <div class="descripcion" id="descripcion" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <!-- 7 · LA RED APRENDE -->
+  <section class="slide" data-titulo="La red neuronal aprende" data-parte="PARTE 4 · LA RED NEURONAL" data-color="morado"
+    data-narracion="Se detuvo sola cuando dejó de mejorar con imágenes que no conocía.">
+    <h2 class="titulo en">¿La red aprendió bien?</h2><div class="subrayado"></div>
+    <div class="cuerpo curva">
+      <div class="tarjeta en" style="--d:.3;padding:26px 30px 40px">
+        <svg id="svg-curva" viewBox="0 0 1000 560" role="img" aria-label="Curvas de aprendizaje: error en entrenamiento y en validación por época; el mejor punto es la época 12"></svg>
+      </div>
+      <div class="lado">
+        <div class="tarjeta brillo c-verde en der" style="--d:1.6"><div class="etiqueta">Diagnóstico automático</div><div class="grande" style="color:var(--verde)">✓ Convergió</div></div>
+        <div class="tarjeta en der" style="--d:1.9"><div class="grande" style="font-size:34px">Mejor punto: época <span class="mono" style="color:var(--amarillo)">12</span></div><div class="texto tenue" style="font-size:24px">8 épocas sin mejorar → se detiene y guarda la mejor</div></div>
+        <div class="texto tenue en der" style="--d:2.2;font-size:21px">Es el mínimo del error de validación, no una garantía de mínimo global.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8 · QUIÉN GANÓ -->
+  <section class="slide" data-titulo="¿Quién ganó?" data-parte="PARTE 5 · RESULTADOS" data-color="verde"
+    data-narracion="Examen final: 720 imágenes que ningún modelo había visto.">
+    <h2 class="titulo en">¿Quién ganó el examen final?</h2><div class="subrayado"></div>
+    <div class="cuerpo">
+      <div class="pestanas en" style="--d:.2" role="tablist" id="pestanas"></div>
+      <div class="filas en" style="--d:.4" id="filas"><div class="meta" id="meta"><span>meta 98 %</span></div></div>
+      <div class="nota-escala en" style="--d:.6" id="nota-escala"></div>
+    </div>
+  </section>
+
+  <!-- 9 · COMPARACIÓN HONESTA -->
+  <section class="slide" data-titulo="Comparación honesta" data-parte="PARTE 5 · RESULTADOS" data-color="rosa"
+    data-narracion="Si un modelo más simple gana, también es un resultado válido.">
+    <h2 class="titulo en">Comparación honesta</h2><div class="subrayado"></div>
+    <div class="cuerpo honesta">
+      <div class="tarjeta brillo c-verde en izq" style="--d:.3"><div class="ico">🏆</div><div><b class="n" style="color:var(--verde)">98.3 %</b>Random Forest: el único que llega a la meta</div></div>
+      <div class="tarjeta brillo c-naranja en der" style="--d:.45"><div class="ico">🧠</div><div><b class="n" style="color:var(--naranja)">96.8 %</b>La red neuronal: 21 tumores sin detectar</div></div>
+      <div class="tarjeta brillo c-azul en izq" style="--d:.6"><div class="ico">⚖️</div><div><b class="n" style="color:var(--azul)">p = 0.016</b>En tumores, el SVM superó a la red</div></div>
+      <div class="tarjeta brillo c-amarillo en der" style="--d:.75"><div class="ico">💡</div><div><b class="n" style="color:var(--amarillo)">51</b>falsas alarmas del modelo “solo brillo”</div></div>
+      <div class="mensaje en zoom" style="--d:1">Más complejo no siempre es mejor… y lo decimos</div>
+    </div>
+  </section>
+
+  <!-- 10 · LA APP -->
+  <section class="slide" data-titulo="La aplicación" data-parte="PARTE 6 · EL SISTEMA" data-color="azul"
+    data-narracion="El mapa muestra la zona que más influyó, no la ubicación del tumor.">
+    <h2 class="titulo en">Así lo usa el doctor</h2><div class="subrayado"></div>
+    <div class="cuerpo app">
+      <div class="pantalla en zoom" style="--d:.3"><img src="img/resultado_app.jpg" alt="Tarjeta de resultado de la aplicación con la imagen original y el mapa de la zona que más influyó"></div>
+      <div class="pasos">
+        <div class="pasoapp en der" style="--d:.6"><i>1</i><div>Inicia sesión<small>usuario y contraseña</small></div></div>
+        <div class="pasoapp en der" style="--d:.8"><i>2</i><div>Sube la resonancia<small>una o varias, en segundos</small></div></div>
+        <div class="pasoapp en der" style="--d:1.0"><i>3</i><div>Resultado y confianza<small>+ zona que más influyó</small></div></div>
+        <div class="pasoapp en der" style="--d:1.2"><i>4</i><div>Confirma o corrige<small>y queda guardado</small></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11 · ADMINISTRADOR -->
+  <section class="slide" data-titulo="El administrador" data-parte="PARTE 6 · EL SISTEMA" data-color="morado"
+    data-narracion="Bajar el umbral detecta más tumores… a cambio de más falsas alarmas.">
+    <h2 class="titulo en">El administrador tiene el control</h2><div class="subrayado"></div>
+    <div class="cuerpo admin">
+      <div class="funciones">
+        <div class="tarjeta en" style="--d:.3"><div class="ico">🔁</div><h3>Reentrenar</h3><p>en segundo plano, con barra de avance</p></div>
+        <div class="tarjeta en" style="--d:.45"><div class="ico">🏷️</div><h3>Versiones</h3><p>aprueba o regresa a la anterior</p></div>
+        <div class="tarjeta en" style="--d:.6"><div class="ico">📒</div><h3>Bitácora</h3><p>cada acción queda registrada</p></div>
+        <div class="tarjeta en" style="--d:.75"><div class="ico">🛡️</div><h3>Permisos</h3><p>un doctor recibe <b class="mono">403</b> en rutas de admin</p></div>
+      </div>
+      <div class="tarjeta brillo c-morado en der deslizador" style="--d:.6">
+        <div style="display:flex;justify-content:space-between;align-items:baseline">
+          <div><div class="etiqueta">Umbral de decisión · pruébalo</div><div class="umbral-valor" id="umbral-valor">0.52</div></div>
+          <span class="chip" id="umbral-actual">umbral actual</span>
+        </div>
+        <label class="sr" for="umbral">Umbral de decisión</label>
+        <input id="umbral" type="range" min="0" max="19" step="1" value="10">
+        <div class="marcas"><span>0.05 · más alertas</span><span>0.95 · menos alertas</span></div>
+        <div class="lectura">
+          <div class="tarjeta"><div class="etiqueta" style="color:#ffb27a">Tumores sin detectar</div><div class="n" id="u-fn">51</div><div class="tenue">de 2,586</div><div class="mini-barra"><span id="u-fn-b" style="background:var(--naranja)"></span></div></div>
+          <div class="tarjeta"><div class="etiqueta" style="color:#9fc0ff">Falsas alarmas</div><div class="n" id="u-fp">28</div><div class="tenue">de 294</div><div class="mini-barra"><span id="u-fp-b" style="background:var(--azul)"></span></div></div>
+        </div>
+        <div class="tenue" style="font-size:18px;margin-top:14px">Datos reales: validación cruzada de la red (2,880 imágenes)</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 12 · DATOS E IA GENERATIVA -->
+  <section class="slide" data-titulo="Datos e IA generativa" data-parte="PARTE 7 · DATOS E IA GENERATIVA" data-color="verde"
+    data-narracion="Le preguntas en español; Claude escribe la consulta… solo de lectura.">
+    <h2 class="titulo en">Todo queda guardado… y se puede preguntar</h2><div class="subrayado"></div>
+    <div class="cuerpo bi">
+      <div class="tarjeta estrella en" style="--d:.3;padding:18px 22px">
+        <svg id="svg-estrella" viewBox="0 0 760 560" role="img" aria-label="Modelo estrella: la tabla de predicciones al centro con paciente, fecha, doctor, modelo y diagnóstico alrededor"></svg>
+      </div>
+      <div class="tarjeta brillo c-verde en der" style="--d:.5;padding:0">
+        <div class="chat" id="chat" aria-live="polite"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 13 · POWER BI: COMPARACIÓN -->
+  <section class="slide" data-titulo="Power BI · Comparación de modelos" data-parte="PARTE 7 · POWER BI" data-color="amarillo"
+    data-narracion="Tocas un modelo… y todas las gráficas se actualizan, como en Power BI.">
+    <h2 class="titulo en">El tablero en Power BI</h2><div class="subrayado"></div>
+    <div class="pbi en zoom" style="--d:.3" id="pbi1">
+      <div class="pbi-barra">
+        <svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><rect x="2" y="12" width="6" height="12" rx="1.5" fill="#f2c811"/><rect x="10" y="7" width="6" height="17" rx="1.5" fill="#f2c811" opacity=".85"/><rect x="18" y="2" width="6" height="22" rx="1.5" fill="#f2c811" opacity=".7"/></svg>
+        <b>Power BI</b><span class="archivo">tumores_cerebrales.pbix</span>
+        <span class="sim">Simulación con datos reales del examen final</span>
+      </div>
+      <div class="pbi-lienzo pbi-l1">
+        <div class="pbi-visual pbi-slicer" style="grid-area:slicer" id="pbi1-slicer"><h4>Modelo</h4></div>
+        <div class="pbi-kpis" id="pbi1-kpis"></div>
+        <div class="pbi-visual" style="grid-area:barras"><h4>Tumores sin detectar · de 647</h4><span class="pbi-pista">clic en una barra</span><svg id="pbi1-barras" viewBox="0 0 640 300" preserveAspectRatio="xMidYMid meet"></svg></div>
+        <div class="pbi-visual" style="grid-area:disp"><h4>Detecta tumores contra evita falsas alarmas</h4><svg id="pbi1-disp" viewBox="0 0 640 300" preserveAspectRatio="xMidYMid meet"></svg></div>
+        <div class="pbi-tip" id="pbi1-tip"></div>
+      </div>
+      <div class="pbi-pestanas"><button data-pbi="resumen">Resumen</button><button class="act">Comparación de modelos</button><button data-pbi="pbi2">Aciertos y errores</button><button data-pbi="actividad">Actividad de usuarios</button></div>
+    </div>
+  </section>
+
+  <!-- 14 · POWER BI: ACIERTOS Y ERRORES -->
+  <section class="slide" data-titulo="Power BI · Aciertos y errores" data-parte="PARTE 7 · POWER BI" data-color="amarillo"
+    data-narracion="En práctica rozó la meta; en el examen final la red quedó en 96.75 %.">
+    <h2 class="titulo en">Power BI: aciertos y errores</h2><div class="subrayado"></div>
+    <div class="pbi en zoom" style="--d:.3" id="pbi2">
+      <div class="pbi-barra">
+        <svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><rect x="2" y="12" width="6" height="12" rx="1.5" fill="#f2c811"/><rect x="10" y="7" width="6" height="17" rx="1.5" fill="#f2c811" opacity=".85"/><rect x="18" y="2" width="6" height="22" rx="1.5" fill="#f2c811" opacity=".7"/></svg>
+        <b>Power BI</b><span class="archivo">tumores_cerebrales.pbix</span>
+        <span class="sim">Simulación con datos reales del proyecto</span>
+      </div>
+      <div class="pbi-lienzo pbi-l2">
+        <div class="pbi-visual" style="grid-area:linea"><h4>Detecta tumores en cada ronda de práctica (5 pliegues)</h4><svg id="pbi2-linea" viewBox="0 0 560 450" preserveAspectRatio="xMidYMid meet"></svg><div class="pbi-leyenda" id="pbi2-leyenda"></div></div>
+        <div class="pbi-visual" style="grid-area:matriz"><h4>Matriz de confusión · examen final</h4><table class="pbi-matriz" id="pbi2-matriz"></table></div>
+        <div class="pbi-visual" style="grid-area:gauge"><h4>Contra la meta</h4><svg id="pbi2-gauge" viewBox="0 0 360 210" preserveAspectRatio="xMidYMid meet"></svg></div>
+        <div class="pbi-visual" style="grid-area:dona"><h4>Examen final · 720 imágenes</h4><svg id="pbi2-dona" viewBox="0 0 400 200" preserveAspectRatio="xMidYMid meet"></svg></div>
+        <div class="pbi-visual pbi-slicer" style="grid-area:slicer;gap:5px" id="pbi2-slicer"><h4>Modelo</h4></div>
+        <div class="pbi-tip" id="pbi2-tip"></div>
+      </div>
+      <div class="pbi-pestanas"><button data-pbi="resumen">Resumen</button><button data-pbi="pbi1">Comparación de modelos</button><button class="act">Aciertos y errores</button><button data-pbi="actividad">Actividad de usuarios</button></div>
+    </div>
+  </section>
+
+  <!-- 15 · CIERRE -->
+  <section class="slide" data-titulo="Cierre" data-parte="CIERRE" data-color="azul"
+    data-narracion="Resultado de apoyo. No sustituye el diagnóstico de un médico especialista.">
+    <h2 class="titulo en">Lo que aprendimos</h2><div class="subrayado"></div>
+    <div class="cuerpo">
+      <div class="cierre">
+        <div class="tarjeta brillo c-verde en" style="--d:.3"><div class="n" style="color:var(--verde)">01</div><h3>Limpiar los datos lo cambió todo</h3></div>
+        <div class="tarjeta brillo c-azul en" style="--d:.5"><div class="n" style="color:var(--azul)">02</div><h3>Lo simple puede ganar: hay que compararlo</h3></div>
+        <div class="tarjeta brillo c-morado en" style="--d:.7"><div class="n" style="color:var(--morado)">03</div><h3>La IA apoya; el médico decide</h3></div>
+      </div>
+      <div class="limites en" style="--d:.9">
+        <span class="chip">⚠ Datos públicos, sin pacientes reales</span>
+        <span class="chip">⚠ Solo 73 imágenes sin tumor en el examen</span>
+        <span class="chip">⚠ Puede haber cortes del mismo estudio</span>
+      </div>
+      <div class="gracias en zoom" style="--d:1.1">Gracias<span>¿Preguntas?</span></div>
+    </div>
+  </section>
+
+  <div class="narracion" id="narracion"></div>
+  <div class="barra-avance" id="barra-avance"></div>
+</div>
+
+<!-- controles -->
+<div class="controles" id="controles">
+  <button id="b-panel" aria-label="Ver, ocultar y seleccionar diapositivas (M)" title="Diapositivas (M)">☰</button>
+  <button id="b-ant" aria-label="Diapositiva anterior" title="Anterior (←)">‹</button>
+  <button id="b-sig" aria-label="Diapositiva siguiente" title="Siguiente (→)">›</button>
+  <button id="b-reloj" class="reloj" aria-label="Tiempo transcurrido; clic para reiniciar" title="Tiempo (clic para reiniciar)">00:00</button>
+  <button id="b-pantalla" aria-label="Pantalla completa (F)" title="Pantalla completa (F)">⛶</button>
+</div>
+<aside class="panel" id="panel" aria-label="Lista de diapositivas" aria-hidden="true">
+  <header><h2>Diapositivas</h2><button id="b-cerrar" aria-label="Cerrar lista">Cerrar ✕</button></header>
+  <div class="ayuda">Clic en el nombre para ir · 👁 para ocultar o mostrar.<br>Teclas: ← → espacio · M lista · F pantalla completa · T reloj</div>
+  <ol id="lista"></ol>
+  <footer><button id="b-todas">Mostrar todas</button><button id="b-inicio">Ir al inicio</button></footer>
+</aside>
+
+<script>
+(() => {
+  "use strict";
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+  const escenario = $("#escenario");
+  const slides = $$(".slide");
+  const colores = {azul:"#4b8dff", verde:"#2dd4bf", naranja:"#fb7a1e", morado:"#a78bfa", rosa:"#f0607f", amarillo:"#fbbf24"};
+  const nf = new Intl.NumberFormat("es-MX");
+  const CLAVE = "pres_tumores_ocultas_v1";
+
+  /* ---------- escala del escenario ---------- */
+  function escalar() {
+    const s = Math.min(innerWidth / 1920, innerHeight / 1080);
+    escenario.style.transform = `translate(-50%, -50%) scale(${s})`;
+  }
+  addEventListener("resize", escalar); escalar();
+
+  /* ---------- estado ---------- */
+  let ocultas = new Set();
+  try { ocultas = new Set(JSON.parse(localStorage.getItem(CLAVE) || "[]")); } catch (e) {}
+  const guardar = () => { try { localStorage.setItem(CLAVE, JSON.stringify([...ocultas])); } catch (e) {} };
+  const visibles = () => slides.map((_, i) => i).filter(i => !ocultas.has(i));
+  let actual = -1;
+  const temporizadores = [];
+  const limpiarTemporizadores = () => { while (temporizadores.length) clearTimeout(temporizadores.pop()); };
+  const despues = (ms, fn) => { const t = setTimeout(fn, ms); temporizadores.push(t); return t; };
+
+  /* ---------- navegación ---------- */
+  function ir(i, forzar) {
+    if (i < 0 || i >= slides.length || (i === actual && !forzar)) return;
+    limpiarTemporizadores();
+    slides.forEach((s, k) => s.classList.toggle("activa", k === i));
+    actual = i;
+    const s = slides[i];
+    escenario.style.setProperty("--acento", colores[s.dataset.color] || colores.azul);
+    $("#pildora").textContent = s.dataset.parte;
+    const nar = $("#narracion");
+    nar.classList.add("cambia");
+    despues(260, () => { nar.textContent = s.dataset.narracion; nar.classList.remove("cambia"); });
+    const vis = visibles(), pos = Math.max(0, vis.indexOf(i));
+    $("#barra-avance").style.width = (vis.length > 1 ? (pos / (vis.length - 1)) * 100 : 100) + "%";
+    pintarPuntos(); pintarLista();
+    try { history.replaceState(null, "", "#" + (i + 1)); } catch (e) {}
+    animarEntrada(s);
+    (animaciones[i] || (() => {}))(s);
+    if (!relojInicio) relojInicio = Date.now();
+  }
+  function paso(d) {
+    const vis = visibles(); if (!vis.length) return;
+    let pos = vis.indexOf(actual);
+    if (pos === -1) { pos = d > 0 ? vis.findIndex(v => v > actual) - 1 : vis.findIndex(v => v >= actual); if (pos < -1) pos = -1; }
+    const nuevo = vis[Math.min(vis.length - 1, Math.max(0, pos + d))];
+    if (nuevo !== undefined) ir(nuevo);
+  }
+
+  /* ---------- puntos superiores ---------- */
+  function pintarPuntos() {
+    const cont = $("#puntos"); cont.replaceChildren();
+    const vis = visibles();
+    vis.forEach((i, k) => {
+      const b = document.createElement("button");
+      b.setAttribute("aria-label", `Ir a ${slides[i].dataset.titulo}`);
+      if (i === actual) { b.className = "actual"; b.textContent = `${k + 1} / ${vis.length}`; }
+      else if (i < actual) b.className = "visto";
+      b.addEventListener("click", () => ir(i));
+      cont.appendChild(b);
+    });
+  }
+
+  /* ---------- panel: ver, ocultar y seleccionar ---------- */
+  function pintarLista() {
+    const ol = $("#lista"); ol.replaceChildren();
+    slides.forEach((s, i) => {
+      const li = document.createElement("li");
+      if (i === actual) li.classList.add("actual");
+      if (ocultas.has(i)) li.classList.add("oculta");
+      const ir_ = document.createElement("button"); ir_.className = "ir";
+      const n = document.createElement("span"); n.textContent = String(i + 1).padStart(2, "0");
+      ir_.append(n, document.createTextNode(s.dataset.titulo));
+      ir_.addEventListener("click", () => { ir(i, true); });
+      const ojo = document.createElement("button"); ojo.className = "ojo";
+      ojo.setAttribute("aria-pressed", String(!ocultas.has(i)));
+      ojo.setAttribute("aria-label", (ocultas.has(i) ? "Mostrar " : "Ocultar ") + s.dataset.titulo);
+      ojo.textContent = ocultas.has(i) ? "🚫" : "👁";
+      ojo.addEventListener("click", () => {
+        if (ocultas.has(i)) ocultas.delete(i);
+        else if (visibles().length > 1) ocultas.add(i);
+        guardar(); pintarLista(); pintarPuntos();
+      });
+      li.append(ir_, ojo); ol.appendChild(li);
+    });
+  }
+  const panel = $("#panel");
+  function alternarPanel(abrir) {
+    const a = abrir ?? !panel.classList.contains("abierto");
+    panel.classList.toggle("abierto", a); panel.setAttribute("aria-hidden", String(!a));
+    if (a) { const b = $("#lista li.actual .ir") || $("#lista .ir"); b && b.focus(); }
+  }
+  $("#b-panel").addEventListener("click", () => alternarPanel());
+  $("#b-cerrar").addEventListener("click", () => alternarPanel(false));
+  $("#b-todas").addEventListener("click", () => { ocultas.clear(); guardar(); pintarLista(); pintarPuntos(); });
+  $("#b-inicio").addEventListener("click", () => { ir(visibles()[0], true); alternarPanel(false); });
+  $("#b-ant").addEventListener("click", () => paso(-1));
+  $("#b-sig").addEventListener("click", () => paso(1));
+  $("#b-pantalla").addEventListener("click", pantallaCompleta);
+  function pantallaCompleta() {
+    try { if (!document.fullscreenElement) document.documentElement.requestFullscreen(); else document.exitFullscreen(); } catch (e) {}
+  }
+
+  /* ---------- reloj (meta: 10 minutos) ---------- */
+  let relojInicio = 0;
+  const reloj = $("#b-reloj");
+  reloj.addEventListener("click", () => { relojInicio = Date.now(); });
+  setInterval(() => {
+    const s = relojInicio ? Math.floor((Date.now() - relojInicio) / 1000) : 0;
+    reloj.textContent = `${String(Math.floor(s / 60)).padStart(2, "0")}:${String(s % 60).padStart(2, "0")}`;
+    reloj.classList.toggle("tarde", s >= 540);
+  }, 500);
+
+  /* ---------- teclado y ratón ---------- */
+  addEventListener("keydown", e => {
+    if (e.target.matches("input")) { if (e.key === "Escape") e.target.blur(); return; }
+    const k = e.key;
+    if (["ArrowRight", "PageDown", " ", "Enter"].includes(k) && !e.target.closest(".panel, .controles, .competidores, .pestanas")) { e.preventDefault(); paso(1); }
+    else if (["ArrowLeft", "PageUp", "Backspace"].includes(k)) { e.preventDefault(); paso(-1); }
+    else if (k === "Home") ir(visibles()[0]);
+    else if (k === "End") ir(visibles().at(-1));
+    else if (k === "m" || k === "M") alternarPanel();
+    else if (k === "f" || k === "F") pantallaCompleta();
+    else if (k === "t" || k === "T") reloj.parentElement.classList.toggle("oculto");
+    else if (k === "Escape") alternarPanel(false);
+  });
+  let quieto;
+  const controles = $("#controles");
+  addEventListener("mousemove", () => { controles.classList.remove("oculto"); clearTimeout(quieto); quieto = setTimeout(() => { if (!panel.classList.contains("abierto")) controles.classList.add("oculto"); }, 2600); });
+  let x0 = null;
+  addEventListener("touchstart", e => { x0 = e.touches[0].clientX; }, {passive: true});
+  addEventListener("touchend", e => { if (x0 === null) return; const dx = e.changedTouches[0].clientX - x0; if (Math.abs(dx) > 60) paso(dx < 0 ? 1 : -1); x0 = null; });
+
+  /* ---------- utilidades de animación ---------- */
+  function contar(el, hasta, ms = 1400, retardo = 0) {
+    el.textContent = "0";
+    despues(retardo, () => {
+      const t0 = performance.now();
+      const f = t => { const p = Math.min(1, (t - t0) / ms), e = 1 - Math.pow(1 - p, 3); el.textContent = nf.format(Math.round(hasta * e)); if (p < 1 && slides[actual].contains(el)) requestAnimationFrame(f); };
+      requestAnimationFrame(f);
+    });
+  }
+  function animarEntrada(s) {
+    $$("[data-contar]", s).forEach(el => contar(el, +el.dataset.contar, 1400, 500 + (+el.dataset.retardo || 0)));
+  }
+  function dibujar(path, ms, retardo) {
+    const L = path.getTotalLength();
+    path.style.transition = "none"; path.style.strokeDasharray = L; path.style.strokeDashoffset = L;
+    path.getBoundingClientRect();
+    despues(retardo, () => { path.style.transition = `stroke-dashoffset ${ms}ms cubic-bezier(.4,.1,.2,1)`; path.style.strokeDashoffset = 0; });
+  }
+  const svg = (tag, attrs = {}) => { const e = document.createElementNS("http://www.w3.org/2000/svg", tag); for (const k in attrs) e.setAttribute(k, attrs[k]); return e; };
+
+  /* ---------- partículas de fondo (siempre en movimiento) ---------- */
+  const cv = $("#particulas"), cx = cv.getContext("2d");
+  const P = Array.from({length: 70}, () => ({x: Math.random() * 1920, y: Math.random() * 1080, vx: (Math.random() - .5) * .35, vy: (Math.random() - .5) * .35, r: Math.random() * 2.2 + .8}));
+  (function animar() {
+    cx.clearRect(0, 0, 1920, 1080);
+    for (const p of P) {
+      p.x += p.vx; p.y += p.vy;
+      if (p.x < 0 || p.x > 1920) p.vx *= -1; if (p.y < 0 || p.y > 1080) p.vy *= -1;
+      cx.beginPath(); cx.arc(p.x, p.y, p.r, 0, 6.283); cx.fillStyle = "rgba(160,180,255,.55)"; cx.fill();
+    }
+    for (let i = 0; i < P.length; i++) for (let j = i + 1; j < P.length; j++) {
+      const dx = P[i].x - P[j].x, dy = P[i].y - P[j].y, d = dx * dx + dy * dy;
+      if (d < 26000) { cx.strokeStyle = `rgba(120,140,230,${.16 * (1 - d / 26000)})`; cx.lineWidth = 1; cx.beginPath(); cx.moveTo(P[i].x, P[i].y); cx.lineTo(P[j].x, P[j].y); cx.stroke(); }
+    }
+    requestAnimationFrame(animar);
+  })();
+
+  /* =================== construcción de cada diapositiva =================== */
+
+  // 2 · rejilla de 100 tumores
+  const rej = $("#rejilla100");
+  for (let i = 0; i < 100; i++) rej.appendChild(document.createElement("i"));
+
+  // 3 · causas de eliminación (datos reales de datos/duplicados.csv)
+  const causas = [["Espejo o giro", 2739, "#2dd4bf"], ["Casi idénticas", 409, "#4b8dff"], ["Copias exactas", 215, "#a78bfa"], ["Aumentos del dataset", 203, "#fbbf24"], ["Etiquetas contradictorias", 34, "#f0607f"]];
+  const ap = $("#apilada"), lc = $("#causas");
+  causas.forEach(([n, v, c]) => {
+    const s = document.createElement("span"); s.style.background = c; s.dataset.ancho = (v / 3600 * 100).toFixed(2); ap.appendChild(s);
+    const d = document.createElement("div"); const i = document.createElement("i"); i.style.background = c; const b = document.createElement("b"); b.textContent = nf.format(v);
+    d.append(i, document.createTextNode(n), b); lc.appendChild(d);
+  });
+
+  // 4 · K-fold
+  const kf = $("#kfold");
+  for (let r = 0; r < 5; r++) { const l = document.createElement("label"); l.textContent = `Ronda ${r + 1}`; kf.appendChild(l); for (let c = 0; c < 5; c++) { const s = document.createElement("span"); s.dataset.r = r; s.dataset.c = c; kf.appendChild(s); } }
+
+  // 5 · barras de brillo (resultados/eda_intervalos_confianza.csv)
+  const gb = $("#grafica-brillo");
+  const brillo = [["Sin tumor", .3375, .3289, .3461, "#fbbf24", 150], ["Con tumor", .2416, .2400, .2432, "#4b8dff", 440]];
+  const eje = document.createElement("div"); eje.className = "eje-v"; gb.appendChild(eje);
+  const escalaB = v => v / .38 * 400;
+  brillo.forEach(([n, m, lo, hi, c, x]) => {
+    const b = document.createElement("div"); b.className = "barra-v"; b.style.left = x + "px"; b.style.background = `linear-gradient(180deg, ${c}, ${c}55)`; b.dataset.alto = escalaB(m); gb.appendChild(b);
+    const w = document.createElement("div"); w.className = "bigote"; w.style.left = (x + 84) + "px"; w.style.bottom = (90 + escalaB(lo)) + "px"; w.style.height = Math.max(3, escalaB(hi) - escalaB(lo)) + "px"; gb.appendChild(w);
+    const val = document.createElement("div"); val.className = "valor-v"; val.style.left = x + "px"; val.style.bottom = (110 + escalaB(hi)) + "px"; val.textContent = m.toFixed(3); val.style.color = c; gb.appendChild(val);
+    const nom = document.createElement("div"); nom.className = "nombre-v"; nom.style.left = x + "px"; nom.textContent = n; gb.appendChild(nom);
+  });
+
+  // 6 · vector de rasgos y competidores
+  const vec = $("#vector");
+  for (let i = 0; i < 48; i++) { const c = document.createElement("i"); c.style.animationDelay = (Math.random() * 1.8).toFixed(2) + "s"; c.style.background = ["#2dd4bf", "#4b8dff", "#a78bfa"][i % 3]; vec.appendChild(c); }
+  const competidores = [
+    ["Solo brillo", "#fbbf24", "La más simple: solo mira brillo, contraste e histograma. Es la vara para medir a los demás."],
+    ["Regresión logística", "#4b8dff", "Traza una frontera recta entre “tumor” y “sin tumor”."],
+    ["Random Forest", "#2dd4bf", "Cientos de árboles de decisión que votan."],
+    ["SVM", "#a78bfa", "Busca la frontera con el mayor margen entre los dos grupos."],
+    ["Red neuronal (Keras)", "#f0607f", "Capas de neuronas que ajustan solas sus pesos; con dropout para no memorizar."]
+  ];
+  const cc = $("#competidores"), desc = $("#descripcion");
+  competidores.forEach(([n, c, t], i) => {
+    const b = document.createElement("button"); b.className = "competidor"; b.style.setProperty("--c", c); b.textContent = n; b.setAttribute("role", "tab");
+    b.addEventListener("click", () => elegirCompetidor(i)); cc.appendChild(b);
+  });
+  function elegirCompetidor(i) {
+    $$(".competidor", cc).forEach((b, k) => { b.classList.toggle("sel", k === i); b.setAttribute("aria-selected", String(k === i)); });
+    desc.style.opacity = 0; despues(180, () => { desc.textContent = competidores[i][2]; desc.style.opacity = 1; });
+  }
+
+  // 7 · curva de aprendizaje (resultados/historial_epocas.csv, etapa "cabeza")
+  const perdida = [.8139, .3465, .2670, .2154, .1815, .1553, .1383, .1171, .1086, .1021, .0939, .0883, .0843, .0775, .0697, .0701, .0614, .0608, .0593, .0581];
+  const perdidaVal = [.4094, .3616, .3496, .3572, .3519, .3639, .3773, .3474, .3432, .3433, .3473, .3411, .3458, .3494, .3536, .3505, .3584, .3589, .3604, .3591];
+  const sc = $("#svg-curva");
+  const X = e => 90 + (e - 1) * (880 / 19), Y = v => 470 - v / .85 * 430;
+  sc.appendChild(svg("rect", {x: X(12), y: 30, width: X(20) - X(12), height: 440, fill: "rgba(251,191,36,.07)", rx: 10}));
+  sc.appendChild(svg("line", {x1: 90, y1: 470, x2: 980, y2: 470, stroke: "#3b4675", "stroke-width": 3}));
+  sc.appendChild(svg("line", {x1: 90, y1: 30, x2: 90, y2: 470, stroke: "#3b4675", "stroke-width": 3}));
+  [1, 5, 10, 15, 20].forEach(e => { const t = svg("text", {x: X(e), y: 506, "text-anchor": "middle"}); t.textContent = e; sc.appendChild(t); });
+  const tx = svg("text", {x: 535, y: 548, "text-anchor": "middle"}); tx.textContent = "época (vuelta completa a los datos)"; sc.appendChild(tx);
+  const ty = svg("text", {x: 20, y: 250, transform: "rotate(-90 20 250)", "text-anchor": "middle"}); ty.textContent = "error"; sc.appendChild(ty);
+  const linea = arr => arr.map((v, i) => `${i ? "L" : "M"}${X(i + 1).toFixed(1)},${Y(v).toFixed(1)}`).join(" ");
+  const pE = svg("path", {d: linea(perdida), class: "trazo", stroke: "#4b8dff"});
+  const pV = svg("path", {d: linea(perdidaVal), class: "trazo", stroke: "#fb7a1e"});
+  sc.append(pE, pV);
+  const guia = svg("line", {x1: X(12), y1: 30, x2: X(12), y2: 470, stroke: "#fbbf24", "stroke-width": 3, "stroke-dasharray": "10 10", opacity: 0});
+  const punto = svg("circle", {cx: X(12), cy: Y(.3411), r: 0, fill: "#fbbf24"});
+  const halo = svg("circle", {cx: X(12), cy: Y(.3411), r: 0, fill: "none", stroke: "#fbbf24", "stroke-width": 3, opacity: .8});
+  const tMejor = svg("text", {x: X(12), y: 20, "text-anchor": "middle", fill: "#fbbf24", "font-weight": 800, opacity: 0}); tMejor.textContent = "mejor punto";
+  sc.append(guia, halo, punto, tMejor);
+  [["entrenamiento", "#4b8dff", 620], ["validación (imágenes nuevas)", "#fb7a1e", 620]].forEach(([n, c, x], i) => {
+    sc.appendChild(svg("line", {x1: x, y1: 90 + i * 40, x2: x + 40, y2: 90 + i * 40, stroke: c, "stroke-width": 6, "stroke-linecap": "round"}));
+    const t = svg("text", {x: x + 54, y: 98 + i * 40}); t.textContent = n; t.style.fill = "#dfe3f2"; sc.appendChild(t);
+  });
+
+  // 8 · examen final (resultados/prueba_resumen.csv)
+  const modelos = [
+    {n: "Solo brillo", sens: .9768, fn: 15, fp: 51},
+    {n: "Regresión logística", sens: .9784, fn: 14, fp: 10},
+    {n: "Random Forest", sens: .9830, fn: 11, fp: 15},
+    {n: "SVM", sens: .9784, fn: 14, fp: 10},
+    {n: "Red neuronal", sens: .9675, fn: 21, fp: 8}
+  ];
+  const metricas = [
+    {id: "sens", t: "Tumores detectados", fmt: v => (v * 100).toFixed(1) + " %", ancho: v => (v - .95) / .05 * 100, mejor: "max", nota: "Escala de 95 % a 100 %. Sensibilidad sobre 647 imágenes con tumor.", meta: true},
+    {id: "fn", t: "Tumores sin detectar", fmt: v => String(v), ancho: v => v / 25 * 100, mejor: "min", nota: "De 647 imágenes con tumor. Es el error más grave: menos es mejor."},
+    {id: "fp", t: "Falsas alarmas", fmt: v => String(v), ancho: v => v / 55 * 100, mejor: "min", nota: "De solo 73 imágenes sin tumor: se lee con cautela. Menos es mejor."}
+  ];
+  const filas = $("#filas"), pest = $("#pestanas");
+  modelos.forEach(m => {
+    const f = document.createElement("div"); f.className = "fila";
+    const nom = document.createElement("div"); nom.className = "nom";
+    const cor = document.createElement("span"); cor.className = "corona"; cor.textContent = "🏆";
+    nom.append(document.createTextNode(m.n), cor);
+    const pista = document.createElement("div"); pista.className = "pista"; const rel = document.createElement("div"); rel.className = "rel"; pista.appendChild(rel);
+    const val = document.createElement("div"); val.className = "val";
+    f.append(nom, pista, val); filas.appendChild(f); m.el = {f, rel, val};
+  });
+  metricas.forEach((mt, i) => {
+    const b = document.createElement("button"); b.className = "pestana"; b.textContent = mt.t; b.setAttribute("role", "tab");
+    b.addEventListener("click", () => mostrarMetrica(i)); pest.appendChild(b);
+  });
+  function mostrarMetrica(i) {
+    const mt = metricas[i];
+    $$(".pestana", pest).forEach((b, k) => b.setAttribute("aria-selected", String(k === i)));
+    const vals = modelos.map(m => m[mt.id]);
+    const objetivo = mt.mejor === "max" ? Math.max(...vals) : Math.min(...vals);
+    modelos.forEach((m, k) => {
+      const v = m[mt.id];
+      m.el.rel.style.width = "0%";
+      m.el.f.classList.toggle("mejor", v === objetivo);
+      m.el.rel.style.background = v === objetivo ? "linear-gradient(90deg,#14b8a6,#2dd4bf)" : (m.n === "Red neuronal" ? "linear-gradient(90deg,#c2410c,#fb7a1e)" : "linear-gradient(90deg,#2f5fd0,#4b8dff)");
+      m.el.val.textContent = mt.fmt(v);
+      despues(120 + k * 110, () => { m.el.rel.style.width = Math.max(2, mt.ancho(v)) + "%"; });
+    });
+    const meta = $("#meta");
+    const pistaR = modelos[0].el.rel.parentElement;
+    meta.style.opacity = mt.meta ? 1 : 0;
+    meta.style.left = (pistaR.offsetLeft + pistaR.offsetWidth * ((.98 - .95) / .05)) + "px";
+    $("#nota-escala").textContent = mt.nota;
+  }
+
+  // 11 · umbral (falsos negativos y positivos reales, app/modelos/v001/validacion.npz)
+  const pasosU = [[.05, 14, 80], [.10, 21, 60], [.15, 22, 54], [.20, 27, 49], [.25, 31, 43], [.30, 35, 40], [.35, 37, 33], [.40, 41, 31], [.45, 45, 29], [.50, 50, 29],
+                  [.52, 51, 28], [.55, 55, 26], [.60, 63, 24], [.65, 69, 21], [.70, 76, 19], [.75, 93, 19], [.80, 107, 18], [.85, 122, 16], [.90, 146, 15], [.95, 203, 11]];
+  const rango = $("#umbral");
+  function leerUmbral() {
+    const [u, fn, fp] = pasosU[+rango.value];
+    $("#umbral-valor").textContent = u.toFixed(2);
+    $("#u-fn").textContent = fn; $("#u-fp").textContent = fp;
+    $("#u-fn-b").style.width = (fn / 203 * 100) + "%"; $("#u-fp-b").style.width = (fp / 80 * 100) + "%";
+    $("#umbral-actual").style.visibility = u === .52 ? "visible" : "hidden";
+    rango.setAttribute("aria-valuetext", `umbral ${u.toFixed(2)}: ${fn} tumores sin detectar y ${fp} falsas alarmas`);
+  }
+  rango.addEventListener("input", leerUmbral);
+
+  // 12 · estrella + chat
+  const se = $("#svg-estrella");
+  const centro = [380, 290];
+  const dims = [["Paciente", 380, 70, "#4b8dff"], ["Fecha", 640, 190, "#2dd4bf"], ["Doctor", 590, 470, "#a78bfa"], ["Modelo", 170, 470, "#fb7a1e"], ["Diagnóstico", 120, 190, "#fbbf24"]];
+  const lineasE = [];
+  dims.forEach(([n, x, y, c]) => {
+    const l = svg("path", {d: `M${centro[0]},${centro[1]} L${x},${y}`, stroke: c, "stroke-width": 4, fill: "none", opacity: .7}); se.appendChild(l); lineasE.push(l);
+    const p = svg("circle", {r: 7, fill: c}); const am = svg("animateMotion", {dur: "2.4s", repeatCount: "indefinite", path: `M${x},${y} L${centro[0]},${centro[1]}`, begin: (Math.random() * 2).toFixed(2) + "s"}); p.appendChild(am); se.appendChild(p);
+  });
+  dims.forEach(([n, x, y, c]) => {
+    se.appendChild(svg("rect", {x: x - 92, y: y - 34, width: 184, height: 68, rx: 18, fill: "#151a31", stroke: c, "stroke-width": 3}));
+    const t = svg("text", {x, y}); t.textContent = n; se.appendChild(t);
+  });
+  const cEl = svg("circle", {cx: centro[0], cy: centro[1], r: 92, fill: "#0f2b31", stroke: "#2dd4bf", "stroke-width": 4});
+  const cAn = svg("animate", {attributeName: "r", values: "88;98;88", dur: "3s", repeatCount: "indefinite"}); cEl.appendChild(cAn); se.appendChild(cEl);
+  const t1 = svg("text", {x: centro[0], y: centro[1] - 14}); t1.textContent = "Predicciones"; se.appendChild(t1);
+  const t2 = svg("text", {x: centro[0], y: centro[1] + 18}); t2.textContent = "(hechos)"; t2.style.fontSize = "19px"; t2.style.fill = "#9aa3c0"; se.appendChild(t2);
+  const tf = svg("text", {x: 380, y: 545}); tf.textContent = "SQL Server en Microsoft Fabric  →  Power BI"; tf.style.fill = "#9aa3c0"; tf.style.fontSize = "22px"; se.appendChild(tf);
+
+  const guion = [
+    ["usuario", "¿Cuántos estudios con posible tumor hubo hoy por doctor?"],
+    ["sql", "SELECT doctor, COUNT(*) AS estudios\nFROM vw_predicciones\nWHERE origen = 'uso'\n  AND DATE(fecha) = '2026-11-21'\n  AND predicho_tumor = 1\nGROUP BY doctor"],
+    ["ia", "doctor1 tuvo 2 estudios con posible tumor."],
+    ["usuario", "Borra la tabla de usuarios"],
+    ["bloqueo", "🚫 Bloqueada: solo se permiten consultas de lectura."]
+  ];
+  function correrChat() {
+    const chat = $("#chat"); chat.replaceChildren();
+    let k = 0;
+    const siguiente = () => {
+      if (k >= guion.length) { despues(4200, correrChat); return; }
+      const [tipo, texto] = guion[k++];
+      const b = document.createElement("div"); b.className = "burbuja " + tipo; chat.appendChild(b);
+      if (tipo === "usuario") {
+        b.classList.add("cursor"); let i = 0;
+        const escribe = () => { b.textContent = texto.slice(0, ++i); if (i < texto.length) despues(34, escribe); else { b.classList.remove("cursor"); despues(700, siguiente); } };
+        escribe();
+      } else { b.textContent = texto; despues(tipo === "sql" ? 1700 : 1500, siguiente); }
+    };
+    despues(900, siguiente);
+  }
+
+  /* =================== Power BI simulado (datos: resultados/prueba_resumen.csv y cv_pliegues.csv) =================== */
+  const PBI = [
+    {id: "basica", n: "Solo brillo", c: "#E044A7", sens: .9768, esp: .3014, fn: 15, fp: 51, pl: [.9768, .9807, .9768, .9845, .9826]},
+    {id: "logistica", n: "Regresión logística", c: "#12239E", sens: .9784, esp: .8630, fn: 14, fp: 10, pl: [.9884, .9749, .9710, .9787, .9884]},
+    {id: "rf", n: "Random Forest", c: "#118DFF", sens: .9830, esp: .7945, fn: 11, fp: 15, pl: [.9749, .9729, .9865, .9826, .9845]},
+    {id: "svm", n: "SVM", c: "#744EC2", sens: .9784, esp: .8630, fn: 14, fp: 10, pl: [.9884, .9710, .9730, .9787, .9903]},
+    {id: "red", n: "Red neuronal", c: "#E66C37", sens: .9675, esp: .8904, fn: 21, fp: 8, pl: [.9884, .9749, .9768, .9729, .9884]}
+  ];
+  PBI.forEach(m => { m.vp = 647 - m.fn; m.vn = 73 - m.fp; });
+  let selPbi = "red";
+  const pct = (v, d = 2) => (v * 100).toFixed(d) + " %";
+
+  function numAnim(el, hasta, fmt, ms = 800) {
+    const desde = +el.dataset.v || 0, t0 = performance.now();
+    el.dataset.v = hasta;
+    const f = t => { const p = Math.min(1, (t - t0) / ms), e = 1 - Math.pow(1 - p, 3); el.textContent = fmt(desde + (hasta - desde) * e); if (p < 1) requestAnimationFrame(f); };
+    requestAnimationFrame(f);
+  }
+  function tooltip(idTip, cont) {
+    const tip = $(idTip);
+    return {
+      mostrar(ev, titulo, lineas) {
+        tip.replaceChildren();
+        const b = document.createElement("b"); b.textContent = titulo; tip.appendChild(b);
+        lineas.forEach(l => { const d = document.createElement("div"); d.textContent = l; tip.appendChild(d); });
+        const r = cont.getBoundingClientRect(), s = r.width / cont.offsetWidth;
+        let x = (ev.clientX - r.left) / s + 16, y = (ev.clientY - r.top) / s + 14;
+        tip.style.opacity = 1;
+        if (x + tip.offsetWidth > cont.offsetWidth - 8) x -= tip.offsetWidth + 32;
+        if (y + tip.offsetHeight > cont.offsetHeight - 8) y -= tip.offsetHeight + 28;
+        tip.style.left = x + "px"; tip.style.top = y + "px";
+      },
+      ocultar() { tip.style.opacity = 0; }
+    };
+  }
+  function crearSlicer(cont) {
+    PBI.forEach(m => {
+      const b = document.createElement("button"); b.style.setProperty("--cm", m.c); b.dataset.id = m.id;
+      const i = document.createElement("i"); b.append(i, document.createTextNode(m.n));
+      b.addEventListener("click", () => seleccionarPbi(m.id)); cont.appendChild(b);
+    });
+  }
+  function seleccionarPbi(id) { selPbi = id; actualizarPbi1(); actualizarPbi2(); }
+  $$(".pbi-pestanas button[data-pbi]").forEach(b => b.addEventListener("click", () => {
+    const destino = $("#" + b.dataset.pbi);
+    if (destino) ir(slides.indexOf(destino.closest(".slide")));
+    else { b.animate([{transform: "translateX(0)"}, {transform: "translateX(-5px)"}, {transform: "translateX(5px)"}, {transform: "translateX(0)"}], {duration: 300}); }
+  }));
+
+  // ---- página 1: comparación ----
+  const tip1 = tooltip("#pbi1-tip", $("#pbi1 .pbi-lienzo"));
+  crearSlicer($("#pbi1-slicer"));
+  const kpis = [["sens", "Detecta tumores", v => pct(v)], ["esp", "Evita falsas alarmas", v => pct(v)], ["fn", "Tumores sin detectar", v => String(Math.round(v))], ["fp", "Falsas alarmas", v => String(Math.round(v))]];
+  const kCont = $("#pbi1-kpis");
+  kpis.forEach(([k, l]) => {
+    const d = document.createElement("div"); d.className = "pbi-visual pbi-kpi" + (k === "fn" ? " alerta" : "");
+    const v = document.createElement("div"); v.className = "v"; v.dataset.k = k; v.textContent = "0";
+    const t = document.createElement("div"); t.className = "l"; t.textContent = l;
+    d.append(v, t); kCont.appendChild(d);
+  });
+  const sb = $("#pbi1-barras");
+  const XB = v => v / 24 * 400;
+  PBI.forEach((m, i) => {
+    const y = 18 + i * 56;
+    const t = svg("text", {x: 160, y: y + 24, "text-anchor": "end"}); t.textContent = m.n; t.style.fontSize = "16px"; t.style.fill = "#323130"; sb.appendChild(t);
+    const r = svg("rect", {x: 172, y, height: 36, rx: 3, fill: m.c, class: "barra-pbi"}); r.style.width = "0px"; sb.appendChild(r);
+    const v = svg("text", {x: 180, y: y + 25}); v.style.fontSize = "17px"; v.style.fontWeight = 700; v.style.fill = "#252423"; sb.appendChild(v);
+    m.b = {r, v};
+    r.addEventListener("click", () => seleccionarPbi(m.id));
+    r.style.cursor = "pointer";
+    r.addEventListener("mousemove", e => tip1.mostrar(e, m.n, [`Tumores sin detectar: ${m.fn} de 647`, `Falsas alarmas: ${m.fp} de 73`]));
+    r.addEventListener("mouseleave", tip1.ocultar);
+  });
+  const sd = $("#pbi1-disp");
+  const XD = v => 70 + (v - .2) / .8 * 540, YD = v => 260 - (v - .96) / .03 * 235;
+  [.96, .97, .98, .99].forEach(v => { sd.appendChild(svg("line", {x1: 70, x2: 610, y1: YD(v), y2: YD(v), stroke: "#edebe9"})); const t = svg("text", {x: 62, y: YD(v) + 5, "text-anchor": "end"}); t.textContent = (v * 100).toFixed(0) + " %"; sd.appendChild(t); });
+  [.2, .4, .6, .8, 1].forEach(v => { const t = svg("text", {x: XD(v), y: 284, "text-anchor": "middle"}); t.textContent = (v * 100).toFixed(0) + " %"; sd.appendChild(t); });
+  sd.appendChild(svg("line", {x1: 70, x2: 610, y1: YD(.98), y2: YD(.98), stroke: "#f2c811", "stroke-width": 3, "stroke-dasharray": "8 6"}));
+  const tm = svg("text", {x: 606, y: YD(.98) - 8, "text-anchor": "end"}); tm.textContent = "meta 98 %"; tm.style.fill = "#986f0b"; tm.style.fontWeight = 700; sd.appendChild(tm);
+  const ty1 = svg("text", {x: 70, y: 8}); ty1.textContent = "↑ detecta tumores"; ty1.style.fontWeight = 600; sd.appendChild(ty1);
+  const tx1 = svg("text", {x: 610, y: 304, "text-anchor": "end"}); tx1.textContent = "evita falsas alarmas →"; tx1.style.fontWeight = 600; sd.appendChild(tx1);
+  PBI.forEach(m => {
+    const c = svg("circle", {cx: XD(m.esp), cy: YD(m.sens), r: 0, fill: m.c, stroke: "#fff", "stroke-width": 2, class: "punto-pbi"});
+    c.addEventListener("click", () => seleccionarPbi(m.id));
+    c.addEventListener("mousemove", e => tip1.mostrar(e, m.n, [`Detecta tumores: ${pct(m.sens)}`, `Evita falsas alarmas: ${pct(m.esp)}`]));
+    c.addEventListener("mouseleave", tip1.ocultar);
+    sd.appendChild(c); m.p = c;
+  });
+  const nota = svg("text", {x: XD(.863), y: YD(.9784) + 32, "text-anchor": "middle"}); nota.textContent = "Logística y SVM: mismo punto"; nota.style.fontSize = "13px"; sd.appendChild(nota);
+  function actualizarPbi1(desdeCero) {
+    const m = PBI.find(x => x.id === selPbi);
+    $$("#pbi1-slicer button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.id === selPbi)));
+    $$("#pbi1-kpis .v").forEach(el => { const k = el.dataset.k; if (desdeCero) el.dataset.v = 0; numAnim(el, m[k], kpis.find(x => x[0] === k)[2]); });
+    PBI.forEach((x, i) => {
+      const w = XB(x.fn);
+      if (desdeCero) { x.b.r.style.width = "0px"; x.b.v.setAttribute("x", 180); }
+      despues(desdeCero ? 300 + i * 90 : 0, () => { x.b.r.style.width = w + "px"; x.b.v.setAttribute("x", 180 + w); });
+      x.b.v.textContent = x.fn;
+      x.b.r.style.opacity = x.id === selPbi ? 1 : .3;
+      despues(desdeCero ? 500 + i * 90 : 0, () => { x.p.setAttribute("r", x.id === selPbi ? 15 : 10); x.p.style.opacity = x.id === selPbi ? 1 : .4; x.p.setAttribute("stroke-width", x.id === selPbi ? 4 : 2); });
+    });
+    if (m.id === "svm" || m.id === "logistica") sd.appendChild(m.p);
+  }
+
+  // ---- página 2: aciertos y errores ----
+  const tip2 = tooltip("#pbi2-tip", $("#pbi2 .pbi-lienzo"));
+  crearSlicer($("#pbi2-slicer"));
+  const sl = $("#pbi2-linea");
+  const XL = p => 74 + (p - 1) * 112, YL = v => 400 - (v - .965) / .03 * 370;
+  [.97, .98, .99].forEach(v => { sl.appendChild(svg("line", {x1: 74, x2: 540, y1: YL(v), y2: YL(v), stroke: "#edebe9"})); const t = svg("text", {x: 64, y: YL(v) + 6, "text-anchor": "end"}); t.textContent = (v * 100).toFixed(0) + " %"; t.style.fontSize = "17px"; sl.appendChild(t); });
+  [1, 2, 3, 4, 5].forEach(p => { const t = svg("text", {x: XL(p), y: 438, "text-anchor": "middle"}); t.textContent = "Ronda " + p; t.style.fontSize = "17px"; sl.appendChild(t); });
+  sl.appendChild(svg("line", {x1: 74, x2: 540, y1: YL(.98), y2: YL(.98), stroke: "#f2c811", "stroke-width": 3, "stroke-dasharray": "8 6"}));
+  const tm2 = svg("text", {x: 540, y: YL(.98) + 24, "text-anchor": "end"}); tm2.textContent = "meta 98 %"; tm2.style.fill = "#986f0b"; tm2.style.fontWeight = 700; sl.appendChild(tm2);
+  const marcas = svg("g");
+  PBI.forEach(m => {
+    const d = m.pl.map((v, i) => `${i ? "L" : "M"}${XL(i + 1)},${YL(v).toFixed(1)}`).join(" ");
+    const p = svg("path", {d, fill: "none", "stroke-linecap": "round", "stroke-linejoin": "round", class: "linea-pbi"}); sl.appendChild(p); m.l = p;
+  });
+  sl.appendChild(marcas);
+  const ley = $("#pbi2-leyenda");
+  PBI.forEach(m => { const s = document.createElement("span"); const i = document.createElement("i"); i.style.background = m.c; s.append(i, document.createTextNode(m.n)); s.dataset.id = m.id; s.addEventListener("click", () => seleccionarPbi(m.id)); ley.appendChild(s); });
+  const mat = $("#pbi2-matriz");
+  const fila = (cells, th) => { const tr = document.createElement("tr"); cells.forEach((c, i) => { const e = document.createElement(th || i === 0 ? "th" : "td"); if (i === 0 && !th) e.className = "fila"; e.textContent = c; tr.appendChild(e); }); mat.appendChild(tr); return tr; };
+  fila(["", "Dijo: tumor", "Dijo: sin tumor"], true);
+  const f1 = fila(["Con tumor", "", ""]), f2 = fila(["Sin tumor", "", ""]);
+  const celdas = {vp: f1.children[1], fn: f1.children[2], fp: f2.children[1], vn: f2.children[2]};
+  const nombres = {vp: "acierto", fn: "tumor sin detectar", fp: "falsa alarma", vn: "acierto"};
+  Object.entries(celdas).forEach(([k, td]) => {
+    const n = document.createElement("span"); n.className = "n"; const sm = document.createElement("small"); sm.textContent = nombres[k];
+    td.append(n, sm);
+    td.addEventListener("mousemove", e => { const m = PBI.find(x => x.id === selPbi); tip2.mostrar(e, m.n, [`${nombres[k][0].toUpperCase() + nombres[k].slice(1)}: ${m[k]}`]); });
+    td.addEventListener("mouseleave", tip2.ocultar);
+  });
+  const sg = $("#pbi2-gauge");
+  const GC = [180, 175], GR = 130, GL = Math.PI * GR;
+  const arcoBase = `M${GC[0] - GR},${GC[1]} A${GR},${GR} 0 0 1 ${GC[0] + GR},${GC[1]}`;
+  sg.appendChild(svg("path", {d: arcoBase, fill: "none", stroke: "#edebe9", "stroke-width": 34}));
+  const arco = svg("path", {d: arcoBase, fill: "none", stroke: "#E66C37", "stroke-width": 34, "stroke-dasharray": GL, "stroke-dashoffset": GL}); arco.style.transition = "stroke-dashoffset 1.2s cubic-bezier(.2,.8,.2,1), stroke .4s"; sg.appendChild(arco);
+  const fMeta = (.98 - .90) / .10, aM = Math.PI * (1 - fMeta);
+  sg.appendChild(svg("line", {x1: GC[0] + (GR - 26) * Math.cos(aM), y1: GC[1] - (GR - 26) * Math.sin(aM), x2: GC[0] + (GR + 26) * Math.cos(aM), y2: GC[1] - (GR + 26) * Math.sin(aM), stroke: "#252423", "stroke-width": 4}));
+  const tMeta = svg("text", {x: GC[0] + (GR + 18) * Math.cos(aM), y: GC[1] - (GR + 18) * Math.sin(aM) - 18, "text-anchor": "middle"}); tMeta.textContent = "meta 98 %"; tMeta.style.fontWeight = 700; tMeta.style.fill = "#252423"; sg.appendChild(tMeta);
+  const gV = svg("text", {x: GC[0], y: GC[1] - 18, "text-anchor": "middle"}); gV.style.fontSize = "40px"; gV.style.fontWeight = 600; gV.style.fill = "#252423"; sg.appendChild(gV);
+  [["90 %", GC[0] - GR], ["100 %", GC[0] + GR]].forEach(([t, x]) => { const e = svg("text", {x, y: GC[1] + 30, "text-anchor": "middle"}); e.textContent = t; sg.appendChild(e); });
+  const sdn = $("#pbi2-dona");
+  const DR = 62, DL = 2 * Math.PI * DR;
+  sdn.appendChild(svg("circle", {cx: 110, cy: 100, r: DR, fill: "none", stroke: "#12239E", "stroke-width": 30}));
+  const dTumor = svg("circle", {cx: 110, cy: 100, r: DR, fill: "none", stroke: "#118DFF", "stroke-width": 30, "stroke-dasharray": `0 ${DL}`, transform: "rotate(-90 110 100)"});
+  dTumor.style.transition = "stroke-dasharray 1.3s cubic-bezier(.2,.8,.2,1)"; sdn.appendChild(dTumor);
+  const dc = svg("text", {x: 110, y: 108, "text-anchor": "middle"}); dc.textContent = "720"; dc.style.fontSize = "28px"; dc.style.fontWeight = 700; dc.style.fill = "#252423"; sdn.appendChild(dc);
+  [["Con tumor", "647 · 89.9 %", "#118DFF", 72], ["Sin tumor", "73 · 10.1 %", "#12239E", 132]].forEach(([n, v, c, y]) => {
+    sdn.appendChild(svg("circle", {cx: 216, cy: y - 6, r: 8, fill: c}));
+    const a = svg("text", {x: 232, y}); a.textContent = n; a.style.fill = "#323130"; a.style.fontWeight = 600; a.style.fontSize = "17px"; sdn.appendChild(a);
+    const b = svg("text", {x: 232, y: y + 22}); b.textContent = v; sdn.appendChild(b);
+  });
+  [dTumor].forEach(e => { e.addEventListener("mousemove", ev => tip2.mostrar(ev, "Con tumor", ["647 de 720 imágenes"])); e.addEventListener("mouseleave", tip2.ocultar); });
+  function actualizarPbi2(desdeCero) {
+    const m = PBI.find(x => x.id === selPbi);
+    $$("#pbi2-slicer button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.id === selPbi)));
+    $$("#pbi2-leyenda span").forEach(s => s.classList.toggle("apagado", s.dataset.id !== selPbi));
+    PBI.forEach(x => { const yo = x.id === selPbi; x.l.setAttribute("stroke", yo ? x.c : "#c8c6c4"); x.l.setAttribute("stroke-width", yo ? 6 : 3); x.l.style.opacity = yo ? 1 : .7; });
+    sl.appendChild(m.l); sl.appendChild(marcas);
+    marcas.replaceChildren();
+    m.pl.forEach((v, i) => {
+      const c = svg("circle", {cx: XL(i + 1), cy: YL(v), r: 8, fill: m.c, stroke: "#fff", "stroke-width": 3}); c.style.cursor = "pointer";
+      c.addEventListener("mousemove", e => tip2.mostrar(e, `${m.n} · ronda ${i + 1}`, [`Detecta tumores: ${pct(v)}`]));
+      c.addEventListener("mouseleave", tip2.ocultar);
+      marcas.appendChild(c);
+    });
+    if (desdeCero) { dibujar(m.l, 1600, 300); }
+    const maxC = Math.max(m.vp, m.vn, m.fn, m.fp);
+    Object.entries(celdas).forEach(([k, td]) => {
+      const v = m[k], n = td.querySelector(".n");
+      if (desdeCero) n.dataset.v = 0;
+      numAnim(n, v, x => String(Math.round(x)));
+      td.style.background = (k === "fn" || k === "fp") ? `rgba(230,108,55,${(.18 + .6 * Math.min(1, v / 25)).toFixed(2)})` : `rgba(17,141,255,${(.15 + .5 * v / maxC).toFixed(2)})`;
+    });
+    const f = Math.max(0, Math.min(1, (m.sens - .90) / .10));
+    arco.setAttribute("stroke", m.c);
+    if (desdeCero) arco.setAttribute("stroke-dashoffset", GL);
+    despues(desdeCero ? 400 : 0, () => arco.setAttribute("stroke-dashoffset", (GL * (1 - f)).toFixed(1)));
+    if (desdeCero) gV.dataset.v = .9;
+    numAnim(gV, m.sens, v => pct(v), 1000);
+    if (desdeCero) { dTumor.setAttribute("stroke-dasharray", `0 ${DL}`); despues(500, () => dTumor.setAttribute("stroke-dasharray", `${(DL * 647 / 720).toFixed(1)} ${DL}`)); }
+  }
+
+  /* ---------- animaciones al entrar a cada diapositiva ---------- */
+  const animaciones = {
+    1: s => { // 98 de 100
+      const ds = $$("#rejilla100 i"); ds.forEach(d => d.className = "");
+      ds.forEach((d, i) => despues(900 + i * 22, () => { d.className = (i === 37 || i === 81) ? "mal" : "ok"; }));
+    },
+    2: s => { $$("#apilada span").forEach(e => { e.style.width = "0"; }); despues(700, () => $$("#apilada span").forEach(e => { e.style.width = e.dataset.ancho + "%"; })); },
+    3: s => {
+      const celdas = $$("#kfold span"); let r = 0;
+      const ciclo = () => { celdas.forEach(c => c.classList.toggle("prueba", +c.dataset.c === +c.dataset.r && +c.dataset.r <= r)); r = (r + 1) % 6; despues(r === 0 ? 1600 : 900, ciclo); };
+      despues(800, ciclo);
+    },
+    4: s => { $$(".barra-v", s).forEach(b => { b.style.height = "0"; }); despues(600, () => $$(".barra-v", s).forEach(b => { b.style.height = b.dataset.alto + "px"; })); },
+    5: s => { elegirCompetidor(4); let i = 0; const rota = () => { despues(3600, () => { i = (i + 1) % 5; elegirCompetidor(i); rota(); }); }; despues(1800, () => elegirCompetidor(0)); rota(); },
+    6: s => {
+      dibujar(pE, 2200, 500); dibujar(pV, 2200, 700);
+      [guia, tMejor].forEach(e => e.setAttribute("opacity", 0)); punto.setAttribute("r", 0); halo.setAttribute("r", 0);
+      despues(3000, () => { guia.setAttribute("opacity", 1); tMejor.setAttribute("opacity", 1); punto.setAttribute("r", 12);
+        let t = 0; const late = () => { t = (t + 1) % 30; halo.setAttribute("r", 12 + t); halo.setAttribute("opacity", (1 - t / 30).toFixed(2)); if (slides[actual] === s) despues(40, late); }; late(); });
+    },
+    7: s => { mostrarMetrica(0); },
+    10: s => { rango.value = 10; leerUmbral(); },
+    11: s => { lineasE.forEach((l, i) => dibujar(l, 900, 300 + i * 150)); correrChat(); },
+    12: s => { despues(500, () => actualizarPbi1(true)); },
+    13: s => { despues(500, () => actualizarPbi2(true)); }
+  };
+
+  /* ---------- etiquetas de la portada centradas bajo cada pieza ---------- */
+  function centrarLeyenda() {
+    const base = $(".leyenda-flujo").offsetLeft;
+    [["#ley-mri", ".portada .mri"], ["#ley-red", ".portada .capas"], ["#ley-res", ".portada .salidas"]].forEach(([l, p]) => {
+      const e = $(p); $(l).style.left = (e.offsetLeft + e.offsetWidth / 2 + $(".flujo").offsetLeft - base) + "px";
+    });
+  }
+  centrarLeyenda();
+  addEventListener("hashchange", () => { const n = parseInt(location.hash.slice(1), 10); if (n >= 1 && n <= slides.length) ir(n - 1); });
+
+  /* ---------- arranque ---------- */
+  pintarLista();
+  const n0 = parseInt((location.hash || "").slice(1), 10);
+  ir(Number.isFinite(n0) && n0 >= 1 && n0 <= slides.length ? n0 - 1 : (visibles()[0] ?? 0), true);
+  relojInicio = 0;
+})();
+</script>
+</body>
+</html>

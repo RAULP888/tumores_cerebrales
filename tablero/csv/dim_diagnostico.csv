@@ -1,0 +1,6 @@
+﻿diagnostico_id,clave,nombre,es_tumor
+1,sin_tumor,Sin tumor,FALSE
+2,tumor,Tumor (tipo no especificado),TRUE
+3,glioma,Glioma,TRUE
+4,meningioma,Meningioma,TRUE
+5,pituitary,Tumor hipofisario,TRUE

@@ -1,0 +1,110 @@
+[
+  {
+    "ruta": "/media/../entorno/verif.db",
+    "estado": "HTTP/1.1 404 Not Found",
+    "fuga": false,
+    "inicio": "{\"detail\":\"No se encontró el recurso.\"}"
+  },
+  {
+    "ruta": "/media/../../../CLAUDE.md",
+    "estado": "HTTP/1.1 404 Not Found",
+    "fuga": false,
+    "inicio": "{\"detail\":\"No se encontró el recurso.\"}"
+  },
+  {
+    "ruta": "/media/..%2F..%2F..%2FCLAUDE.md",
+    "estado": "HTTP/1.1 404 Not Found",
+    "fuga": false,
+    "inicio": "{\"detail\":\"No se encontró el recurso.\"}"
+  },
+  {
+    "ruta": "/media/..%5C..%5Cverif.db",
+    "estado": "HTTP/1.1 404 Not Found",
+    "fuga": false,
+    "inicio": "{\"detail\":\"Nombre de archivo no válido.\"}"
+  },
+  {
+    "ruta": "/media/%2e%2e/%2e%2e/%2e%2e/CLAUDE.md",
+    "estado": "HTTP/1.1 404 Not Found",
+    "fuga": false,
+    "inicio": "{\"detail\":\"No se encontró el recurso.\"}"
+  },
+  {
+    "ruta": "/media/%2e%2e%2f%2e%2e%2fverif.db",
+    "estado": "HTTP/1.1 404 Not Found",
+    "fuga": false,
+    "inicio": "{\"detail\":\"No se encontró el recurso.\"}"
+  },
+  {
+    "ruta": "/media/....//....//CLAUDE.md",
+    "estado": "HTTP/1.1 404 Not Found",
+    "fuga": false,
+    "inicio": "{\"detail\":\"No se encontró el recurso.\"}"
+  },
+  {
+    "ruta": "/media/..",
+    "estado": "HTTP/1.1 404 Not Found",
+    "fuga": false,
+    "inicio": "{\"detail\":\"Nombre de archivo no válido.\"}"
+  },
+  {
+    "ruta": "/media/..\\..\\verif.db",
+    "estado": "HTTP/1.1 404 Not Found",
+    "fuga": false,
+    "inicio": "{\"detail\":\"Nombre de archivo no válido.\"}"
+  },
+  {
+    "ruta": "/media/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa_img.png/../../../CLAUDE.md",
+    "estado": "HTTP/1.1 404 Not Found",
+    "fuga": false,
+    "inicio": "{\"detail\":\"No se encontró el recurso.\"}"
+  },
+  {
+    "ruta": "/media/C:%5CWindows%5Cwin.ini",
+    "estado": "HTTP/1.1 404 Not Found",
+    "fuga": false,
+    "inicio": "{\"detail\":\"Nombre de archivo no válido.\"}"
+  },
+  {
+    "ruta": "/media/%252e%252e%252fCLAUDE.md",
+    "estado": "HTTP/1.1 404 Not Found",
+    "fuga": false,
+    "inicio": "{\"detail\":\"Nombre de archivo no válido.\"}"
+  },
+  {
+    "ruta": "/../../CLAUDE.md",
+    "estado": "HTTP/1.1 404 Not Found",
+    "fuga": false,
+    "inicio": "{\"detail\":\"No se encontró el recurso.\"}"
+  },
+  {
+    "ruta": "/..%2F..%2FCLAUDE.md",
+    "estado": "HTTP/1.1 404 Not Found",
+    "fuga": false,
+    "inicio": "{\"detail\":\"No se encontró el recurso.\"}"
+  },
+  {
+    "ruta": "/%2e%2e/%2e%2e/CLAUDE.md",
+    "estado": "HTTP/1.1 404 Not Found",
+    "fuga": false,
+    "inicio": "{\"detail\":\"No se encontró el recurso.\"}"
+  },
+  {
+    "ruta": "/..%5C..%5C.env",
+    "estado": "HTTP/1.1 404 Not Found",
+    "fuga": false,
+    "inicio": "{\"detail\":\"No se encontró el recurso.\"}"
+  },
+  {
+    "ruta": "/js/../../../CLAUDE.md",
+    "estado": "HTTP/1.1 404 Not Found",
+    "fuga": false,
+    "inicio": "{\"detail\":\"No se encontró el recurso.\"}"
+  },
+  {
+    "ruta": "/js/..%2F..%2F..%2FCLAUDE.md",
+    "estado": "HTTP/1.1 404 Not Found",
+    "fuga": false,
+    "inicio": "{\"detail\":\"No se encontró el recurso.\"}"
+  }
+]

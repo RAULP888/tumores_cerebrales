@@ -1,0 +1,800 @@
+[
+  {
+    "punto": 3,
+    "prueba": "login doctor1 200",
+    "ok": true,
+    "evidencia": "{\"usuario_id\":1,\"usuario\":\"doctor1\",\"rol\":\"doctor\"}"
+  },
+  {
+    "punto": 4,
+    "prueba": "cookie ts_sesion con HttpOnly y SameSite=Lax",
+    "ok": true,
+    "evidencia": "ts_sesion=-KoZtRUQ3PAPMh912lLK...APMh912lLKAz3Z1GLf-CSwOofRZ0kFg2Q; HttpOnly; Max-Age=28800; Path=/; SameSite=lax"
+  },
+  {
+    "punto": 3,
+    "prueba": "POST /api/estudios 200",
+    "ok": true,
+    "evidencia": "200"
+  },
+  {
+    "punto": 3,
+    "prueba": "2 resultados válidos + 1 error para el .txt",
+    "ok": true,
+    "evidencia": "[{\"archivo\": \"notas.txt\", \"error\": \"El archivo no es una imagen JPG o PNG.\"}]"
+  },
+  {
+    "punto": 3,
+    "prueba": "campos del contrato (Tr-gl_100.jpg)",
+    "ok": true,
+    "evidencia": "faltan=set()"
+  },
+  {
+    "punto": 3,
+    "prueba": "aviso exacto (Tr-gl_100.jpg)",
+    "ok": true,
+    "evidencia": "Resultado de apoyo. No sustituye el diagnóstico de un médico especialista."
+  },
+  {
+    "punto": 3,
+    "prueba": "hay_tumor == (p >= umbral) y etiqueta (Tr-gl_100.jpg)",
+    "ok": true,
+    "evidencia": "p=0.999274 umbral=0.520507 etiqueta=Se detecta posible tumor"
+  },
+  {
+    "punto": 3,
+    "prueba": "confianza coherente (Tr-gl_100.jpg)",
+    "ok": true,
+    "evidencia": "0.9992740154266357"
+  },
+  {
+    "punto": 3,
+    "prueba": "tipo_* presente si hay tumor",
+    "ok": true,
+    "evidencia": "Meningioma"
+  },
+  {
+    "punto": 3,
+    "prueba": "probabilidad vs predicciones_prueba.csv Red Keras (Tr-gl_100.jpg)",
+    "ok": true,
+    "evidencia": "api=0.9992740 csv=0.9992740 dif=0.00e+00"
+  },
+  {
+    "punto": 3,
+    "prueba": "/media imagen_url PNG (Tr-gl_100.jpg)",
+    "ok": true,
+    "evidencia": "/media/d414c360fa613c54dca0e5daf1426285_img.png -> 200 45517 bytes"
+  },
+  {
+    "punto": 3,
+    "prueba": "/media gradcam_url PNG (Tr-gl_100.jpg)",
+    "ok": true,
+    "evidencia": "/media/26f63bd33fb233d189d7012e8a15ad9c_cam.png -> 200 45819 bytes"
+  },
+  {
+    "punto": 3,
+    "prueba": "campos del contrato (Tr-no_100.jpg)",
+    "ok": true,
+    "evidencia": "faltan=set()"
+  },
+  {
+    "punto": 3,
+    "prueba": "aviso exacto (Tr-no_100.jpg)",
+    "ok": true,
+    "evidencia": "Resultado de apoyo. No sustituye el diagnóstico de un médico especialista."
+  },
+  {
+    "punto": 3,
+    "prueba": "hay_tumor == (p >= umbral) y etiqueta (Tr-no_100.jpg)",
+    "ok": true,
+    "evidencia": "p=0.003480 umbral=0.520507 etiqueta=No se detecta tumor"
+  },
+  {
+    "punto": 3,
+    "prueba": "confianza coherente (Tr-no_100.jpg)",
+    "ok": true,
+    "evidencia": "0.9965201676823199"
+  },
+  {
+    "punto": 3,
+    "prueba": "tipo_* nulo si no hay tumor",
+    "ok": true,
+    "evidencia": "{'prediccion_id': 3602, 'archivo': 'Tr-no_100.jpg', 'hay_tumor': False, 'etiqueta': 'No se detecta tumor', 'probabilidad_tumor': 0.0034798323176801205, 'confianza': 0.9965201676823199, 'umbral': 0.5205068290233612, 'tipo_probable': None, 'tipo_nombre': None, 'probabilidad_tipo': None, 'imagen_url': '/media/7793ee5d018ddb0f3f2bc4c4538536e3_img.png', 'gradcam_url': '/media/440c3402f774d5ab31eb9b62ba5a76f7_cam.png', 'modelo_version': 'v001', 'tiempo_respuesta_ms': 378.9, 'aviso': 'Resultado de apoyo. No sustituye el diagnóstico de un médico especialista.'}"
+  },
+  {
+    "punto": 3,
+    "prueba": "probabilidad vs predicciones_prueba.csv Red Keras (Tr-no_100.jpg)",
+    "ok": true,
+    "evidencia": "api=0.0034798 csv=0.0034798 dif=4.14e-08"
+  },
+  {
+    "punto": 3,
+    "prueba": "/media imagen_url PNG (Tr-no_100.jpg)",
+    "ok": true,
+    "evidencia": "/media/7793ee5d018ddb0f3f2bc4c4538536e3_img.png -> 200 44946 bytes"
+  },
+  {
+    "punto": 3,
+    "prueba": "/media gradcam_url PNG (Tr-no_100.jpg)",
+    "ok": true,
+    "evidencia": "/media/440c3402f774d5ab31eb9b62ba5a76f7_cam.png -> 200 44088 bytes"
+  },
+  {
+    "punto": 3,
+    "prueba": "consulta SQL parametrizada recupera las 2 filas",
+    "ok": true,
+    "evidencia": "[{\"prediccion_id\": 3601, \"identificador\": \"PAC-9001\", \"fecha\": \"2026-11-20\", \"doctor\": \"doctor1\", \"modelo\": \"v001\", \"probabilidad_tumor\": 0.9992740154266357, \"umbral\": 0.5205068290233612, \"tiempo_respuesta_ms\": 547.9, \"origen\": \"uso\", \"predicho\": \"tumor\"}, {\"prediccion_id\": 3602, \"identificador\": \"PAC-9001\", \"fecha\": \"2026-11-20\", \"doctor\": \"doctor1\", \"modelo\": \"v001\", \"probabilidad_tumor\": 0.0034798323176801205, \"umbral\": 0.5205068290233612, \"tiempo_respuesta_ms\": 378.9, \"origen\": \"uso\", \"predicho\": \"sin_tumor\"}]"
+  },
+  {
+    "punto": 3,
+    "prueba": "confirmación desacuerdo 200",
+    "ok": true,
+    "evidencia": "{\"prediccion_id\":3602,\"creado_en\":\"2026-11-21T04:43:47\",\"identificador\":\"PAC-9001\",\"edad\":45,\"sexo\":\"F\",\"fecha_estudio\":\"2026-11-20\",\"hay_tumor\":false,\"etiqueta\":\"No se detecta tumor\",\"probabilidad_tumor\":0.0034798323176801205,\"confianza\":0.9965201676823199,\"tipo_nombre\":null,\"modelo_version\":\"v001\""
+  },
+  {
+    "punto": 3,
+    "prueba": "confirmación guardada en la base",
+    "ok": true,
+    "evidencia": "[{'de_acuerdo': 0, 'clave': 'meningioma'}]"
+  },
+  {
+    "punto": 3,
+    "prueba": "de_acuerdo=true contradictorio -> 422",
+    "ok": true,
+    "evidencia": "{\"detail\":\"Marcaste 'de acuerdo' pero el diagnóstico real contradice el resultado del sistema.\"}"
+  },
+  {
+    "punto": 3,
+    "prueba": "diagnóstico real inválido -> 422",
+    "ok": true,
+    "evidencia": "{\"detail\":\"diagnostico_real debe ser una de: sin_tumor, tumor, glioma, meningioma, pituitary\"}"
+  },
+  {
+    "punto": 3,
+    "prueba": "intentos rechazados no alteran la confirmación",
+    "ok": true,
+    "evidencia": "[{'de_acuerdo': 0}]"
+  },
+  {
+    "punto": 3,
+    "prueba": "historial doctor1 ve sus 2 estudios",
+    "ok": true,
+    "evidencia": "n=2"
+  },
+  {
+    "punto": 3,
+    "prueba": "filtro confirmacion=desacuerdo",
+    "ok": true,
+    "evidencia": "{\"estudios\":[{\"prediccion_id\":3602,\"creado_en\":\"2026-11-21T04:43:47\",\"identificador\":\"PAC-9001\",\"edad\":45,\"sexo\":\"F\",\"fecha_estudio\":\"2026-11-20\",\"hay_tumor\":false,\"etiqueta\":\"No se detecta tumor\",\"pr"
+  },
+  {
+    "punto": 3,
+    "prueba": "filtro confirmacion=pendiente",
+    "ok": true,
+    "evidencia": "{\"estudios\":[{\"prediccion_id\":3601,\"creado_en\":\"2026-11-21T04:43:46\",\"identificador\":\"PAC-9001\",\"edad\":45,\"sexo\":\"F\",\"fecha_estudio\":\"2026-11-20\",\"hay_tumor\":true,\"etiqueta\":\"Se detecta posible tumor\""
+  },
+  {
+    "punto": 3,
+    "prueba": "filtro resultado",
+    "ok": true,
+    "evidencia": "{\"estudios\":[{\"prediccion_id\":3601,\"creado_en\":\"2026-11-21T04:43:46\",\"identificador\":\"PAC-9001\",\"edad\":45,\"sexo\":\"F\",\"fecha_estudio\":\"2026-11-20\",\"hay_tumor\":true,\"etiqueta\":\"Se detecta posible tumor\""
+  },
+  {
+    "punto": 3,
+    "prueba": "filtro identificador (minúsculas) + fechas",
+    "ok": true,
+    "evidencia": "2"
+  },
+  {
+    "punto": 3,
+    "prueba": "filtro desde futuro -> vacío",
+    "ok": true,
+    "evidencia": "{\"estudios\":[]}"
+  },
+  {
+    "punto": 3,
+    "prueba": "limite=1",
+    "ok": true,
+    "evidencia": "1"
+  },
+  {
+    "punto": 3,
+    "prueba": "doctor2 no ve estudios de doctor1",
+    "ok": true,
+    "evidencia": "[(3603, 'doctor2')]"
+  },
+  {
+    "punto": 3,
+    "prueba": "doctor2 filtrando por paciente de doctor1 -> vacío",
+    "ok": true,
+    "evidencia": "{\"estudios\":[]}"
+  },
+  {
+    "punto": 4,
+    "prueba": "doctor2 pide imagen de doctor1 -> 403",
+    "ok": true,
+    "evidencia": "403"
+  },
+  {
+    "punto": 4,
+    "prueba": "doctor2 pide gradcam de doctor1 -> 403",
+    "ok": true,
+    "evidencia": "403"
+  },
+  {
+    "punto": 4,
+    "prueba": "doctor2 confirma estudio de doctor1 -> 403",
+    "ok": true,
+    "evidencia": "403"
+  },
+  {
+    "punto": 4,
+    "prueba": "doctor en cada /api/admin/* -> 403",
+    "ok": true,
+    "evidencia": "[('GET', '/api/admin/resumen', 403), ('POST', '/api/admin/entrenamientos', 403), ('GET', '/api/admin/entrenamientos', 403), ('GET', '/api/admin/entrenamientos/1', 403), ('GET', '/api/admin/entrenamientos/1/curvas', 403), ('POST', '/api/admin/entrenamientos/1/cancelar', 403), ('GET', '/api/admin/modelos', 403), ('POST', '/api/admin/modelos/1/aprobar', 403), ('POST', '/api/admin/modelos/revertir', 403), ('GET', '/api/admin/umbral?valor=0.3', 403), ('PUT', '/api/admin/umbral', 403), ('GET', '/api/admin/usuarios', 403), ('POST', '/api/admin/usuarios', 403), ('PUT', '/api/admin/usuarios/1', 403), ("
+  },
+  {
+    "punto": 4,
+    "prueba": "cada intento quedó como ACCESO_DENEGADO (usuario, rol, ip, exito=0)",
+    "ok": true,
+    "evidencia": "nuevos=16 de 16; ejemplo=[{'usuario': 'doctor1', 'rol': 'doctor', 'ip': '127.0.0.1', 'exito': 0, 'detalle': 'POST /api/admin/asistente'}, {'usuario': 'doctor1', 'rol': 'doctor', 'ip': '127.0.0.1', 'exito': 0, 'detalle': 'GET /api/admin/bitacora'}]"
+  },
+  {
+    "punto": 4,
+    "prueba": "doctor no creó usuario 'intruso' ni se volvió admin",
+    "ok": true,
+    "evidencia": "[{'usuario': 'doctor1', 'rol': 'doctor'}, {'usuario': 'doctor2', 'rol': 'doctor'}, {'usuario': 'admin1', 'rol': 'administrador'}]"
+  },
+  {
+    "punto": 4,
+    "prueba": "umbral no cambió por el doctor",
+    "ok": true,
+    "evidencia": ""
+  },
+  {
+    "punto": 4,
+    "prueba": "sin sesión -> 401 en protegidas y /media",
+    "ok": true,
+    "evidencia": "[('GET', '/api/yo', 401), ('GET', '/api/estudios', 401), ('POST', '/api/estudios', 401), ('POST', '/api/estudios/3602/confirmacion', 401), ('GET', '/api/admin/resumen', 401), ('GET', '/api/admin/bitacora', 401), ('PUT', '/api/admin/umbral', 401), ('POST', '/api/admin/entrenamientos', 401), ('GET', '/media/d414c360fa613c54dca0e5daf1426285_img.png', 401), ('GET', '/media/26f63bd33fb233d189d7012e8a15ad9c_cam.png', 401)]"
+  },
+  {
+    "punto": 4,
+    "prueba": "cookie inventada -> 401",
+    "ok": true,
+    "evidencia": "401"
+  },
+  {
+    "punto": 4,
+    "prueba": "login con rol equivocado -> 403",
+    "ok": true,
+    "evidencia": "{\"detail\":\"Este usuario no tiene el rol elegido.\"}"
+  },
+  {
+    "punto": 4,
+    "prueba": "admin con rol doctor -> 403",
+    "ok": true,
+    "evidencia": "{\"detail\":\"Este usuario no tiene el rol elegido.\"}"
+  },
+  {
+    "punto": 4,
+    "prueba": "contraseña mala -> 401 y LOGIN_FALLIDO",
+    "ok": true,
+    "evidencia": "401 [{'usuario': 'doctor1', 'ip': '127.0.0.1', 'exito': 0, 'detalle': 'Intento fallido: contraseña incorrecta'}]"
+  },
+  {
+    "punto": 4,
+    "prueba": "usuario inexistente -> 401 mismo mensaje",
+    "ok": true,
+    "evidencia": "{\"detail\":\"Usuario o contraseña incorrectos.\"}"
+  },
+  {
+    "punto": 4,
+    "prueba": "la contraseña mala no se guardó en la bitácora",
+    "ok": true,
+    "evidencia": ""
+  },
+  {
+    "punto": 4,
+    "prueba": "login admin1",
+    "ok": true,
+    "evidencia": "{\"usuario_id\":3,\"usuario\":\"admin1\",\"rol\":\"administrador\"}"
+  },
+  {
+    "punto": 6,
+    "prueba": "admin crea usuario doctor3",
+    "ok": true,
+    "evidencia": "{\"usuario_id\":4,\"usuario\":\"doctor3\",\"rol\":\"doctor\",\"activo\":true,\"creado_en\":\"2026-11-21T04:43:50\"}"
+  },
+  {
+    "punto": 4,
+    "prueba": "doctor3 entra mientras está activo",
+    "ok": true,
+    "evidencia": "200"
+  },
+  {
+    "punto": 6,
+    "prueba": "admin desactiva doctor3",
+    "ok": true,
+    "evidencia": "{\"usuario_id\":4,\"usuario\":\"doctor3\",\"rol\":\"doctor\",\"activo\":false,\"creado_en\":\"2026-11-21T04:43:50\"}"
+  },
+  {
+    "punto": 4,
+    "prueba": "sesión abierta de doctor3 se invalida al desactivarlo",
+    "ok": true,
+    "evidencia": "401"
+  },
+  {
+    "punto": 4,
+    "prueba": "usuario desactivado no puede entrar",
+    "ok": true,
+    "evidencia": "{\"detail\":\"Usuario o contraseña incorrectos.\"}"
+  },
+  {
+    "punto": 4,
+    "prueba": "contraseña corta rechazada",
+    "ok": true,
+    "evidencia": "{\"detail\":\"La contraseña debe tener entre 8 y 72 caracteres.\"}"
+  },
+  {
+    "punto": 4,
+    "prueba": "admin no puede desactivarse a sí mismo",
+    "ok": true,
+    "evidencia": "{\"detail\":\"No puedes desactivarte ni quitarte el rol de administrador a ti mismo.\"}"
+  },
+  {
+    "punto": 4,
+    "prueba": "GET usuarios sin hash",
+    "ok": true,
+    "evidencia": "{\"usuarios\":[{\"usuario_id\":1,\"usuario\":\"doctor1\",\"rol\":\"doctor\",\"activo\":true,\"creado_en\":\"2026-11-21T04:41:02\"},{\"usuario_id\":2,\"usuario\":\"doctor2\",\"rol\":\"doctor\",\"activo\":true,\"creado_en\":\"2026-11-2"
+  },
+  {
+    "punto": 4,
+    "prueba": "contraseñas con bcrypt $2b$ y no en claro",
+    "ok": true,
+    "evidencia": "[('doctor1', '$2b$12$'), ('doctor2', '$2b$12$'), ('admin1', '$2b$12$'), ('doctor3', '$2b$12$')]"
+  },
+  {
+    "punto": 4,
+    "prueba": "dim_usuario y vistas sin hash",
+    "ok": true,
+    "evidencia": "{'dim_usuario': ['usuario_id', 'usuario', 'rol', 'activo'], 'vw_predicciones': ['prediccion_id', 'origen', 'creado_en', 'fecha', 'anio', 'mes', 'nombre_mes', 'semana', 'dia_semana', 'edad', 'grupo_edad', 'sexo', 'doctor', 'modelo', 'tipo_modelo', 'modelo_version', 'estado_modelo', 'diagnostico_predicho', 'predicho_tumor', 'diagnostico_confirmado', 'confirmado_tumor', 'probabilidad_tumor', 'umbral', 'tipo_probable', 'probabilidad_tipo', 'de_acuerdo', 'tiempo_respuesta_ms', 'acierto', 'falso_negativo', 'falso_positivo'], 'vw_bitacora': ['evento_id', 'fecha_hora', 'usuario', 'rol', 'accion', 'det"
+  },
+  {
+    "punto": 6,
+    "prueba": "logout doctor1",
+    "ok": true,
+    "evidencia": "{\"ok\":true}"
+  },
+  {
+    "punto": 4,
+    "prueba": "tras logout la sesión ya no sirve",
+    "ok": true,
+    "evidencia": "401"
+  },
+  {
+    "punto": 5,
+    "prueba": "identificador rechazado: \"PAC-1' OR '1'='1\"",
+    "ok": true,
+    "evidencia": "{\"detail\":\"El identificador debe ser ficticio con el formato PAC-0001 (2 a 5 letras, guion y 1 a 6 dígitos). No escribas nombres ni datos personales.\"}"
+  },
+  {
+    "punto": 5,
+    "prueba": "identificador rechazado: \"PAC-1'; DROP TABLE usuarios;--\"",
+    "ok": true,
+    "evidencia": "{\"detail\":\"El identificador debe ser ficticio con el formato PAC-0001 (2 a 5 letras, guion y 1 a 6 dígitos). No escribas nombres ni datos personales.\"}"
+  },
+  {
+    "punto": 5,
+    "prueba": "identificador rechazado: 'Juan Pérez'",
+    "ok": true,
+    "evidencia": "{\"detail\":\"El identificador debe ser ficticio con el formato PAC-0001 (2 a 5 letras, guion y 1 a 6 dígitos). No escribas nombres ni datos personales.\"}"
+  },
+  {
+    "punto": 5,
+    "prueba": "identificador rechazado: 'JUAN-PEREZ'",
+    "ok": true,
+    "evidencia": "{\"detail\":\"El identificador debe ser ficticio con el formato PAC-0001 (2 a 5 letras, guion y 1 a 6 dígitos). No escribas nombres ni datos personales.\"}"
+  },
+  {
+    "punto": 5,
+    "prueba": "identificador rechazado: 'María López García'",
+    "ok": true,
+    "evidencia": "{\"detail\":\"El identificador debe ser ficticio con el formato PAC-0001 (2 a 5 letras, guion y 1 a 6 dígitos). No escribas nombres ni datos personales.\"}"
+  },
+  {
+    "punto": 5,
+    "prueba": "identificador rechazado: '<img src=x onerror=alert(1)>'",
+    "ok": true,
+    "evidencia": "{\"detail\":\"El identificador debe ser ficticio con el formato PAC-0001 (2 a 5 letras, guion y 1 a 6 dígitos). No escribas nombres ni datos personales.\"}"
+  },
+  {
+    "punto": 5,
+    "prueba": "identificador rechazado: 'PAC-0001 Juan'",
+    "ok": true,
+    "evidencia": "{\"detail\":\"El identificador debe ser ficticio con el formato PAC-0001 (2 a 5 letras, guion y 1 a 6 dígitos). No escribas nombres ni datos personales.\"}"
+  },
+  {
+    "punto": 5,
+    "prueba": "no se crearon pacientes con esos identificadores",
+    "ok": true,
+    "evidencia": ""
+  },
+  {
+    "punto": 5,
+    "prueba": "tabla usuarios intacta",
+    "ok": true,
+    "evidencia": ""
+  },
+  {
+    "punto": 5,
+    "prueba": "SQLi en filtro {'identificador': \"' OR '1'='1\"}",
+    "ok": true,
+    "evidencia": "200 n=0"
+  },
+  {
+    "punto": 5,
+    "prueba": "SQLi en filtro {'identificador': \"PAC-9002' OR 1=1 --\"}",
+    "ok": true,
+    "evidencia": "200 n=0"
+  },
+  {
+    "punto": 5,
+    "prueba": "SQLi en filtro {'resultado': \"tumor' OR '1'='1\"} -> 422",
+    "ok": true,
+    "evidencia": "422 {\"detail\":\"'resultado' debe ser tumor o sin_tumor.\"}"
+  },
+  {
+    "punto": 5,
+    "prueba": "SQLi en filtro {'confirmacion': \"pendiente' OR 1=1--\"} -> 422",
+    "ok": true,
+    "evidencia": "422 {\"detail\":\"'confirmacion' debe ser pendiente, de_acuerdo o desacuerdo.\"}"
+  },
+  {
+    "punto": 5,
+    "prueba": "SQLi en filtro {'desde': \"2026-01-01' OR 1=1--\"} -> 422",
+    "ok": true,
+    "evidencia": "422 {\"detail\":\"'desde' debe tener el formato AAAA-MM-DD.\"}"
+  },
+  {
+    "punto": 5,
+    "prueba": "SQLi en filtro {'hasta': \"x'); DROP TABLE bitacora;--\"} -> 422",
+    "ok": true,
+    "evidencia": "422 {\"detail\":\"'hasta' debe tener el formato AAAA-MM-DD.\"}"
+  },
+  {
+    "punto": 5,
+    "prueba": "SQLi en filtro {'limite': '1; DROP TABLE usuarios'} -> 422",
+    "ok": true,
+    "evidencia": "422 {\"detail\":\"Datos no válidos en: limite.\"}"
+  },
+  {
+    "punto": 5,
+    "prueba": "SQLi en filtros de bitácora -> 0 eventos",
+    "ok": true,
+    "evidencia": "{\"total\":0,\"pagina\":1,\"paginas\":1,\"eventos\":[],\"acciones\":[\"LOGIN_OK\",\"LOGIN_FALLIDO\",\"LOGOUT\",\"ACCESO_DENEGADO\",\"ESTUDI"
+  },
+  {
+    "punto": 5,
+    "prueba": "SQLi identificador como admin -> 0",
+    "ok": true,
+    "evidencia": "{\"estudios\":[]}"
+  },
+  {
+    "punto": 5,
+    "prueba": "SQLi en login -> 401",
+    "ok": true,
+    "evidencia": "401"
+  },
+  {
+    "punto": 5,
+    "prueba": "tablas siguen existiendo",
+    "ok": false,
+    "evidencia": ""
+  },
+  {
+    "punto": 5,
+    "prueba": "ruta con .. en /media: /media/../entorno/verif.db",
+    "ok": true,
+    "evidencia": "404 b'{\"detail\":\"No se encontr\\xc3\\xb3 el recurso.\"}'"
+  },
+  {
+    "punto": 5,
+    "prueba": "ruta con .. en /media: /media/..%2F..%2Fapp%2Fbackend%2Fconfig.py",
+    "ok": true,
+    "evidencia": "404 b'{\"detail\":\"No se encontr\\xc3\\xb3 el recurso.\"}'"
+  },
+  {
+    "punto": 5,
+    "prueba": "ruta con .. en /media: /media/..%5C..%5Cverif.db",
+    "ok": true,
+    "evidencia": "404 b'{\"detail\":\"Nombre de archivo no v\\xc3\\xa1lido.\"}'"
+  },
+  {
+    "punto": 5,
+    "prueba": "ruta con .. en /media: /media/%2e%2e%2f%2e%2e%2fCLAUDE.md",
+    "ok": true,
+    "evidencia": "404 b'{\"detail\":\"No se encontr\\xc3\\xb3 el recurso.\"}'"
+  },
+  {
+    "punto": 5,
+    "prueba": "ruta con .. en /media: /media/....//....//CLAUDE.md",
+    "ok": true,
+    "evidencia": "404 b'{\"detail\":\"No se encontr\\xc3\\xb3 el recurso.\"}'"
+  },
+  {
+    "punto": 5,
+    "prueba": "ruta con .. en /media: /media/..",
+    "ok": false,
+    "evidencia": "200 b'<!doctype html>\\n<html lang=\"es-MX\">\\n<head>\\n  <meta charset=\"utf-8\">\\n  <meta name'"
+  },
+  {
+    "punto": 5,
+    "prueba": "ruta con .. en /media: /media/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa_img.png/../../verif.db",
+    "ok": true,
+    "evidencia": "404 b'{\"detail\":\"No se encontr\\xc3\\xb3 el recurso.\"}'"
+  },
+  {
+    "punto": 5,
+    "prueba": "ruta con .. en /media: /media/C:%5CWindows%5Cwin.ini",
+    "ok": true,
+    "evidencia": "404 b'{\"detail\":\"Nombre de archivo no v\\xc3\\xa1lido.\"}'"
+  },
+  {
+    "punto": 5,
+    "prueba": "archivo > 10 MB rechazado (sin tumbar los demás)",
+    "ok": true,
+    "evidencia": "200 [{\"archivo\": \"grande.png\", \"error\": \"El archivo pesa más de 10 MB.\"}, {\"prediccion_id\": 3604, \"archivo\": \"Tr-no_100.jpg\", \"hay_tumor\": false, \"etiqueta\": \"No se detecta tumor\", \"probabilidad_tumor\": 0.0034798323176801205, \"confianza\": 0.9965201676823"
+  },
+  {
+    "punto": 5,
+    "prueba": "9 archivos -> 422",
+    "ok": true,
+    "evidencia": "{\"detail\":\"Puedes subir como máximo 8 imágenes por estudio.\"}"
+  },
+  {
+    "punto": 5,
+    "prueba": "8 archivos -> 200 con 8 resultados",
+    "ok": true,
+    "evidencia": "200"
+  },
+  {
+    "punto": 5,
+    "prueba": "PNG con firma pero dañado -> error controlado",
+    "ok": true,
+    "evidencia": "{\"resultados\":[{\"archivo\":\"falsa.png\",\"error\":\"No se pudo leer la imagen: está dañada o no es válida.\"}]}"
+  },
+  {
+    "punto": 5,
+    "prueba": "contenido no imagen con extensión .jpg -> error",
+    "ok": true,
+    "evidencia": "{\"resultados\":[{\"archivo\":\"script.jpg\",\"error\":\"El archivo no es una imagen JPG o PNG.\"}]}"
+  },
+  {
+    "punto": 5,
+    "prueba": "nombre de archivo XSS se devuelve como dato (texto)",
+    "ok": true,
+    "evidencia": "<img src=x onerror=alert(1)>.jpg"
+  },
+  {
+    "punto": 5,
+    "prueba": "validación edad=121 -> 422",
+    "ok": true,
+    "evidencia": "{\"detail\":\"La edad debe ser un número entero entre 0 y 120.\"}"
+  },
+  {
+    "punto": 5,
+    "prueba": "validación edad=-1 -> 422",
+    "ok": true,
+    "evidencia": "{\"detail\":\"La edad debe ser un número entero entre 0 y 120.\"}"
+  },
+  {
+    "punto": 5,
+    "prueba": "validación edad=abc -> 422",
+    "ok": true,
+    "evidencia": "{\"detail\":\"La edad debe ser un número entero entre 0 y 120.\"}"
+  },
+  {
+    "punto": 5,
+    "prueba": "validación sexo=X -> 422",
+    "ok": true,
+    "evidencia": "{\"detail\":\"El sexo debe ser F, M u Otro.\"}"
+  },
+  {
+    "punto": 5,
+    "prueba": "validación fecha=2099-01-01 -> 422",
+    "ok": true,
+    "evidencia": "{\"detail\":\"La fecha del estudio debe tener el formato AAAA-MM-DD y no puede ser futura.\"}"
+  },
+  {
+    "punto": 5,
+    "prueba": "validación fecha=21/11/2026 -> 422",
+    "ok": true,
+    "evidencia": "{\"detail\":\"La fecha del estudio debe tener el formato AAAA-MM-DD y no puede ser futura.\"}"
+  },
+  {
+    "punto": 5,
+    "prueba": "sin archivos -> 422",
+    "ok": true,
+    "evidencia": "{\"detail\":\"Sube al menos una imagen.\"}"
+  },
+  {
+    "punto": 8,
+    "prueba": "umbral 0.2: VP/VN/FP/FN recalculados",
+    "ok": true,
+    "evidencia": "api={'vp': 2559, 'vn': 245, 'fp': 49, 'fn': 27} mio={'vp': 2559, 'vn': 245, 'fp': 49, 'fn': 27} n=2880 origen=predicciones fuera de pliegue de la validación cruzada de la cabeza (2880 imágenes de entrenamiento)"
+  },
+  {
+    "punto": 8,
+    "prueba": "umbral 0.5205068290233612: VP/VN/FP/FN recalculados",
+    "ok": true,
+    "evidencia": "api={'vp': 2535, 'vn': 266, 'fp': 28, 'fn': 51} mio={'vp': 2535, 'vn': 266, 'fp': 28, 'fn': 51} n=2880 origen=predicciones fuera de pliegue de la validación cruzada de la cabeza (2880 imágenes de entrenamiento)"
+  },
+  {
+    "punto": 8,
+    "prueba": "umbral 0.9: VP/VN/FP/FN recalculados",
+    "ok": true,
+    "evidencia": "api={'vp': 2440, 'vn': 279, 'fp': 15, 'fn': 146} mio={'vp': 2440, 'vn': 279, 'fp': 15, 'fn': 146} n=2880 origen=predicciones fuera de pliegue de la validación cruzada de la cabeza (2880 imágenes de entrenamiento)"
+  },
+  {
+    "punto": 8,
+    "prueba": "PUT umbral 0 rechazado",
+    "ok": true,
+    "evidencia": "422 {\"detail\":\"El umbral debe estar entre 0.01 y 0.99.\"}"
+  },
+  {
+    "punto": 8,
+    "prueba": "PUT umbral 0.005 rechazado",
+    "ok": true,
+    "evidencia": "422 {\"detail\":\"El umbral debe estar entre 0.01 y 0.99.\"}"
+  },
+  {
+    "punto": 8,
+    "prueba": "PUT umbral 0.995 rechazado",
+    "ok": true,
+    "evidencia": "422 {\"detail\":\"El umbral debe estar entre 0.01 y 0.99.\"}"
+  },
+  {
+    "punto": 8,
+    "prueba": "PUT umbral 1 rechazado",
+    "ok": true,
+    "evidencia": "422 {\"detail\":\"El umbral debe estar entre 0.01 y 0.99.\"}"
+  },
+  {
+    "punto": 8,
+    "prueba": "PUT umbral 1.5 rechazado",
+    "ok": true,
+    "evidencia": "422 {\"detail\":\"El umbral debe estar entre 0.01 y 0.99.\"}"
+  },
+  {
+    "punto": 8,
+    "prueba": "PUT umbral -0.2 rechazado",
+    "ok": true,
+    "evidencia": "422 {\"detail\":\"El umbral debe estar entre 0.01 y 0.99.\"}"
+  },
+  {
+    "punto": 8,
+    "prueba": "PUT umbral abc rechazado",
+    "ok": true,
+    "evidencia": "422 {\"detail\":\"Datos no válidos en: valor.\"}"
+  },
+  {
+    "punto": 8,
+    "prueba": "GET umbral valor=1.5 rechazado",
+    "ok": true,
+    "evidencia": "422"
+  },
+  {
+    "punto": 8,
+    "prueba": "PUT 0.999999 rechazado",
+    "ok": true,
+    "evidencia": "422"
+  },
+  {
+    "punto": 8,
+    "prueba": "PUT umbral 0.97",
+    "ok": true,
+    "evidencia": "{\"ok\":true,\"valor\":0.97,\"anterior\":0.5205068290233612,\"version\":\"v001\"}"
+  },
+  {
+    "punto": 8,
+    "prueba": "la siguiente predicción usa el umbral nuevo",
+    "ok": true,
+    "evidencia": "umbral=0.97 p=0.0034798323176801205"
+  },
+  {
+    "punto": 8,
+    "prueba": "/api/estado refleja el umbral",
+    "ok": true,
+    "evidencia": ""
+  },
+  {
+    "punto": 8,
+    "prueba": "UMBRAL_ACTUALIZADO en bitácora",
+    "ok": true,
+    "evidencia": "[{'usuario': 'admin1', 'rol': 'administrador', 'ip': '127.0.0.1', 'exito': 1, 'detalle': 'v001: umbral 0.5205 -> 0.9700'}]"
+  },
+  {
+    "punto": 8,
+    "prueba": "umbral restaurado",
+    "ok": true,
+    "evidencia": "{\"ok\":true,\"valor\":0.5205068290233612,\"anterior\":0.97,\"version\":\"v001\"}"
+  },
+  {
+    "punto": 11,
+    "prueba": "mediana de latencia (10 imágenes)",
+    "ok": true,
+    "evidencia": "servidor mediana=499.7 ms (min 388.7, max 829.2); ida y vuelta mediana=513.4 ms (min 396.6, max 839.7)"
+  },
+  {
+    "punto": 3,
+    "prueba": "10 imágenes extra de prueba: |p_api - p_csv| < 1e-4",
+    "ok": true,
+    "evidencia": "máx dif=1.02e-06"
+  },
+  {
+    "punto": 6,
+    "prueba": "bitácora paginada",
+    "ok": true,
+    "evidencia": "total=61 paginas=2 n=50"
+  },
+  {
+    "punto": 6,
+    "prueba": "página 2 distinta de la 1",
+    "ok": true,
+    "evidencia": "pagina2 n=11"
+  },
+  {
+    "punto": 6,
+    "prueba": "filtros usuario+accion+exito",
+    "ok": true,
+    "evidencia": "total=16"
+  },
+  {
+    "punto": 6,
+    "prueba": "filtro desde/hasta hoy",
+    "ok": true,
+    "evidencia": "61 vs 61"
+  },
+  {
+    "punto": 6,
+    "prueba": "filtro desde futuro -> 0",
+    "ok": true,
+    "evidencia": "0"
+  },
+  {
+    "punto": 6,
+    "prueba": "exito inválido -> 422",
+    "ok": true,
+    "evidencia": "422"
+  },
+  {
+    "punto": 6,
+    "prueba": "pagina=0 no rompe",
+    "ok": true,
+    "evidencia": "200"
+  },
+  {
+    "punto": 3,
+    "prueba": "resumen admin",
+    "ok": true,
+    "evidencia": "{\"estudios\":24,\"estudios_hoy\":24,\"con_tumor\":10,\"pct_tumor\":41.7,\"confirmados\":1,\"desacuerdos\":1,\"falsos_negativos\":1,\"falsos_positivos\":0,\"tiempo_promedio_ms\":486.8,\"modelo_produccion\":{\"modelo_id\":5,\"version\":\"v001\",\"nombre\":\"Red Keras (MobileNetV2)\",\"umbral\":0.5205068290233612}}"
+  },
+  {
+    "punto": 3,
+    "prueba": "resumen.estudios == filas de uso en la base; falsos_negativos=1 (desacuerdo sin_tumor->meningioma)",
+    "ok": true,
+    "evidencia": "{'estudios': 24, 'estudios_hoy': 24, 'con_tumor': 10, 'pct_tumor': 41.7, 'confirmados': 1, 'desacuerdos': 1, 'falsos_negativos': 1, 'falsos_positivos': 0, 'tiempo_promedio_ms': 486.8, 'modelo_produccion': {'modelo_id': 5, 'version': 'v001', 'nombre': 'Red Keras (MobileNetV2)', 'umbral': 0.5205068290233612}}"
+  },
+  {
+    "punto": 10,
+    "prueba": "asistente responde sin la clave",
+    "ok": true,
+    "evidencia": "{\"estado\":\"error\",\"respuesta\":\"El asistente de consultas se habilita en la Fase 5.\",\"sql\":null,\"columnas\":[],\"filas\":[]}"
+  },
+  {
+    "punto": 10,
+    "prueba": "la clave falsa no aparece en ninguna respuesta HTTP",
+    "ok": true,
+    "evidencia": "262 respuestas revisadas"
+  }
+]

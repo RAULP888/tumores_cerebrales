@@ -1,0 +1,49 @@
+# Secretos
+.env
+app/.env
+*.env
+!.env.example
+
+# Entorno
+.venv/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.pytest_cache/
+
+# Imágenes del dataset y rasgos (no se suben a GitHub)
+datos/Training/
+datos/Testing/
+datos/rasgos/
+*.npz
+*.npy
+
+# Modelos pesados
+*.keras
+*.h5
+*.joblib
+app/modelos/*
+!app/modelos/.gitkeep
+
+# Imágenes subidas y base local
+app/almacen/*
+!app/almacen/.gitkeep
+*.db
+*.sqlite
+*.db-wal
+*.db-shm
+*.log
+
+# Evidencias de pruebas con imágenes de resonancia, bases y registros (no se suben)
+pruebas/capturas/
+pruebas/verificacion_*/**/*.png
+pruebas/verificacion_*/**/*.jpg
+pruebas/verificacion_fase34/entorno/
+
+# Material anterior pesado
+referencia/prueba_rapida/
+referencia/resultados_sin_duplicados/
+referencia/resultados_tumores/
+
+# Power BI temporal
+*.pbix.tmp

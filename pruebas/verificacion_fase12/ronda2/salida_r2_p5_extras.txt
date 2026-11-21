@@ -1,0 +1,28 @@
+== Firma del caché de rasgos ==
+Firma actual == la guardada en rasgos_mobilenet / rasgos_basicos / imagenes_160: True True True
+Cambia si cambia un sha256: True · si cambia el orden: True · si falta una fila: True
+Entra en la firma el código de: preprocesar.py, rasgos.py, red.py (leído del módulo). NO entra: versión de keras/opencv ni los pesos de ImageNet.
+
+== elegir_umbral con margen ==
+300 casos aleatorios: fallos = 0 (mismas decisiones que el umbral 'más alto con sens >= 0.98' y ninguna probabilidad exactamente sobre el umbral) · margen mínimo observado 4.94e-324
+Caso límite, todas las probabilidades iguales: 0.499999 · un solo tumor: 0.55
+
+== Métricas de prueba separando las imágenes con casi gemela en entrenamiento (mi medida) ==
+                     modelo         subconjunto   n  tumores  sin_tumor  fn  fp  sensibilidad  especificidad
+ Logística (rasgos básicos)         corr > 0.95  69       56         13   0   7        1.0000         0.4615
+ Logística (rasgos básicos) 0.90 < corr <= 0.95 271      265          6   0   3        1.0000         0.5000
+ Logística (rasgos básicos)        corr <= 0.90 393      344         49  23  37        0.9331         0.2449
+    Logística (MobileNetV2)         corr > 0.95  69       56         13   1   1        0.9821         0.9231
+    Logística (MobileNetV2) 0.90 < corr <= 0.95 271      265          6   1   3        0.9962         0.5000
+    Logística (MobileNetV2)        corr <= 0.90 393      344         49  12   8        0.9651         0.8367
+Random Forest (MobileNetV2)         corr > 0.95  69       56         13   2   1        0.9643         0.9231
+Random Forest (MobileNetV2) 0.90 < corr <= 0.95 271      265          6   1   1        0.9962         0.8333
+Random Forest (MobileNetV2)        corr <= 0.90 393      344         49  10  15        0.9709         0.6939
+      SVM RBF (MobileNetV2)         corr > 0.95  69       56         13   1   0        0.9821         1.0000
+      SVM RBF (MobileNetV2) 0.90 < corr <= 0.95 271      265          6   1   1        0.9962         0.8333
+      SVM RBF (MobileNetV2)        corr <= 0.90 393      344         49   8   7        0.9767         0.8571
+    Red Keras (MobileNetV2)         corr > 0.95  69       56         13   2   0        0.9643         1.0000
+    Red Keras (MobileNetV2) 0.90 < corr <= 0.95 271      265          6   1   2        0.9962         0.6667
+    Red Keras (MobileNetV2)        corr <= 0.90 393      344         49  24   5        0.9302         0.8980
+Montaje r2_prueba_ent_095_098_notumor_meningioma.png con 21 pares de 21
+Montaje r2_prueba_ent_095_098_glioma.png con 13 pares de 13

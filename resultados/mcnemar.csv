@@ -1,0 +1,9 @@
+modelo_a,modelo_b,subconjunto,a_acierta_b_falla,a_falla_b_acierta,p_valor,metodo,diferencia_significativa,es_mejor_clasico_cv
+Red Keras (MobileNetV2),Logística (rasgos básicos),todas las imágenes de prueba,53,16,1.4649692211951422e-05,ji cuadrada con corrección,True,False
+Red Keras (MobileNetV2),Logística (MobileNetV2),todas las imágenes de prueba,4,9,0.266845703125,exacta (binomial),False,False
+Red Keras (MobileNetV2),Random Forest (MobileNetV2),todas las imágenes de prueba,8,11,0.6476058959960938,exacta (binomial),False,False
+Red Keras (MobileNetV2),SVM RBF (MobileNetV2),todas las imágenes de prueba,3,8,0.2265625,exacta (binomial),False,True
+Red Keras (MobileNetV2),Logística (rasgos básicos),solo casos con tumor (sensibilidad),8,14,0.28627872467041016,exacta (binomial),False,False
+Red Keras (MobileNetV2),Logística (MobileNetV2),solo casos con tumor (sensibilidad),1,8,0.0390625,exacta (binomial),True,False
+Red Keras (MobileNetV2),Random Forest (MobileNetV2),solo casos con tumor (sensibilidad),1,11,0.00634765625,exacta (binomial),True,False
+Red Keras (MobileNetV2),SVM RBF (MobileNetV2),solo casos con tumor (sensibilidad),0,7,0.015625,exacta (binomial),True,True

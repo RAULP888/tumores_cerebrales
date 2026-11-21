@@ -1,0 +1,41 @@
+Manifiesto: 3663 · duplicados.csv: 5567 · archivos en disco: 7200
+
+== Integridad del manifiesto ==
+Rutas repetidas: 0 · inexistentes: 0
+carpeta_origen != carpeta real: 0 · clase != carpeta real: 0 · es_tumor incoherente: 0
+Particiones: {'entrenamiento': 2930, 'prueba': 733} · es_tumor por partición: {'entrenamiento': {0: 272, 1: 2658}, 'prueba': {0: 68, 1: 665}}
+particion   entrenamiento  prueba  frac_prueba
+clase                                         
+glioma               1135     284      0.20014
+meningioma            768     192      0.20000
+notumor               272      68      0.20000
+pituitary             755     189      0.20021
+Fracción de prueba global: 0.20011
+Filas cuya partición difiere de train_test_split(0.2, stratify=clase, random_state=42): 0
+Columna grupo: valores repetidos en el manifiesto: 0 · grupos presentes en las dos particiones: 0
+En manifiesto 3663 + quitadas 3537 = 7200 · traslape 0 · en disco sin clasificar 0
+Acciones en duplicados.csv: {'quitada_duplicado': 3476, 'conservada': 2030, 'quitada_contradictoria': 61}
+Conservadas de duplicados.csv que NO están en el manifiesto: 0 · grupos no contradictorios con más de una conservada: 0
+
+== Copias exactas entre particiones (recalculado desde los archivos) ==
+SHA-256 de bytes: compartidos entre particiones = 0 · repetidos en todo el manifiesto = 0
+SHA-256 de pixeles (PIL, RGB): compartidos entre particiones = 0 · repetidos en todo el manifiesto = 0
+
+== Gemelas con mi medida (miniaturas PIL 64x64, imagen completa y recorte propio, 8 orientaciones) ==
+prueba <-> entrenamiento: n = 733 · > 0.98: 0 (0.0%) · > 0.95: 69 (9.4%) · > 0.9: 340 (46.4%) · máxima 0.9747
+validación apartada (15 %) <-> su entrenamiento: n = 440 · > 0.98: 0 (0.0%) · > 0.95: 32 (7.3%) · > 0.9: 191 (43.4%) · máxima 0.9772
+entre pliegues (cada imagen contra los otros 4): n = 2930 · > 0.98: 2 (0.1%) · > 0.95: 223 (7.6%) · > 0.9: 1282 (43.8%) · máxima 0.9847
+dentro de todo el manifiesto (cualquier otra imagen): n = 3663 · > 0.98: 4 (0.1%) · > 0.95: 416 (11.4%) · > 0.9: 1967 (53.7%) · máxima 0.9872
+
+Lo que reporta el autor (resultados/eda_fuga_gemelas.csv):
+                                                frontera  imagenes_revisadas  gemelas_corr_mayor_098  gemelas_corr_mayor_095  gemelas_corr_mayor_090  porcentaje_mayor_095  correlacion_maxima
+                                  prueba ↔ entrenamiento                 733                       0                      76                     346                 10.37            0.979930
+           validación apartada (15 %) ↔ su entrenamiento                 440                       0                      32                     202                  7.27            0.978221
+entre pliegues (cada imagen contra los otros 4 pliegues)                2930                       0                     234                    1328                  7.99            0.979004
+
+Pares prueba<->entrenamiento > 0.98 con mi medida: 0
+Empty DataFrame
+Columns: [ruta_prueba, clase_prueba, ruta_entrenamiento, clase_entrenamiento, correlacion]
+Index: []
+Banda 0.95-0.98: 69 imágenes de prueba · por clase {'pituitary': 35, 'glioma': 13, 'notumor': 13, 'meningioma': 8} · con clase distinta en su par: 1
+Banda 0.90-0.95: 271 · con clase distinta en su par: 4

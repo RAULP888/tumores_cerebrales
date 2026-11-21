@@ -1,0 +1,544 @@
+{
+  "detalle": {
+    "entrenamiento_id": 3,
+    "estado": "cancelado",
+    "etapa": "cancelado",
+    "epoca_actual": 5,
+    "epocas_max": 60,
+    "progreso": 0.08333333333333333,
+    "mensaje": "Cancelado por el administrador",
+    "historial": [
+      {
+        "etapa": "cabeza",
+        "epoca": 1,
+        "perdida": 0.7690411806106567,
+        "exactitud": 0.8557536602020264,
+        "perdida_val": 0.36750978231430054,
+        "exactitud_val": 0.9514563083648682,
+        "tasa_aprendizaje": 0.0010000000474974513
+      },
+      {
+        "etapa": "cabeza",
+        "epoca": 2,
+        "perdida": 0.338896244764328,
+        "exactitud": 0.9517828226089478,
+        "perdida_val": 0.30451101064682007,
+        "exactitud_val": 0.9538834691047668,
+        "tasa_aprendizaje": 0.0010000000474974513
+      },
+      {
+        "etapa": "cabeza",
+        "epoca": 3,
+        "perdida": 0.2510247826576233,
+        "exactitud": 0.9696110486984253,
+        "perdida_val": 0.28573453426361084,
+        "exactitud_val": 0.958737850189209,
+        "tasa_aprendizaje": 0.0010000000474974513
+      },
+      {
+        "etapa": "cabeza",
+        "epoca": 4,
+        "perdida": 0.20802529156208038,
+        "exactitud": 0.9748784303665161,
+        "perdida_val": 0.29030317068099976,
+        "exactitud_val": 0.958737850189209,
+        "tasa_aprendizaje": 0.0010000000474974513
+      },
+      {
+        "etapa": "cabeza",
+        "epoca": 5,
+        "perdida": 0.18096810579299927,
+        "exactitud": 0.9809562563896179,
+        "perdida_val": 0.27816635370254517,
+        "exactitud_val": 0.9660193920135498,
+        "tasa_aprendizaje": 0.0010000000474974513
+      }
+    ],
+    "metricas_pliegue": [],
+    "mejor_epoca": null,
+    "diagnostico": "cancelado",
+    "explicacion": "El entrenamiento se canceló antes de terminar; no se generó un modelo candidato.",
+    "advertencias": [],
+    "metricas": null,
+    "matriz_confusion": null,
+    "curvas_url": null,
+    "version": null
+  },
+  "sondeo": [
+    [
+      0.0,
+      "en_cola",
+      "en_cola",
+      0,
+      0.0
+    ],
+    [
+      0.5,
+      "en_cola",
+      "en_cola",
+      0,
+      0.0
+    ],
+    [
+      1.0,
+      "en_cola",
+      "en_cola",
+      0,
+      0.0
+    ],
+    [
+      1.6,
+      "en_cola",
+      "en_cola",
+      0,
+      0.0
+    ],
+    [
+      2.1,
+      "corriendo",
+      "preparando",
+      0,
+      0.0
+    ],
+    [
+      2.6,
+      "corriendo",
+      "preparando",
+      0,
+      0.0
+    ],
+    [
+      3.1,
+      "corriendo",
+      "preparando",
+      0,
+      0.0
+    ],
+    [
+      3.6,
+      "corriendo",
+      "preparando",
+      0,
+      0.0
+    ],
+    [
+      4.2,
+      "corriendo",
+      "preparando",
+      0,
+      0.0
+    ],
+    [
+      4.8,
+      "corriendo",
+      "preparando",
+      0,
+      0.0
+    ],
+    [
+      5.5,
+      "corriendo",
+      "preparando",
+      0,
+      0.0
+    ],
+    [
+      6.0,
+      "corriendo",
+      "preparando",
+      0,
+      0.0
+    ],
+    [
+      6.6,
+      "corriendo",
+      "preparando",
+      0,
+      0.0
+    ],
+    [
+      7.1,
+      "corriendo",
+      "preparando",
+      0,
+      0.0
+    ],
+    [
+      7.7,
+      "corriendo",
+      "preparando",
+      0,
+      0.0
+    ],
+    [
+      8.4,
+      "corriendo",
+      "preparando",
+      0,
+      0.0
+    ],
+    [
+      8.9,
+      "corriendo",
+      "preparando",
+      0,
+      0.0
+    ],
+    [
+      9.7,
+      "corriendo",
+      "preparando",
+      0,
+      0.0
+    ],
+    [
+      10.7,
+      "corriendo",
+      "preparando",
+      0,
+      0.0
+    ],
+    [
+      14.5,
+      "corriendo",
+      "preparando",
+      0,
+      0.0
+    ],
+    [
+      19.7,
+      "corriendo",
+      "preparando",
+      0,
+      0.0
+    ],
+    [
+      20.2,
+      "corriendo",
+      "preparando",
+      0,
+      0.0
+    ],
+    [
+      20.7,
+      "corriendo",
+      "preparando",
+      0,
+      0.0
+    ],
+    [
+      21.2,
+      "corriendo",
+      "preparando",
+      0,
+      0.0
+    ],
+    [
+      21.7,
+      "corriendo",
+      "preparando",
+      0,
+      0.0
+    ],
+    [
+      22.2,
+      "corriendo",
+      "preparando",
+      0,
+      0.0
+    ],
+    [
+      22.8,
+      "corriendo",
+      "preparando",
+      0,
+      0.0
+    ],
+    [
+      23.3,
+      "corriendo",
+      "preparando",
+      0,
+      0.0
+    ],
+    [
+      23.8,
+      "corriendo",
+      "preparando",
+      0,
+      0.0
+    ],
+    [
+      24.3,
+      "corriendo",
+      "preparando",
+      0,
+      0.0
+    ],
+    [
+      24.8,
+      "corriendo",
+      "preparando",
+      0,
+      0.0
+    ],
+    [
+      25.3,
+      "corriendo",
+      "preparando",
+      0,
+      0.0
+    ],
+    [
+      25.8,
+      "corriendo",
+      "preparando",
+      0,
+      0.0
+    ],
+    [
+      26.3,
+      "corriendo",
+      "preparando",
+      0,
+      0.0
+    ],
+    [
+      26.8,
+      "corriendo",
+      "preparando",
+      0,
+      0.0
+    ],
+    [
+      27.3,
+      "corriendo",
+      "preparando",
+      0,
+      0.0
+    ],
+    [
+      27.8,
+      "corriendo",
+      "preparando",
+      0,
+      0.0
+    ],
+    [
+      28.3,
+      "corriendo",
+      "preparando",
+      0,
+      0.0
+    ],
+    [
+      28.9,
+      "corriendo",
+      "preparando",
+      0,
+      0.0
+    ],
+    [
+      29.4,
+      "corriendo",
+      "preparando",
+      0,
+      0.0
+    ],
+    [
+      29.9,
+      "corriendo",
+      "preparando",
+      0,
+      0.0
+    ],
+    [
+      30.4,
+      "corriendo",
+      "preparando",
+      0,
+      0.0
+    ],
+    [
+      30.9,
+      "corriendo",
+      "preparando",
+      0,
+      0.0
+    ],
+    [
+      31.4,
+      "corriendo",
+      "preparando",
+      0,
+      0.0
+    ],
+    [
+      31.9,
+      "corriendo",
+      "preparando",
+      0,
+      0.0
+    ],
+    [
+      32.4,
+      "corriendo",
+      "preparando",
+      0,
+      0.0
+    ],
+    [
+      32.9,
+      "corriendo",
+      "preparando",
+      0,
+      0.0
+    ],
+    [
+      33.4,
+      "corriendo",
+      "preparando",
+      0,
+      0.0
+    ],
+    [
+      33.9,
+      "corriendo",
+      "preparando",
+      0,
+      0.0
+    ],
+    [
+      34.4,
+      "corriendo",
+      "preparando",
+      0,
+      0.0
+    ],
+    [
+      34.9,
+      "corriendo",
+      "preparando",
+      0,
+      0.0
+    ],
+    [
+      35.4,
+      "corriendo",
+      "preparando",
+      0,
+      0.0
+    ],
+    [
+      35.9,
+      "corriendo",
+      "preparando",
+      0,
+      0.0
+    ],
+    [
+      36.4,
+      "corriendo",
+      "preparando",
+      0,
+      0.0
+    ],
+    [
+      36.9,
+      "corriendo",
+      "preparando",
+      0,
+      0.0
+    ],
+    [
+      37.5,
+      "corriendo",
+      "preparando",
+      0,
+      0.0
+    ],
+    [
+      38.0,
+      "corriendo",
+      "preparando",
+      0,
+      0.0
+    ],
+    [
+      38.5,
+      "corriendo",
+      "preparando",
+      0,
+      0.0
+    ],
+    [
+      39.0,
+      "corriendo",
+      "preparando",
+      0,
+      0.0
+    ],
+    [
+      39.5,
+      "corriendo",
+      "preparando",
+      0,
+      0.0
+    ],
+    [
+      40.0,
+      "corriendo",
+      "cabeza",
+      0,
+      0.0
+    ],
+    [
+      40.5,
+      "corriendo",
+      "cabeza",
+      0,
+      0.0
+    ],
+    [
+      41.0,
+      "corriendo",
+      "cabeza",
+      0,
+      0.0
+    ],
+    [
+      41.5,
+      "corriendo",
+      "cabeza",
+      1,
+      0.017
+    ],
+    [
+      42.0,
+      "corriendo",
+      "cabeza",
+      2,
+      0.033
+    ],
+    [
+      42.5,
+      "corriendo",
+      "cabeza",
+      4,
+      0.067
+    ],
+    [
+      43.0,
+      "cancelado",
+      "cancelado",
+      5,
+      0.083
+    ]
+  ],
+  "cancelacion": {
+    "hecho": true,
+    "codigo": 200,
+    "epoca": 4,
+    "nuevo_mientras_se_detiene": 409
+  }
+}

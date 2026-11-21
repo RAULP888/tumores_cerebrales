@@ -1,0 +1,70 @@
+== CSV: antes contra después ==
+casi_gemelas_prueba.csv          bytes idénticos: True  · texto igual: True · dif numérica máx (sin columnas de tiempo): 0.000e+00 (similitud_coseno)
+cv_pliegues.csv                  bytes idénticos: True  · texto igual: True · dif numérica máx (sin columnas de tiempo): 0.000e+00 (pliegue)
+cv_resumen.csv                   bytes idénticos: False · texto igual: True · dif numérica máx (sin columnas de tiempo): 0.000e+00 (umbral)
+eda_intervalos_confianza.csv     bytes idénticos: True  · texto igual: True · dif numérica máx (sin columnas de tiempo): 0.000e+00 (n)
+eda_pruebas_hipotesis.csv        bytes idénticos: True  · texto igual: True · dif numérica máx (sin columnas de tiempo): 0.000e+00 (estadistico)
+eda_resumen.csv                  bytes idénticos: True  · texto igual: True · dif numérica máx (sin columnas de tiempo): 0.000e+00 (valor)
+historial_epocas.csv             bytes idénticos: True  · texto igual: True · dif numérica máx (sin columnas de tiempo): 0.000e+00 (epoca)
+kmeans_k2_tabla.csv              bytes idénticos: True  · texto igual: True · dif numérica máx (sin columnas de tiempo): 0.000e+00 (0)
+kmeans_k4_tabla.csv              bytes idénticos: True  · texto igual: True · dif numérica máx (sin columnas de tiempo): 0.000e+00 (0)
+kmeans_rand.csv                  bytes idénticos: True  · texto igual: True · dif numérica máx (sin columnas de tiempo): 0.000e+00 (k)
+mcnemar.csv                      bytes idénticos: True  · texto igual: True · dif numérica máx (sin columnas de tiempo): 0.000e+00 (a_acierta_b_falla)
+pca_varianza.csv                 bytes idénticos: True  · texto igual: True · dif numérica máx (sin columnas de tiempo): 0.000e+00 (componente)
+predicciones_oof.csv             bytes idénticos: True  · texto igual: True · dif numérica máx (sin columnas de tiempo): 0.000e+00 (pliegue)
+predicciones_prueba.csv          bytes idénticos: True  · texto igual: True · dif numérica máx (sin columnas de tiempo): 0.000e+00 (es_tumor)
+prueba_resumen.csv               bytes idénticos: False · texto igual: True · dif numérica máx (sin columnas de tiempo): 0.000e+00 (umbral)
+tabla_comparativa.csv            bytes idénticos: True  · texto igual: True · dif numérica máx (sin columnas de tiempo): 0.000e+00 (umbral_cv)
+manifiesto.csv                   bytes idénticos: True  · texto igual: True · dif numérica máx (sin columnas de tiempo): 0.000e+00 (es_tumor)
+duplicados.csv                   bytes idénticos: True  · texto igual: True · dif numérica máx (sin columnas de tiempo): 0.000e+00 (grupo)
+
+== tabla_comparativa.md ==
+Texto idéntico: True
+
+== tabla_comparativa.csv: diferencia por modelo ==
+modelo
+Logística (rasgos básicos)     0.0
+Logística (MobileNetV2)        0.0
+Random Forest (MobileNetV2)    0.0
+SVM RBF (MobileNetV2)          0.0
+Red Keras (MobileNetV2)        0.0
+dtype: float64
+
+== predicciones: diferencia máxima de probabilidad por modelo ==
+predicciones_prueba.csv filas: 6065 6065 6065
+modelo
+Logística (MobileNetV2)        0.0
+Logística (rasgos básicos)     0.0
+Random Forest (MobileNetV2)    0.0
+Red Keras (MobileNetV2)        0.0
+SVM RBF (MobileNetV2)          0.0
+   decisiones distintas por modelo: {'Logística (MobileNetV2)': 0, 'Logística (rasgos básicos)': 0, 'Random Forest (MobileNetV2)': 0, 'Red Keras (MobileNetV2)': 0, 'SVM RBF (MobileNetV2)': 0}
+predicciones_oof.csv filas: 24260 24260 24260
+modelo
+Logística (MobileNetV2)        0.0
+Logística (rasgos básicos)     0.0
+Random Forest (MobileNetV2)    0.0
+Red Keras (MobileNetV2)        0.0
+SVM RBF (MobileNetV2)          0.0
+   decisiones distintas por modelo: {'Logística (MobileNetV2)': 0, 'Logística (rasgos básicos)': 0, 'Random Forest (MobileNetV2)': 0, 'Red Keras (MobileNetV2)': 0, 'SVM RBF (MobileNetV2)': 0}
+
+== info.json del modelo ==
+Campos distintos: 5 de 190
+   entrenamiento.segundos.ajuste_fino_s: 148.2 → 106.2
+   entrenamiento.segundos.cabeza_s: 11.3 → 10.6
+   entrenamiento.segundos.kfold_cabeza_s: 38.7 → 36.0
+   entrenamiento.segundos.prediccion_prueba_s: 7.2 → 6.1
+   fecha: '2026-11-20T16:38:02' → '2026-11-20T16:47:23'
+
+== Archivos binarios ==
+   app/modelos/v001/modelo.keras: bytes idénticos = False
+   app/modelos/v001/validacion.npz: bytes idénticos = True
+   datos/rasgos/rasgos_mobilenet.npz: bytes idénticos = True
+   datos/rasgos/rasgos_basicos.npz: bytes idénticos = True
+   Pesos de modelo.keras, diferencia máxima absoluta antes/después: 0.0
+
+== Notebooks: errores y celdas sin ejecutar después de la corrida ==
+   01_eda.ipynb: celdas de código 13 · con error 0 · sin ejecutar 0 · ejecutadas en orden 1..n: True · código fuente idéntico al de antes: True
+   02_rasgos.ipynb: celdas de código 6 · con error 0 · sin ejecutar 0 · ejecutadas en orden 1..n: True · código fuente idéntico al de antes: True
+   03_modelos_ml.ipynb: celdas de código 9 · con error 0 · sin ejecutar 0 · ejecutadas en orden 1..n: True · código fuente idéntico al de antes: True
+   04_red_keras.ipynb: celdas de código 16 · con error 0 · sin ejecutar 0 · ejecutadas en orden 1..n: True · código fuente idéntico al de antes: True

@@ -1,0 +1,1062 @@
+{
+  "detalle": {
+    "entrenamiento_id": 4,
+    "estado": "terminado",
+    "etapa": "terminado",
+    "epoca_actual": 3,
+    "epocas_max": 3,
+    "progreso": 1.0,
+    "mensaje": "Terminado: candidato v003 (umbral 0.2564)",
+    "historial": [
+      {
+        "etapa": "pliegue_1",
+        "epoca": 1,
+        "perdida": 0.7161849141120911,
+        "exactitud": 0.8374683260917664,
+        "perdida_val": 0.34218305349349976,
+        "exactitud_val": 0.9726443886756897,
+        "tasa_aprendizaje": 0.0010000000474974513
+      },
+      {
+        "etapa": "pliegue_1",
+        "epoca": 2,
+        "perdida": 0.326758474111557,
+        "exactitud": 0.9615190029144287,
+        "perdida_val": 0.30186575651168823,
+        "exactitud_val": 0.975683867931366,
+        "tasa_aprendizaje": 0.0010000000474974513
+      },
+      {
+        "etapa": "pliegue_1",
+        "epoca": 3,
+        "perdida": 0.23745937645435333,
+        "exactitud": 0.9721518754959106,
+        "perdida_val": 0.2822330594062805,
+        "exactitud_val": 0.9726443886756897,
+        "tasa_aprendizaje": 0.0010000000474974513
+      },
+      {
+        "etapa": "pliegue_2",
+        "epoca": 1,
+        "perdida": 0.8756841421127319,
+        "exactitud": 0.8567088842391968,
+        "perdida_val": 0.40221208333969116,
+        "exactitud_val": 0.978723406791687,
+        "tasa_aprendizaje": 0.0010000000474974513
+      },
+      {
+        "etapa": "pliegue_2",
+        "epoca": 2,
+        "perdida": 0.3479873836040497,
+        "exactitud": 0.9539240598678589,
+        "perdida_val": 0.3611328899860382,
+        "exactitud_val": 0.957446813583374,
+        "tasa_aprendizaje": 0.0010000000474974513
+      },
+      {
+        "etapa": "pliegue_2",
+        "epoca": 3,
+        "perdida": 0.26404115557670593,
+        "exactitud": 0.9721518754959106,
+        "perdida_val": 0.3209233283996582,
+        "exactitud_val": 0.975683867931366,
+        "tasa_aprendizaje": 0.0010000000474974513
+      },
+      {
+        "etapa": "pliegue_3",
+        "epoca": 1,
+        "perdida": 0.7246298789978027,
+        "exactitud": 0.8753167986869812,
+        "perdida_val": 0.3610941469669342,
+        "exactitud_val": 0.978787899017334,
+        "tasa_aprendizaje": 0.0010000000474974513
+      },
+      {
+        "etapa": "pliegue_3",
+        "epoca": 2,
+        "perdida": 0.34198009967803955,
+        "exactitud": 0.953877329826355,
+        "perdida_val": 0.3445057272911072,
+        "exactitud_val": 0.9666666388511658,
+        "tasa_aprendizaje": 0.0010000000474974513
+      },
+      {
+        "etapa": "pliegue_3",
+        "epoca": 3,
+        "perdida": 0.2562621235847473,
+        "exactitud": 0.9680689573287964,
+        "perdida_val": 0.33401116728782654,
+        "exactitud_val": 0.9666666388511658,
+        "tasa_aprendizaje": 0.0010000000474974513
+      },
+      {
+        "etapa": "pliegue_4",
+        "epoca": 1,
+        "perdida": 0.6814600825309753,
+        "exactitud": 0.8911392688751221,
+        "perdida_val": 0.4513106942176819,
+        "exactitud_val": 0.8999999761581421,
+        "tasa_aprendizaje": 0.0010000000474974513
+      },
+      {
+        "etapa": "pliegue_4",
+        "epoca": 2,
+        "perdida": 0.3579759895801544,
+        "exactitud": 0.9498734474182129,
+        "perdida_val": 0.33109864592552185,
+        "exactitud_val": 0.9424242377281189,
+        "tasa_aprendizaje": 0.0010000000474974513
+      },
+      {
+        "etapa": "pliegue_4",
+        "epoca": 3,
+        "perdida": 0.2568994462490082,
+        "exactitud": 0.9670885801315308,
+        "perdida_val": 0.2978876829147339,
+        "exactitud_val": 0.9636363387107849,
+        "tasa_aprendizaje": 0.0010000000474974513
+      },
+      {
+        "etapa": "pliegue_5",
+        "epoca": 1,
+        "perdida": 0.6936096549034119,
+        "exactitud": 0.8678480982780457,
+        "perdida_val": 0.3218086361885071,
+        "exactitud_val": 0.9452887773513794,
+        "tasa_aprendizaje": 0.0010000000474974513
+      },
+      {
+        "etapa": "pliegue_5",
+        "epoca": 2,
+        "perdida": 0.3438703417778015,
+        "exactitud": 0.947341799736023,
+        "perdida_val": 0.2951123118400574,
+        "exactitud_val": 0.9483282566070557,
+        "tasa_aprendizaje": 0.0010000000474974513
+      },
+      {
+        "etapa": "pliegue_5",
+        "epoca": 3,
+        "perdida": 0.25309517979621887,
+        "exactitud": 0.9686076045036316,
+        "perdida_val": 0.2428770214319229,
+        "exactitud_val": 0.9696048498153687,
+        "tasa_aprendizaje": 0.0010000000474974513
+      },
+      {
+        "etapa": "cabeza",
+        "epoca": 1,
+        "perdida": 0.7690411806106567,
+        "exactitud": 0.8557536602020264,
+        "perdida_val": 0.36750978231430054,
+        "exactitud_val": 0.9514563083648682,
+        "tasa_aprendizaje": 0.0010000000474974513
+      },
+      {
+        "etapa": "cabeza",
+        "epoca": 2,
+        "perdida": 0.338896244764328,
+        "exactitud": 0.9517828226089478,
+        "perdida_val": 0.30451101064682007,
+        "exactitud_val": 0.9538834691047668,
+        "tasa_aprendizaje": 0.0010000000474974513
+      },
+      {
+        "etapa": "cabeza",
+        "epoca": 3,
+        "perdida": 0.2510247826576233,
+        "exactitud": 0.9696110486984253,
+        "perdida_val": 0.28573453426361084,
+        "exactitud_val": 0.958737850189209,
+        "tasa_aprendizaje": 0.0010000000474974513
+      }
+    ],
+    "metricas_pliegue": [
+      {
+        "pliegue": 1,
+        "sensibilidad": 0.9787234042553191,
+        "especificidad": 0.7796610169491526,
+        "precision": 0.9749518304431599,
+        "f1": 0.9768339768339769,
+        "auc": 0.9849195161131692,
+        "vp": 506,
+        "vn": 46,
+        "fp": 13,
+        "fn": 11
+      },
+      {
+        "pliegue": 2,
+        "sensibilidad": 0.9864603481624759,
+        "especificidad": 0.864406779661017,
+        "precision": 0.9845559845559846,
+        "f1": 0.9855072463768116,
+        "auc": 0.9906238730616661,
+        "vp": 510,
+        "vn": 51,
+        "fp": 8,
+        "fn": 7
+      },
+      {
+        "pliegue": 3,
+        "sensibilidad": 0.9826254826254827,
+        "especificidad": 0.7966101694915254,
+        "precision": 0.9769673704414588,
+        "f1": 0.9797882579403274,
+        "auc": 0.9663634578888817,
+        "vp": 509,
+        "vn": 47,
+        "fp": 12,
+        "fn": 9
+      },
+      {
+        "pliegue": 4,
+        "sensibilidad": 0.9748549323017408,
+        "especificidad": 0.9310344827586207,
+        "precision": 0.9921259842519685,
+        "f1": 0.9834146341463414,
+        "auc": 0.9908957513506302,
+        "vp": 504,
+        "vn": 54,
+        "fp": 4,
+        "fn": 13
+      },
+      {
+        "pliegue": 5,
+        "sensibilidad": 0.9787234042553191,
+        "especificidad": 0.9322033898305084,
+        "precision": 0.9921568627450981,
+        "f1": 0.98539435248296,
+        "auc": 0.9929842966265613,
+        "vp": 506,
+        "vn": 55,
+        "fp": 4,
+        "fn": 11
+      }
+    ],
+    "mejor_epoca": 3,
+    "diagnostico": "se detuvo antes de converger",
+    "explicacion": "Se agotaron las 3 épocas permitidas y la mejor fue la 3, de las últimas: la pérdida de validación todavía estaba bajando (0.2857). Con más épocas podría mejorar un poco.",
+    "advertencias": [],
+    "metricas": {
+      "origen": "validacion",
+      "n": 412,
+      "umbral": 0.25641439855098724,
+      "vp": 359,
+      "vn": 37,
+      "fp": 5,
+      "fn": 11,
+      "sensibilidad": 0.9702702702702702,
+      "especificidad": 0.8809523809523809,
+      "precision": 0.9862637362637363,
+      "f1": 0.9782016348773842,
+      "exactitud": 0.9611650485436893,
+      "auc": 0.9896396396396396,
+      "exactitud_tipo": 0.8756756756756757,
+      "origen_umbral": "predicciones fuera de pliegue de la validación cruzada de la cabeza (2880 imágenes sin prueba)",
+      "n_entrenamiento": 2468,
+      "n_validacion": 412,
+      "confirmadas_encontradas": 1,
+      "confirmadas_excluidas_por_prueba": 1,
+      "confirmadas_usadas": 0,
+      "etapa_exportada": "cabeza"
+    },
+    "matriz_confusion": [
+      [
+        37,
+        5
+      ],
+      [
+        11,
+        359
+      ]
+    ],
+    "curvas_url": "/api/admin/entrenamientos/4/curvas",
+    "version": "v003"
+  },
+  "sondeo": [
+    [
+      0.0,
+      "en_cola",
+      "en_cola",
+      0,
+      0.0
+    ],
+    [
+      0.5,
+      "en_cola",
+      "en_cola",
+      0,
+      0.0
+    ],
+    [
+      1.0,
+      "en_cola",
+      "en_cola",
+      0,
+      0.0
+    ],
+    [
+      1.5,
+      "corriendo",
+      "preparando",
+      0,
+      0.0
+    ],
+    [
+      2.0,
+      "corriendo",
+      "preparando",
+      0,
+      0.0
+    ],
+    [
+      2.5,
+      "corriendo",
+      "preparando",
+      0,
+      0.0
+    ],
+    [
+      3.0,
+      "corriendo",
+      "preparando",
+      0,
+      0.0
+    ],
+    [
+      3.6,
+      "corriendo",
+      "preparando",
+      0,
+      0.0
+    ],
+    [
+      4.1,
+      "corriendo",
+      "preparando",
+      0,
+      0.0
+    ],
+    [
+      4.6,
+      "corriendo",
+      "preparando",
+      0,
+      0.0
+    ],
+    [
+      5.1,
+      "corriendo",
+      "preparando",
+      0,
+      0.0
+    ],
+    [
+      5.6,
+      "corriendo",
+      "preparando",
+      0,
+      0.0
+    ],
+    [
+      6.1,
+      "corriendo",
+      "preparando",
+      0,
+      0.0
+    ],
+    [
+      6.6,
+      "corriendo",
+      "preparando",
+      0,
+      0.0
+    ],
+    [
+      7.1,
+      "corriendo",
+      "preparando",
+      0,
+      0.0
+    ],
+    [
+      7.6,
+      "corriendo",
+      "preparando",
+      0,
+      0.0
+    ],
+    [
+      8.1,
+      "corriendo",
+      "preparando",
+      0,
+      0.0
+    ],
+    [
+      8.8,
+      "corriendo",
+      "preparando",
+      0,
+      0.0
+    ],
+    [
+      9.3,
+      "corriendo",
+      "preparando",
+      0,
+      0.0
+    ],
+    [
+      9.9,
+      "corriendo",
+      "preparando",
+      0,
+      0.0
+    ],
+    [
+      10.4,
+      "corriendo",
+      "preparando",
+      0,
+      0.0
+    ],
+    [
+      11.1,
+      "corriendo",
+      "preparando",
+      0,
+      0.0
+    ],
+    [
+      11.6,
+      "corriendo",
+      "preparando",
+      0,
+      0.0
+    ],
+    [
+      12.1,
+      "corriendo",
+      "preparando",
+      0,
+      0.0
+    ],
+    [
+      12.7,
+      "corriendo",
+      "preparando",
+      0,
+      0.0
+    ],
+    [
+      13.2,
+      "corriendo",
+      "preparando",
+      0,
+      0.0
+    ],
+    [
+      13.7,
+      "corriendo",
+      "preparando",
+      0,
+      0.0
+    ],
+    [
+      14.2,
+      "corriendo",
+      "preparando",
+      0,
+      0.0
+    ],
+    [
+      14.7,
+      "corriendo",
+      "preparando",
+      0,
+      0.0
+    ],
+    [
+      15.2,
+      "corriendo",
+      "preparando",
+      0,
+      0.0
+    ],
+    [
+      15.8,
+      "corriendo",
+      "preparando",
+      0,
+      0.0
+    ],
+    [
+      16.3,
+      "corriendo",
+      "preparando",
+      0,
+      0.0
+    ],
+    [
+      16.9,
+      "corriendo",
+      "preparando",
+      0,
+      0.0
+    ],
+    [
+      17.4,
+      "corriendo",
+      "preparando",
+      0,
+      0.0
+    ],
+    [
+      17.9,
+      "corriendo",
+      "preparando",
+      0,
+      0.0
+    ],
+    [
+      18.4,
+      "corriendo",
+      "preparando",
+      0,
+      0.0
+    ],
+    [
+      18.9,
+      "corriendo",
+      "pliegue_1",
+      0,
+      0.0
+    ],
+    [
+      19.4,
+      "corriendo",
+      "pliegue_1",
+      0,
+      0.0
+    ],
+    [
+      20.1,
+      "corriendo",
+      "pliegue_1",
+      0,
+      0.0
+    ],
+    [
+      20.8,
+      "corriendo",
+      "pliegue_1",
+      0,
+      0.0
+    ],
+    [
+      21.7,
+      "corriendo",
+      "pliegue_1",
+      0,
+      0.0
+    ],
+    [
+      22.3,
+      "corriendo",
+      "pliegue_1",
+      0,
+      0.0
+    ],
+    [
+      22.9,
+      "corriendo",
+      "pliegue_1",
+      0,
+      0.0
+    ],
+    [
+      23.5,
+      "corriendo",
+      "pliegue_1",
+      0,
+      0.0
+    ],
+    [
+      24.0,
+      "corriendo",
+      "pliegue_1",
+      0,
+      0.0
+    ],
+    [
+      24.5,
+      "corriendo",
+      "pliegue_1",
+      0,
+      0.0
+    ],
+    [
+      25.1,
+      "corriendo",
+      "pliegue_1",
+      0,
+      0.0
+    ],
+    [
+      25.6,
+      "corriendo",
+      "pliegue_1",
+      0,
+      0.0
+    ],
+    [
+      26.1,
+      "corriendo",
+      "pliegue_1",
+      0,
+      0.0
+    ],
+    [
+      26.6,
+      "corriendo",
+      "pliegue_1",
+      0,
+      0.0
+    ],
+    [
+      27.2,
+      "corriendo",
+      "pliegue_1",
+      0,
+      0.0
+    ],
+    [
+      27.7,
+      "corriendo",
+      "pliegue_1",
+      0,
+      0.0
+    ],
+    [
+      28.3,
+      "corriendo",
+      "pliegue_1",
+      0,
+      0.0
+    ],
+    [
+      28.9,
+      "corriendo",
+      "pliegue_1",
+      0,
+      0.0
+    ],
+    [
+      29.5,
+      "corriendo",
+      "pliegue_1",
+      0,
+      0.0
+    ],
+    [
+      30.0,
+      "corriendo",
+      "pliegue_1",
+      1,
+      0.056
+    ],
+    [
+      30.6,
+      "corriendo",
+      "pliegue_1",
+      1,
+      0.056
+    ],
+    [
+      31.1,
+      "corriendo",
+      "pliegue_1",
+      2,
+      0.111
+    ],
+    [
+      31.6,
+      "corriendo",
+      "pliegue_1",
+      2,
+      0.111
+    ],
+    [
+      32.2,
+      "corriendo",
+      "pliegue_1",
+      2,
+      0.111
+    ],
+    [
+      32.8,
+      "corriendo",
+      "pliegue_1",
+      2,
+      0.111
+    ],
+    [
+      33.3,
+      "corriendo",
+      "pliegue_1",
+      3,
+      0.167
+    ],
+    [
+      33.8,
+      "corriendo",
+      "pliegue_1",
+      3,
+      0.167
+    ],
+    [
+      34.3,
+      "corriendo",
+      "pliegue_1",
+      3,
+      0.167
+    ],
+    [
+      34.9,
+      "corriendo",
+      "pliegue_1",
+      3,
+      0.167
+    ],
+    [
+      35.4,
+      "corriendo",
+      "pliegue_1",
+      3,
+      0.167
+    ],
+    [
+      35.9,
+      "corriendo",
+      "pliegue_1",
+      3,
+      0.167
+    ],
+    [
+      36.4,
+      "corriendo",
+      "pliegue_2",
+      1,
+      0.222
+    ],
+    [
+      36.9,
+      "corriendo",
+      "pliegue_2",
+      2,
+      0.278
+    ],
+    [
+      37.4,
+      "corriendo",
+      "pliegue_2",
+      3,
+      0.333
+    ],
+    [
+      37.9,
+      "corriendo",
+      "pliegue_2",
+      3,
+      0.333
+    ],
+    [
+      38.4,
+      "corriendo",
+      "pliegue_2",
+      3,
+      0.333
+    ],
+    [
+      38.9,
+      "corriendo",
+      "pliegue_2",
+      3,
+      0.333
+    ],
+    [
+      39.4,
+      "corriendo",
+      "pliegue_2",
+      3,
+      0.333
+    ],
+    [
+      39.9,
+      "corriendo",
+      "pliegue_2",
+      3,
+      0.333
+    ],
+    [
+      40.4,
+      "corriendo",
+      "pliegue_3",
+      2,
+      0.444
+    ],
+    [
+      41.0,
+      "corriendo",
+      "pliegue_3",
+      3,
+      0.5
+    ],
+    [
+      41.5,
+      "corriendo",
+      "pliegue_3",
+      3,
+      0.5
+    ],
+    [
+      42.0,
+      "corriendo",
+      "pliegue_3",
+      3,
+      0.5
+    ],
+    [
+      42.5,
+      "corriendo",
+      "pliegue_3",
+      3,
+      0.5
+    ],
+    [
+      43.0,
+      "corriendo",
+      "pliegue_3",
+      3,
+      0.5
+    ],
+    [
+      43.5,
+      "corriendo",
+      "pliegue_3",
+      3,
+      0.5
+    ],
+    [
+      44.0,
+      "corriendo",
+      "pliegue_4",
+      1,
+      0.556
+    ],
+    [
+      44.5,
+      "corriendo",
+      "pliegue_4",
+      2,
+      0.611
+    ],
+    [
+      45.1,
+      "corriendo",
+      "pliegue_4",
+      3,
+      0.667
+    ],
+    [
+      45.6,
+      "corriendo",
+      "pliegue_4",
+      3,
+      0.667
+    ],
+    [
+      46.1,
+      "corriendo",
+      "pliegue_4",
+      3,
+      0.667
+    ],
+    [
+      46.6,
+      "corriendo",
+      "pliegue_4",
+      3,
+      0.667
+    ],
+    [
+      47.1,
+      "corriendo",
+      "pliegue_4",
+      3,
+      0.667
+    ],
+    [
+      47.6,
+      "corriendo",
+      "pliegue_4",
+      3,
+      0.667
+    ],
+    [
+      48.1,
+      "corriendo",
+      "pliegue_5",
+      1,
+      0.722
+    ],
+    [
+      48.6,
+      "corriendo",
+      "pliegue_5",
+      2,
+      0.778
+    ],
+    [
+      49.1,
+      "corriendo",
+      "pliegue_5",
+      3,
+      0.833
+    ],
+    [
+      49.6,
+      "corriendo",
+      "pliegue_5",
+      3,
+      0.833
+    ],
+    [
+      50.1,
+      "corriendo",
+      "cabeza",
+      0,
+      0.833
+    ],
+    [
+      50.6,
+      "corriendo",
+      "cabeza",
+      0,
+      0.833
+    ],
+    [
+      51.2,
+      "corriendo",
+      "cabeza",
+      0,
+      0.833
+    ],
+    [
+      51.7,
+      "corriendo",
+      "cabeza",
+      0,
+      0.833
+    ],
+    [
+      52.2,
+      "corriendo",
+      "cabeza",
+      1,
+      0.889
+    ],
+    [
+      52.7,
+      "corriendo",
+      "cabeza",
+      2,
+      0.944
+    ],
+    [
+      53.2,
+      "corriendo",
+      "evaluando",
+      3,
+      0.95
+    ],
+    [
+      53.7,
+      "corriendo",
+      "evaluando",
+      3,
+      0.95
+    ],
+    [
+      54.2,
+      "corriendo",
+      "evaluando",
+      3,
+      0.95
+    ],
+    [
+      54.7,
+      "corriendo",
+      "exportando",
+      3,
+      0.97
+    ],
+    [
+      55.2,
+      "corriendo",
+      "exportando",
+      3,
+      0.97
+    ],
+    [
+      55.7,
+      "corriendo",
+      "exportando",
+      3,
+      0.97
+    ],
+    [
+      56.2,
+      "corriendo",
+      "exportando",
+      3,
+      0.97
+    ],
+    [
+      56.8,
+      "corriendo",
+      "exportando",
+      3,
+      0.97
+    ],
+    [
+      57.3,
+      "corriendo",
+      "exportando",
+      3,
+      0.97
+    ],
+    [
+      57.8,
+      "corriendo",
+      "exportando",
+      3,
+      0.97
+    ],
+    [
+      58.3,
+      "corriendo",
+      "exportando",
+      3,
+      0.97
+    ],
+    [
+      58.8,
+      "terminado",
+      "terminado",
+      3,
+      1.0
+    ]
+  ]
+}

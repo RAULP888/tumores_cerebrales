@@ -1,0 +1,9 @@
+﻿Base: local (C:\proyectos\tumores-cerebrales\pruebas\verificacion_fase34\entorno\verif.db)
+  diagnosticos_nuevos: 5
+  fechas_nuevas: 1095
+  modelos: 5
+  predicciones_prueba: 3600
+  entrenamiento_original: 1
+  historial_epocas: 28
+  metricas_pliegue: 25
+Carga terminada.

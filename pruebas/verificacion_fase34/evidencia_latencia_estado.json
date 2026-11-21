@@ -1,0 +1,12 @@
+{
+  "durante_entrenamiento": {
+    "n": 184,
+    "mediana_ms": 3.2,
+    "max_ms": 319.6
+  },
+  "sin_entrenamiento": {
+    "n": 370,
+    "mediana_ms": 4.7,
+    "max_ms": 51.1
+  }
+}

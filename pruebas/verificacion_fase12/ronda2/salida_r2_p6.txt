@@ -1,0 +1,48 @@
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1795217433.590179    5012 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1795217436.828731    5012 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+WARNING:tensorflow:TensorFlow GPU support is not available on native Windows for TensorFlow >= 2.11. Even if CUDA/cuDNN are installed, GPU will not be used. Please use WSL2 or the TensorFlow-DirectML plugin.
+Modelo cargado: tumores_mobilenetv2 · capas: 161 · umbral info.json: 0.3716169595718384
+
+== Prueba: 733 imágenes por inferencia.predecir en 1155 s ==
+Diferencia máxima de probabilidad_tumor contra predicciones_prueba.csv: 2.205e-06 (media 1.586e-07)
+Decisiones distintas (hay_tumor contra columna prediccion): 0
+tipo_probable distinto: 0 · diferencia máxima de probabilidad_tipo: 4.053e-06
+Métricas por la ruta de la app contra info.json:
+   vp             app = 638.000000 · info.json = 638.000000 · dif = 0.00e+00
+   vn             app = 61.000000 · info.json = 61.000000 · dif = 0.00e+00
+   fp             app = 7.000000 · info.json = 7.000000 · dif = 0.00e+00
+   fn             app = 27.000000 · info.json = 27.000000 · dif = 0.00e+00
+   sensibilidad   app = 0.959398 · info.json = 0.959398 · dif = 0.00e+00
+   especificidad  app = 0.897059 · info.json = 0.897059 · dif = 0.00e+00
+   precision      app = 0.989147 · info.json = 0.989147 · dif = 0.00e+00
+   f1             app = 0.974046 · info.json = 0.974046 · dif = 0.00e+00
+   auc            app = 0.981999 · info.json = 0.981999 · dif = 0.00e+00
+   exactitud      app = 0.953615 · info.json = 0.953615 · dif = 0.00e+00
+   exactitud_tipo app = 0.870677 · info.json = 0.870677
+Diferencia máxima de métricas: 0.00e+00
+
+== Prueba: lote (model.predict sobre imágenes preparadas) contra imagen por imagen (ruta de la app) ==
+Diferencia máxima lote contra una por una: 2.205e-06 · decisiones distintas: 0
+Distancia mínima de una probabilidad de prueba al umbral: 1.286e-03 · imágenes de prueba a menos de 1e-4 del umbral: 0
+
+== Validación apartada recalculada desde los archivos (independiente de validacion.npz) ==
+Diferencia máxima contra prob_val de validacion.npz: 2.801e-06 · etiquetas distintas: 0
+Decisiones distintas imagen por imagen contra lote (npz) en validación: 0
+Validación al umbral exportado, por la ruta de la app: sensibilidad 0.952381 (380/399) · especificidad 0.975610 (40/41) · info.json: sensibilidad 0.952381, especificidad 0.975610, FN 19, FP 1
+
+== Grad-CAM ==
+con tumor: datos/Training/glioma/Tr-gl_10.jpg · prob 0.9998 · hay_tumor True · mapa (5, 5) float32 min 0.0000 max 1.0000 desv 0.2797 · valores distintos 24 · finito True · superpuesto (160, 160, 3) uint8
+   constante: False · en rango [0, 1]: True
+sin tumor: datos/Training/notumor/Tr-no_1003.jpg · prob 0.0088 · hay_tumor False · mapa (5, 5) float32 min 0.3435 max 1.0000 desv 0.1832 · valores distintos 25 · finito True · superpuesto (160, 160, 3) uint8
+   constante: False · en rango [0, 1]: True
+Mapas constantes o no finitos en una muestra de 60 imágenes de prueba: 0
+
+== Pesos de MobileNetV2 en modelo.keras contra ImageNet ==
+Capas con pesos comparadas: 104 · diferencia máxima absoluta contra ImageNet: 0.000e+00
+
+== Rasgos guardados contra un extractor independiente (keras.applications + preprocess_input) ==
+Orden de rasgos == manifiesto: True
+Muestra de 400 imágenes (ambas particiones): diferencia máxima absoluta = 2.027e-05 · relativa a la norma media = 4.444e-05
+imagenes_160.npy == preparar(archivo) en la muestra: True

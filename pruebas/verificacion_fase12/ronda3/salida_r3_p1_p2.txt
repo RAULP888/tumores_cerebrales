@@ -1,0 +1,71 @@
+== Punto 2 · Integridad ==
+Manifiesto 3600 · duplicados.csv 3600 · en disco 7200 · suma 7200 · traslape 0 · en disco sin clasificar 0 · rutas repetidas 0 / 0
+carpeta_origen != carpeta: 0 · clase != carpeta: 0 · es_tumor incoherente: 0 · 'aug' en el manifiesto: 0
+duplicados.csv por causa: {'espejo_o_giro': 2739, 'casi_identica': 409, 'copia_exacta': 215, 'aumento_del_dataset': 203, 'etiqueta_contradictoria': 34} · acciones: {'quitada': 3600}
+  'aug' en disco: 203 · 'aug' en duplicados con causa aumento: 203
+  referencias de las copias que NO están en el manifiesto: 0 de 3363 · con clase distinta a su referencia: 0
+  correlación (mi medida) de cada copia eliminada con su referencia conservada: < 0.98: 118 · < 0.97: 53 · < 0.95: 46 · mínima 0.4138
+particion   entrenamiento  prueba   All
+clase                                  
+glioma               1166     291  1457
+meningioma            655     164   819
+notumor               294      73   367
+pituitary             765     192   957
+All                  2880     720  3600
+es_tumor por partición: {'entrenamiento': {0: 294, 1: 2586}, 'prueba': {0: 73, 1: 647}} · fracción de prueba 0.2000
+
+== Punto 2 · Grupos y pliegues ==
+Grupos de similitud: 3258 · mayor: 10 · grupos en dos particiones: 0 · grupos en dos pliegues: 0 · grupos con más de una clase: 4 · que mezclan tumor/sin tumor: 0
+pliegue por partición: {'entrenamiento': {0: 0, 1: 576, 2: 576, 3: 576, 4: 576, 5: 576}, 'prueba': {0: 720, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0}}
+Filas cuya partición difiere del primer pliegue de StratifiedGroupKFold(5, shuffle, 42) por clase y grupo: 0
+Filas de entrenamiento cuyo pliegue difiere del recalculado: 0
+Modelos en predicciones_oof: 5 · imágenes con pliegue distinto entre modelos: 0 · distinto del manifiesto: 0
+Validación apartada recalculada (1 de 7 partes por grupos): 412 · rutas_val del npz: 412 · mismo conjunto: True · grupos compartidos entre validación y su entrenamiento: 0 · rutas_val en prueba: 0
+
+== Copias exactas entre particiones ==
+SHA-256 de bytes: compartidos entre particiones 0 · repetidos en el manifiesto 0
+SHA-256 de pixeles: compartidos entre particiones 0 · repetidos en el manifiesto 0
+
+== Punto 1 · Fuga con mi medida ==
+prueba <-> entrenamiento: n = 720 · > 0.98: 0 (0.0%) · > 0.95: 0 (0.0%) · > 0.9: 308 (42.8%) · máxima 0.9498
+validación apartada <-> su entrenamiento: n = 412 · > 0.98: 0 (0.0%) · > 0.95: 1 (0.2%) · > 0.9: 160 (38.8%) · máxima 0.9537
+entre pliegues (cada imagen contra los otros 4): n = 2880 · > 0.98: 0 (0.0%) · > 0.95: 4 (0.1%) · > 0.9: 1033 (35.9%) · máxima 0.9537
+Lo que reporta el autor:
+                                                frontera  imagenes_revisadas  gemelas_corr_mayor_098  gemelas_corr_mayor_095  gemelas_banda_090_095  gemelas_corr_mayor_090  porcentaje_mayor_090  correlacion_maxima
+                                  prueba ↔ entrenamiento                 720                       0                       0                    318                     318                 44.17            0.949782
+                  validación apartada ↔ su entrenamiento                 412                       0                       0                    169                     169                 41.02            0.949832
+entre pliegues (cada imagen contra los otros 4 pliegues)                2880                       0                       0                   1057                    1057                 36.70            0.949832
+
+Pares prueba<->entrenamiento > 0.95 con mi medida (frontera de remuestreo):
+Empty DataFrame
+Columns: [ruta_prueba, clase_prueba, ruta_entrenamiento, clase_entrenamiento, correlacion]
+Index: []
+Banda 0.90-0.95: 308 (42.8%) · por clase {'pituitary': 131, 'glioma': 115, 'meningioma': 57, 'notumor': 5} · clase distinta en el par: 8
+'Sin tumor' de prueba: 73 · con par > 0.95: 0 · en 0.90-0.95: 5
+Dentro del manifiesto, imágenes con otra > 0.98: 0 · pares > 0.95 con grupo_similitud distinto: 2
+
+== Punto 1 · Lo que falló en la ronda 2 ==
+Los 69 pares prueba<->entrenamiento de la banda 0.95-0.98 de la ronda 2, hoy:
+estado        al menos una quitada  mismo lado  All
+clase_prueba                                       
+glioma                           0          13   13
+meningioma                       5           3    8
+notumor                          0          13   13
+pituitary                        0          35   35
+All                              5          64   69
+De los que siguen ambos en el manifiesto, en el mismo grupo_similitud: 64 de 64
+Empty DataFrame
+Columns: [ruta_prueba, clase_prueba, ruta_entrenamiento, clase_entrenamiento, correlacion, estado, mismo_grupo]
+Index: []
+   Tr-no_1312.jpg: entrenamiento (grupo 2144) · Tr-no_120.jpg: entrenamiento (grupo 2144) · mi correlación 0.9715
+   Tr-me_584.jpg: entrenamiento (grupo 1129) · Tr-gl_502.jpg: entrenamiento (grupo 775) · mi correlación 0.7318
+
+== Punto 2 · Las recuperadas ==
+En el manifiesto actual y no en el de la ronda 2: 116 · por clase {'glioma': 38, 'meningioma': 38, 'notumor': 27, 'pituitary': 13} · por partición {'entrenamiento': 86, 'prueba': 30}
+En el de la ronda 2 y ya no: 179 · de ellas 'aug': 179 · no 'aug' por clase {}
+Correlación de cada recuperada con la imagen más parecida del manifiesto: > 0.98: 0 · > 0.97: 18 · > 0.95: 62 · > 0.9: 98 · mediana 0.954
+Recuperadas con par > 0.95 que quedó en la OTRA partición: 0
+Montajes en C:\proyectos\tumores-cerebrales\pruebas\verificacion_fase12\ronda3
+
+Copias eliminadas con mi correlación < 0.95 contra su referencia, por causa: {'casi_identica': 35, 'espejo_o_giro': 11} · por clase: {'notumor': 37, 'meningioma': 8, 'glioma': 1}
+   correlación que reporta el autor para ellas: mínima 0.9815

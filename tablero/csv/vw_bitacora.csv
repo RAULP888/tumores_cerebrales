@@ -1,0 +1,17 @@
+﻿evento_id,fecha_hora,usuario,rol,accion,detalle,exito
+1,2026-11-21 04:22:47.000000,,,CARGA_DATOS,"Carga inicial: diagnosticos_nuevos=5, fechas_nuevas=1095, modelos=5, predicciones_prueba=3600, entrenamiento_original=1, historial_epocas=28, metricas_pliegue=25",TRUE
+2,2026-11-21 04:27:09.000000,doctor1,,LOGIN_FALLIDO,Intento fallido: contraseña incorrecta,FALSE
+3,2026-11-21 04:27:11.000000,doctor1,doctor,LOGIN_FALLIDO,Rol elegido 'administrador' no corresponde al usuario,FALSE
+4,2026-11-21 04:27:12.000000,doctor1,doctor,LOGIN_OK,Inicio de sesión como doctor,TRUE
+5,2026-11-21 04:27:17.000000,doctor1,doctor,ESTUDIO_CREADO,Predicción 3601 con v001: tumor (p=1.000),TRUE
+6,2026-11-21 04:27:19.000000,doctor1,doctor,ESTUDIO_CREADO,Predicción 3602 con v001: sin tumor (p=0.000),TRUE
+7,2026-11-21 04:27:20.000000,doctor1,doctor,ESTUDIO_CREADO,Predicción 3603 con v001: tumor (p=0.967),TRUE
+8,2026-11-21 04:27:22.000000,doctor1,doctor,ESTUDIO_CONFIRMADO,"Predicción 3601: en desacuerdo, real=sin_tumor",TRUE
+9,2026-11-21 04:27:22.000000,doctor1,doctor,ESTUDIO_CONFIRMADO,"Predicción 3602: de acuerdo, real=sin_tumor",TRUE
+10,2026-11-21 04:27:26.000000,doctor1,doctor,ESTUDIO_CONFIRMADO,"Predicción 3603: de acuerdo, real=glioma",TRUE
+11,2026-11-21 04:27:26.000000,doctor1,doctor,ACCESO_DENEGADO,GET /api/admin/resumen,FALSE
+12,2026-11-21 04:27:28.000000,doctor1,doctor,LOGOUT,Cierre de sesión,TRUE
+13,2026-11-21 04:27:30.000000,admin1,administrador,LOGIN_OK,Inicio de sesión como administrador,TRUE
+14,2026-11-21 04:30:11.000000,admin1,administrador,LOGIN_OK,Inicio de sesión como administrador,TRUE
+15,2026-11-21 04:33:34.000000,,,CARGA_DATOS,"Carga inicial: diagnosticos_nuevos=0, fechas_nuevas=0, modelos=5, predicciones_prueba=2880, entrenamiento_original=1, historial_epocas=28, metricas_pliegue=25",TRUE
+16,2026-11-21 04:38:49.000000,,,CARGA_DATOS,"Carga inicial: diagnosticos_nuevos=0, fechas_nuevas=0, modelos=5, predicciones_prueba=3600, entrenamiento_original=1, historial_epocas=28, metricas_pliegue=25",TRUE

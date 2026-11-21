@@ -1,0 +1,5 @@
+prueba,variable,estadistico,p_valor,efecto,detalle_efecto,mediana_tumor,mediana_sin_tumor,se_rechaza_H0
+Mann-Whitney U (tumor contra sin tumor),brillo,176024.5,2.4470852401813757e-108,0.1483547139470262,P(tumor > sin tumor),0.23583486676216125,0.32907965779304504,True
+Kruskal-Wallis (4 clases),brillo,1027.163104899455,2.30434618826848e-222,0.28480620269729007,épsilon cuadrada,,,True
+Mann-Whitney U (tumor contra sin tumor),contraste,222125.0,4.022003844551567e-86,0.18720854673913684,P(tumor > sin tumor),0.1521456241607666,0.2130606472492218,True
+Kruskal-Wallis (4 clases),contraste,928.155995290213,6.913598518138479e-201,0.25727363606513154,épsilon cuadrada,,,True

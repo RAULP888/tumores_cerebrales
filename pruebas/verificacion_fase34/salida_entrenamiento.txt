@@ -1,0 +1,39 @@
+PASA  [7] POST entrenamiento corto :: {"entrenamiento_id":2}
+PASA  [7] segundo entrenamiento mientras corre -> 409 :: 409 {"detail":"Ya hay un entrenamiento en curso. Espera a que termine o cancélalo."}
+PASA  [7] corre en un proceso aparte (pid distinto, cmdline reentrenar) :: {'pid': 8048, 'ppid': 40692, 'cmd': 'tos\\tumores-cerebrales\\.venv\\Scripts\\python.exe -m app.backend.reentrenar --id 2', 'uvicorn': 38100}
+PASA  [7] entrenamiento corto termina :: terminado Terminado: candidato v002 (umbral 0.1320) en 44s; vistos={'corriendo', 'en_cola', 'terminado'}
+PASA  [7] progreso sondeado y avanza :: [(0.0, 'en_cola', 'en_cola', 0, 0.0), (0.6, 'en_cola', 'en_cola', 0, 0.0), (1.1, 'corriendo', 'preparando', 0, 0.0), (43.1, 'corriendo', 'exportando', 3, 0.97), (43.7, 'terminado', 'terminado', 3, 1.0)]
+PASA  [7] /api/estado responde durante el entrenamiento :: n=46 mediana=529.2 ms máx=2067.4 ms (base mediana=360.1 ms); predicción durante=('v001', 1020.1410999943619)
+PASA  [7] historial_epocas por época (3 filas, cabeza) :: [{'etapa': 'cabeza', 'epoca': 1, 'perdida': 0.7690411806106567, 'perdida_val': 0.36750978231430054, 'exactitud_val': 0.9514563083648682, 'tasa_aprendizaje': 0.0010000000474974513}, {'etapa': 'cabeza', 'epoca': 2, 'perdida': 0.338896244764328, 'perdida_val': 0.30451101064682007, 'exactitud_val': 0.9538834691047668, 'tasa_aprendizaje': 0.0010000000474974513}, {'etapa': 'cabeza', 'epoca': 3, 'perdida
+PASA  [7] detalle trae historial = base :: 3
+PASA  [7] diagnóstico, explicación, métricas, matriz :: diag=se detuvo antes de converger; mejor_epoca=3; matriz=[[35, 7], [7, 363]]; metricas={'origen': 'validacion', 'n': 412, 'sensibilidad': 0.981081081081081, 'especificidad': 0.8333333333333334, 'auc': 0.9896396396396396, 'confirmadas_encontradas': 1, 'confirmadas_excluidas_por_prueba': 1, 'confirmadas_usadas': 0}
+PASA  [7] matriz = vn,fp,fn,vp de las métricas :: [[35, 7], [7, 363]]
+PASA  [7] métricas del candidato en validación, no en prueba :: validacion
+PASA  [7] la imagen confirmada de PRUEBA se excluyó del reentrenamiento :: {'confirmadas_encontradas': 1, 'confirmadas_excluidas_por_prueba': 1, 'confirmadas_usadas': 0}
+PASA  [7] curvas PNG descargables :: 74798 bytes
+PASA  [7] candidato nuevo en dim_modelo :: [{'modelo_id': 6, 'version': 'v002', 'estado': 'candidato', 'umbral': 0.13204701989889145, 'sensibilidad': 0.981081081081081, 'origen_metricas': 'validacion', 'entrenamiento_id': 2}]
+PASA  [7] info.json del candidato: metricas_prueba null :: Modelo candidato: se evaluó en validación, no en el conjunto de prueba.
+PASA  [7] app/modelos real no recibió versiones nuevas :: ['.gitkeep', 'v001']
+PASA  [7] n_entrenamiento + n_validacion == filas no-prueba del manifiesto (+ confirmadas usadas) :: 2468+412 vs no_prueba=2880 conf_usadas=0
+PASA  [7] cancelar a la mitad -> cancelado :: {'hecho': True, 'codigo': 200, 'epoca': 4, 'nuevo_mientras_se_detiene': 409} estado=cancelado etapa=cancelado época=5/60
+PASA  [7] diagnóstico del cancelado no dice 'convergió' :: diagnostico='cancelado' explicacion='El entrenamiento se canceló antes de terminar; no se generó un modelo candidato.'
+PASA  [7] cancelado sin candidato ni curvas :: (None, None)
+PASA  [7] nuevo entrenamiento mientras el cancelado aún se detiene -> 409 (o 200 si ya terminó) :: 409
+PASA  [7] cancelar uno ya cancelado -> 409 :: 409
+PASA  [7] aprobar candidato :: {"ok":true,"version":"v002","modelo_id":6}
+PASA  [7] tras aprobar: /api/estado y predicción usan la versión nueva :: estado={'cargado': True, 'version': 'v002', 'nombre': 'Red Keras (MobileNetV2)', 'umbral': 0.13204701989889145} pred=v002 umbral=0.13204701989889145
+PASA  [7] v001 pasó a retirado :: {'v001': 'retirado', 'v002': 'produccion'}
+PASA  [7] aprobar de nuevo (ya en producción) -> 409 :: 409
+PASA  [7] aprobar un clásico -> 409 :: 409 {"detail":"Solo se puede aprobar un modelo candidato de la red."}
+PASA  [7] revertir regresa a v001 y la predicción la usa :: {"ok":true,"version":"v001","modelo_id":5} estado=v001 pred=v001
+PASA  [7] estados tras revertir :: {'v001': 'produccion', 'v002': 'retirado'}
+PASA  [7] kfold=true: 5 filas en metricas_pliegue :: estado=terminado filas=[{'pliegue': 1, 'sensibilidad': 0.9787234042553191, 'especificidad': 0.7796610169491526, 'vp': 506, 'vn': 46, 'fp': 13, 'fn': 11}, {'pliegue': 2, 'sensibilidad': 0.9864603481624759, 'especificidad': 0.864406779661017, 'vp': 510, 'vn': 51, 'fp': 8, 'fn': 7}, {'pliegue': 3, 'sensibilidad': 0.9826254826254827, 'especificidad': 0.7966101694915254, 'vp': 509, 'vn': 47, 'fp': 12, 
+PASA  [7] pliegues suman las imágenes no-prueba (+confirmadas) :: 2880 vs 2880
+PASA  [7] historial kfold con pliegue_1..5 y cabeza :: ['cabeza', 'pliegue_1', 'pliegue_2', 'pliegue_3', 'pliegue_4', 'pliegue_5']
+PASA  [6] bitácora ENTRENAMIENTO_INICIADO :: n=3 con usuario/rol/ip=3 ejemplo={'usuario': 'admin1', 'rol': 'administrador', 'ip': '127.0.0.1', 'exito': 1, 'detalle': 'Entrenamiento 4: {"epocas_max": 3, "tasa": 0.001, "lote": 64, "kfold": true, "ajuste_fino": false, "paciencia": 8}'}
+PASA  [6] bitácora ENTRENAMIENTO_TERMINADO :: n=2 con usuario/rol/ip=0 ejemplo={'usuario': None, 'rol': None, 'ip': None, 'exito': 1, 'detalle': "Entrenamiento 4: candidato v003, diagnóstico 'se detuvo antes de converger', sensibilidad val 0.970"}
+PASA  [6] bitácora ENTRENAMIENTO_CANCELADO :: n=2 con usuario/rol/ip=1 ejemplo={'usuario': None, 'rol': None, 'ip': None, 'exito': 1, 'detalle': 'Entrenamiento 3: se detuvo (época 5)'}
+PASA  [6] bitácora MODELO_APROBADO :: n=1 con usuario/rol/ip=1 ejemplo={'usuario': 'admin1', 'rol': 'administrador', 'ip': '127.0.0.1', 'exito': 1, 'detalle': 'Producción: v001 -> v002'}
+PASA  [6] bitácora MODELO_REVERTIDO :: n=1 con usuario/rol/ip=1 ejemplo={'usuario': 'admin1', 'rol': 'administrador', 'ip': '127.0.0.1', 'exito': 1, 'detalle': 'Producción: v002 -> v001'}
+
+TOTAL 37 comprobaciones, 0 fallas

@@ -1,0 +1,55 @@
+C:\proyectos\tumores-cerebrales\.venv\Lib\site-packages\sklearn\svm\_base.py:236: FutureWarning: The `probability` parameter was deprecated in 1.9 and will be removed in version 1.11. Use `CalibratedClassifierCV(SVC(), ensemble=False)` instead of `SVC(probability=True)`
+  warnings.warn(
+C:\proyectos\tumores-cerebrales\.venv\Lib\site-packages\sklearn\svm\_base.py:236: FutureWarning: The `probability` parameter was deprecated in 1.9 and will be removed in version 1.11. Use `CalibratedClassifierCV(SVC(), ensemble=False)` instead of `SVC(probability=True)`
+  warnings.warn(
+C:\proyectos\tumores-cerebrales\.venv\Lib\site-packages\sklearn\svm\_base.py:236: FutureWarning: The `probability` parameter was deprecated in 1.9 and will be removed in version 1.11. Use `CalibratedClassifierCV(SVC(), ensemble=False)` instead of `SVC(probability=True)`
+  warnings.warn(
+C:\proyectos\tumores-cerebrales\.venv\Lib\site-packages\sklearn\svm\_base.py:236: FutureWarning: The `probability` parameter was deprecated in 1.9 and will be removed in version 1.11. Use `CalibratedClassifierCV(SVC(), ensemble=False)` instead of `SVC(probability=True)`
+  warnings.warn(
+C:\proyectos\tumores-cerebrales\.venv\Lib\site-packages\sklearn\svm\_base.py:236: FutureWarning: The `probability` parameter was deprecated in 1.9 and will be removed in version 1.11. Use `CalibratedClassifierCV(SVC(), ensemble=False)` instead of `SVC(probability=True)`
+  warnings.warn(
+C:\proyectos\tumores-cerebrales\.venv\Lib\site-packages\sklearn\svm\_base.py:236: FutureWarning: The `probability` parameter was deprecated in 1.9 and will be removed in version 1.11. Use `CalibratedClassifierCV(SVC(), ensemble=False)` instead of `SVC(probability=True)`
+  warnings.warn(
+C:\proyectos\tumores-cerebrales\.venv\Lib\site-packages\sklearn\svm\_base.py:236: FutureWarning: The `probability` parameter was deprecated in 1.9 and will be removed in version 1.11. Use `CalibratedClassifierCV(SVC(), ensemble=False)` instead of `SVC(probability=True)`
+  warnings.warn(
+C:\proyectos\tumores-cerebrales\.venv\Lib\site-packages\sklearn\svm\_base.py:236: FutureWarning: The `probability` parameter was deprecated in 1.9 and will be removed in version 1.11. Use `CalibratedClassifierCV(SVC(), ensemble=False)` instead of `SVC(probability=True)`
+  warnings.warn(
+C:\proyectos\tumores-cerebrales\.venv\Lib\site-packages\sklearn\svm\_base.py:236: FutureWarning: The `probability` parameter was deprecated in 1.9 and will be removed in version 1.11. Use `CalibratedClassifierCV(SVC(), ensemble=False)` instead of `SVC(probability=True)`
+  warnings.warn(
+C:\proyectos\tumores-cerebrales\.venv\Lib\site-packages\sklearn\svm\_base.py:236: FutureWarning: The `probability` parameter was deprecated in 1.9 and will be removed in version 1.11. Use `CalibratedClassifierCV(SVC(), ensemble=False)` instead of `SVC(probability=True)`
+  warnings.warn(
+== Gemelas (correlación 64x64 > 0.98) ==
+Imágenes de PRUEBA con al menos una gemela en ENTRENAMIENTO:
+   directa           : 88 de 1213
+   espejo_horizontal : 644 de 1213
+   espejo_vertical   : 113 de 1213
+   giro_180          : 111 de 1213
+   cualquiera        : 666 de 1213 (54.9%)
+   solo por espejo horizontal (sin gemela directa): 564
+   por clase: {'glioma': {False: 253, True: 93}, 'meningioma': {False: 134, True: 195}, 'notumor': {False: 54, True: 139}, 'pituitary': {False: 106, True: 239}}
+Pares gemelos en todo el manifiesto: 4414 · con clase distinta: 5 · con etiqueta tumor/sin tumor distinta: 0
+Grupos de gemelas: 3766 grupos para 6065 imágenes · imágenes en grupos de 2 o más: 4119 · grupo más grande: 31
+Grupos repartidos entre entrenamiento y prueba: 606
+Imágenes de ENTRENAMIENTO con una gemela en OTRO pliegue de la validación cruzada: 2299 de 4852 (47.4%)
+Imágenes de la VALIDACIÓN apartada (umbral y detención temprana) con gemela en su entrenamiento: 376 de 728 (51.6%)
+
+== Métricas de prueba reportadas, separando imágenes con y sin gemela en entrenamiento ==
+                     modelo subconjunto   n  tumores  sin_tumor  fn  fp  sensibilidad  especificidad    auc
+ Logística (rasgos básicos)  con gemela 666      527        139   1  66        0.9981         0.5252 0.9369
+ Logística (rasgos básicos)  sin gemela 547      493         54  29  29        0.9412         0.4630 0.9189
+    Logística (MobileNetV2)  con gemela 666      527        139   0   0        1.0000         1.0000 1.0000
+    Logística (MobileNetV2)  sin gemela 547      493         54  24   5        0.9513         0.9074 0.9885
+Random Forest (MobileNetV2)  con gemela 666      527        139   1   0        0.9981         1.0000 1.0000
+Random Forest (MobileNetV2)  sin gemela 547      493         54  16  12        0.9675         0.7778 0.9754
+      SVM RBF (MobileNetV2)  con gemela 666      527        139   0   0        1.0000         1.0000 1.0000
+      SVM RBF (MobileNetV2)  sin gemela 547      493         54  22   3        0.9554         0.9444 0.9909
+    Red Keras (MobileNetV2)  con gemela 666      527        139   4   0        0.9924         1.0000 1.0000
+    Red Keras (MobileNetV2)  sin gemela 547      493         54  26   3        0.9473         0.9444 0.9911
+
+== Misma receta de modelos, validación cruzada por GRUPOS de gemelas contra la estratificada simple (todas las imágenes del manifiesto) ==
+   Logística (rasgos básicos)   · estratificada simple (como el proyecto) : AUC OOF 0.9280 · especificidad con sensibilidad 0.98 = 0.4964 · errores a ese umbral: FN 102, FP 485
+   Logística (rasgos básicos)   · por grupos de gemelas                   : AUC OOF 0.9171 · especificidad con sensibilidad 0.98 = 0.4881 · errores a ese umbral: FN 102, FP 493
+   Logística (MobileNetV2)      · estratificada simple (como el proyecto) : AUC OOF 0.9946 · especificidad con sensibilidad 0.98 = 0.9678 · errores a ese umbral: FN 102, FP 31
+   Logística (MobileNetV2)      · por grupos de gemelas                   : AUC OOF 0.9922 · especificidad con sensibilidad 0.98 = 0.9585 · errores a ese umbral: FN 102, FP 40
+   SVM RBF (MobileNetV2)        · estratificada simple (como el proyecto) : AUC OOF 0.9974 · especificidad con sensibilidad 0.98 = 0.9813 · errores a ese umbral: FN 102, FP 18
+   SVM RBF (MobileNetV2)        · por grupos de gemelas                   : AUC OOF 0.9952 · especificidad con sensibilidad 0.98 = 0.9730 · errores a ese umbral: FN 102, FP 26

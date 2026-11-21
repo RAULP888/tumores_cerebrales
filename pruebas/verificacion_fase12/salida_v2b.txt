@@ -1,0 +1,22 @@
+== Coincidencia EXACTA de pixeles (resolución completa) entre particiones ==
+   original          : imágenes de prueba cuya variante es idéntica a una imagen de entrenamiento = 0 · pares en todo el manifiesto (variante == original de otra imagen) = 0
+   espejo_horizontal : imágenes de prueba cuya variante es idéntica a una imagen de entrenamiento = 0 · pares en todo el manifiesto (variante == original de otra imagen) = 0
+   espejo_vertical   : imágenes de prueba cuya variante es idéntica a una imagen de entrenamiento = 0 · pares en todo el manifiesto (variante == original de otra imagen) = 0
+   giro_180          : imágenes de prueba cuya variante es idéntica a una imagen de entrenamiento = 0 · pares en todo el manifiesto (variante == original de otra imagen) = 0
+
+== Coincidencia tolerante (miniatura 64x64, correlación) entre prueba y entrenamiento ==
+   original          : > 0.95: 209 · > 0.98: 88 · > 0.99: 61 · > 0.995: 54 · > 0.999: 25
+   espejo_horizontal : > 0.95: 689 · > 0.98: 644 · > 0.99: 628 · > 0.995: 613 · > 0.999: 581
+   espejo_vertical   : > 0.95: 137 · > 0.98: 113 · > 0.99: 99 · > 0.995: 90 · > 0.999: 61
+   giro_180          : > 0.95: 139 · > 0.98: 111 · > 0.99: 95 · > 0.995: 85 · > 0.999: 47
+
+Correlación de cada imagen con SU PROPIO espejo horizontal (64x64): mediana 0.718 · > 0.95: 48 · > 0.99: 0 de 6065
+Prueba donde el espejo de una imagen de entrenamiento se parece > 0.99 y la versión directa de CUALQUIER entrenamiento queda < 0.95: 490
+Prueba con espejo > 0.99: 628 · de ellas, el par en espejo y el par directo son la misma imagen de entrenamiento: 48
+Por clase (espejo > 0.99): {'pituitary': 239, 'meningioma': 193, 'notumor': 103, 'glioma': 93} · clase distinta en el par: 2
+
+Diferencia a resolución completa de pares en espejo (prueba contra espejo de entrenamiento):
+   pares con el mismo tamaño: 622 de 628 · idénticos pixel a pixel: 0 · diferencia absoluta media < 1 nivel de gris: 525 · < 3: 572 · mediana de la diferencia media: 0.79
+Montaje pares_espejo_top.png: 12 pares (de 628)
+Montaje pares_espejo_no_simetricas.png: 12 pares (de 573)
+Montaje pares_espejo_sin_par_directo.png: 12 pares (de 490)

@@ -1,0 +1,224 @@
+[
+  {
+    "punto": 7,
+    "prueba": "POST entrenamiento corto",
+    "ok": true,
+    "evidencia": "{\"entrenamiento_id\":2}"
+  },
+  {
+    "punto": 7,
+    "prueba": "segundo entrenamiento mientras corre -> 409",
+    "ok": true,
+    "evidencia": "409 {\"detail\":\"Ya hay un entrenamiento en curso. Espera a que termine o cancélalo.\"}"
+  },
+  {
+    "punto": 7,
+    "prueba": "corre en un proceso aparte (pid distinto, cmdline reentrenar)",
+    "ok": true,
+    "evidencia": "{'pid': 8048, 'ppid': 40692, 'cmd': 'tos\\\\tumores-cerebrales\\\\.venv\\\\Scripts\\\\python.exe -m app.backend.reentrenar --id 2', 'uvicorn': 38100}"
+  },
+  {
+    "punto": 7,
+    "prueba": "entrenamiento corto termina",
+    "ok": true,
+    "evidencia": "terminado Terminado: candidato v002 (umbral 0.1320) en 44s; vistos={'corriendo', 'en_cola', 'terminado'}"
+  },
+  {
+    "punto": 7,
+    "prueba": "progreso sondeado y avanza",
+    "ok": true,
+    "evidencia": "[(0.0, 'en_cola', 'en_cola', 0, 0.0), (0.6, 'en_cola', 'en_cola', 0, 0.0), (1.1, 'corriendo', 'preparando', 0, 0.0), (43.1, 'corriendo', 'exportando', 3, 0.97), (43.7, 'terminado', 'terminado', 3, 1.0)]"
+  },
+  {
+    "punto": 7,
+    "prueba": "/api/estado responde durante el entrenamiento",
+    "ok": true,
+    "evidencia": "n=46 mediana=529.2 ms máx=2067.4 ms (base mediana=360.1 ms); predicción durante=('v001', 1020.1410999943619)"
+  },
+  {
+    "punto": 7,
+    "prueba": "historial_epocas por época (3 filas, cabeza)",
+    "ok": true,
+    "evidencia": "[{'etapa': 'cabeza', 'epoca': 1, 'perdida': 0.7690411806106567, 'perdida_val': 0.36750978231430054, 'exactitud_val': 0.9514563083648682, 'tasa_aprendizaje': 0.0010000000474974513}, {'etapa': 'cabeza', 'epoca': 2, 'perdida': 0.338896244764328, 'perdida_val': 0.30451101064682007, 'exactitud_val': 0.9538834691047668, 'tasa_aprendizaje': 0.0010000000474974513}, {'etapa': 'cabeza', 'epoca': 3, 'perdida': 0.25102484226226807, 'perdida_val': 0.28573453426361084, 'exactitud_val': 0.958737850189209, 'tasa_aprendizaje': 0.0010000000474974513}]"
+  },
+  {
+    "punto": 7,
+    "prueba": "detalle trae historial = base",
+    "ok": true,
+    "evidencia": "3"
+  },
+  {
+    "punto": 7,
+    "prueba": "diagnóstico, explicación, métricas, matriz",
+    "ok": true,
+    "evidencia": "diag=se detuvo antes de converger; mejor_epoca=3; matriz=[[35, 7], [7, 363]]; metricas={'origen': 'validacion', 'n': 412, 'sensibilidad': 0.981081081081081, 'especificidad': 0.8333333333333334, 'auc': 0.9896396396396396, 'confirmadas_encontradas': 1, 'confirmadas_excluidas_por_prueba': 1, 'confirmadas_usadas': 0}"
+  },
+  {
+    "punto": 7,
+    "prueba": "matriz = vn,fp,fn,vp de las métricas",
+    "ok": true,
+    "evidencia": "[[35, 7], [7, 363]]"
+  },
+  {
+    "punto": 7,
+    "prueba": "métricas del candidato en validación, no en prueba",
+    "ok": true,
+    "evidencia": "validacion"
+  },
+  {
+    "punto": 7,
+    "prueba": "la imagen confirmada de PRUEBA se excluyó del reentrenamiento",
+    "ok": true,
+    "evidencia": "{'confirmadas_encontradas': 1, 'confirmadas_excluidas_por_prueba': 1, 'confirmadas_usadas': 0}"
+  },
+  {
+    "punto": 7,
+    "prueba": "curvas PNG descargables",
+    "ok": true,
+    "evidencia": "74798 bytes"
+  },
+  {
+    "punto": 7,
+    "prueba": "candidato nuevo en dim_modelo",
+    "ok": true,
+    "evidencia": "[{'modelo_id': 6, 'version': 'v002', 'estado': 'candidato', 'umbral': 0.13204701989889145, 'sensibilidad': 0.981081081081081, 'origen_metricas': 'validacion', 'entrenamiento_id': 2}]"
+  },
+  {
+    "punto": 7,
+    "prueba": "info.json del candidato: metricas_prueba null",
+    "ok": true,
+    "evidencia": "Modelo candidato: se evaluó en validación, no en el conjunto de prueba."
+  },
+  {
+    "punto": 7,
+    "prueba": "app/modelos real no recibió versiones nuevas",
+    "ok": true,
+    "evidencia": "['.gitkeep', 'v001']"
+  },
+  {
+    "punto": 7,
+    "prueba": "n_entrenamiento + n_validacion == filas no-prueba del manifiesto (+ confirmadas usadas)",
+    "ok": true,
+    "evidencia": "2468+412 vs no_prueba=2880 conf_usadas=0"
+  },
+  {
+    "punto": 7,
+    "prueba": "cancelar a la mitad -> cancelado",
+    "ok": true,
+    "evidencia": "{'hecho': True, 'codigo': 200, 'epoca': 4, 'nuevo_mientras_se_detiene': 409} estado=cancelado etapa=cancelado época=5/60"
+  },
+  {
+    "punto": 7,
+    "prueba": "diagnóstico del cancelado no dice 'convergió'",
+    "ok": true,
+    "evidencia": "diagnostico='cancelado' explicacion='El entrenamiento se canceló antes de terminar; no se generó un modelo candidato.'"
+  },
+  {
+    "punto": 7,
+    "prueba": "cancelado sin candidato ni curvas",
+    "ok": true,
+    "evidencia": "(None, None)"
+  },
+  {
+    "punto": 7,
+    "prueba": "nuevo entrenamiento mientras el cancelado aún se detiene -> 409 (o 200 si ya terminó)",
+    "ok": true,
+    "evidencia": "409"
+  },
+  {
+    "punto": 7,
+    "prueba": "cancelar uno ya cancelado -> 409",
+    "ok": true,
+    "evidencia": "409"
+  },
+  {
+    "punto": 7,
+    "prueba": "aprobar candidato",
+    "ok": true,
+    "evidencia": "{\"ok\":true,\"version\":\"v002\",\"modelo_id\":6}"
+  },
+  {
+    "punto": 7,
+    "prueba": "tras aprobar: /api/estado y predicción usan la versión nueva",
+    "ok": true,
+    "evidencia": "estado={'cargado': True, 'version': 'v002', 'nombre': 'Red Keras (MobileNetV2)', 'umbral': 0.13204701989889145} pred=v002 umbral=0.13204701989889145"
+  },
+  {
+    "punto": 7,
+    "prueba": "v001 pasó a retirado",
+    "ok": true,
+    "evidencia": "{'v001': 'retirado', 'v002': 'produccion'}"
+  },
+  {
+    "punto": 7,
+    "prueba": "aprobar de nuevo (ya en producción) -> 409",
+    "ok": true,
+    "evidencia": "409"
+  },
+  {
+    "punto": 7,
+    "prueba": "aprobar un clásico -> 409",
+    "ok": true,
+    "evidencia": "409 {\"detail\":\"Solo se puede aprobar un modelo candidato de la red.\"}"
+  },
+  {
+    "punto": 7,
+    "prueba": "revertir regresa a v001 y la predicción la usa",
+    "ok": true,
+    "evidencia": "{\"ok\":true,\"version\":\"v001\",\"modelo_id\":5} estado=v001 pred=v001"
+  },
+  {
+    "punto": 7,
+    "prueba": "estados tras revertir",
+    "ok": true,
+    "evidencia": "{'v001': 'produccion', 'v002': 'retirado'}"
+  },
+  {
+    "punto": 7,
+    "prueba": "kfold=true: 5 filas en metricas_pliegue",
+    "ok": true,
+    "evidencia": "estado=terminado filas=[{'pliegue': 1, 'sensibilidad': 0.9787234042553191, 'especificidad': 0.7796610169491526, 'vp': 506, 'vn': 46, 'fp': 13, 'fn': 11}, {'pliegue': 2, 'sensibilidad': 0.9864603481624759, 'especificidad': 0.864406779661017, 'vp': 510, 'vn': 51, 'fp': 8, 'fn': 7}, {'pliegue': 3, 'sensibilidad': 0.9826254826254827, 'especificidad': 0.7966101694915254, 'vp': 509, 'vn': 47, 'fp': 12, 'fn': 9}, {'pliegue': 4, 'sensibilidad': 0.9748549323017408, 'especificidad': 0.9310344827586207, 'vp': 504, 'vn': 54, 'fp': 4, 'fn': 13}, {'pliegue': 5, 'sensibilidad': 0.9787234042553191, 'especificidad': 0.9322033898305084, 'vp': 506, 'vn': 55, 'fp': 4, 'fn': 11}]"
+  },
+  {
+    "punto": 7,
+    "prueba": "pliegues suman las imágenes no-prueba (+confirmadas)",
+    "ok": true,
+    "evidencia": "2880 vs 2880"
+  },
+  {
+    "punto": 7,
+    "prueba": "historial kfold con pliegue_1..5 y cabeza",
+    "ok": true,
+    "evidencia": "['cabeza', 'pliegue_1', 'pliegue_2', 'pliegue_3', 'pliegue_4', 'pliegue_5']"
+  },
+  {
+    "punto": 6,
+    "prueba": "bitácora ENTRENAMIENTO_INICIADO",
+    "ok": true,
+    "evidencia": "n=3 con usuario/rol/ip=3 ejemplo={'usuario': 'admin1', 'rol': 'administrador', 'ip': '127.0.0.1', 'exito': 1, 'detalle': 'Entrenamiento 4: {\"epocas_max\": 3, \"tasa\": 0.001, \"lote\": 64, \"kfold\": true, \"ajuste_fino\": false, \"paciencia\": 8}'}"
+  },
+  {
+    "punto": 6,
+    "prueba": "bitácora ENTRENAMIENTO_TERMINADO",
+    "ok": true,
+    "evidencia": "n=2 con usuario/rol/ip=0 ejemplo={'usuario': None, 'rol': None, 'ip': None, 'exito': 1, 'detalle': \"Entrenamiento 4: candidato v003, diagnóstico 'se detuvo antes de converger', sensibilidad val 0.970\"}"
+  },
+  {
+    "punto": 6,
+    "prueba": "bitácora ENTRENAMIENTO_CANCELADO",
+    "ok": true,
+    "evidencia": "n=2 con usuario/rol/ip=1 ejemplo={'usuario': None, 'rol': None, 'ip': None, 'exito': 1, 'detalle': 'Entrenamiento 3: se detuvo (época 5)'}"
+  },
+  {
+    "punto": 6,
+    "prueba": "bitácora MODELO_APROBADO",
+    "ok": true,
+    "evidencia": "n=1 con usuario/rol/ip=1 ejemplo={'usuario': 'admin1', 'rol': 'administrador', 'ip': '127.0.0.1', 'exito': 1, 'detalle': 'Producción: v001 -> v002'}"
+  },
+  {
+    "punto": 6,
+    "prueba": "bitácora MODELO_REVERTIDO",
+    "ok": true,
+    "evidencia": "n=1 con usuario/rol/ip=1 ejemplo={'usuario': 'admin1', 'rol': 'administrador', 'ip': '127.0.0.1', 'exito': 1, 'detalle': 'Producción: v002 -> v001'}"
+  }
+]

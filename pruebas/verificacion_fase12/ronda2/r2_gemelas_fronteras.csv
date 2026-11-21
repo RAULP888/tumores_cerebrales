@@ -1,0 +1,5 @@
+frontera,n,mayor_0.98,mayor_0.95,mayor_0.9,maxima
+prueba <-> entrenamiento,733,0,69,340,0.9746920466423035
+validación apartada (15 %) <-> su entrenamiento,440,0,32,191,0.9772170782089233
+entre pliegues (cada imagen contra los otros 4),2930,2,223,1282,0.9847336411476135
+dentro de todo el manifiesto (cualquier otra imagen),3663,4,416,1967,0.9872254729270935

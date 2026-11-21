@@ -1,0 +1,14 @@
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1795214985.179540   12892 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1795214988.506492   12892 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+WARNING:tensorflow:TensorFlow GPU support is not available on native Windows for TensorFlow >= 2.11. Even if CUDA/cuDNN are installed, GPU will not be used. Please use WSL2 or the TensorFlow-DirectML plugin.
+Subconjunto: 600 imágenes de entrenamiento (450 / 150) · tumores: 510
+Llamadas al callback: [('cabeza', 1), ('cabeza', 2)]
+Claves de registros: ['accuracy', 'learning_rate', 'loss', 'val_accuracy', 'val_loss']
+Épocas en el historial: 2 · cancelado: True
+Se detuvo en la época 2: True · marca cancelado: True
+El modelo devuelto predice (probabilidades finitas): True · val_loss por época: [0.5263, 0.4288]
+Control sin cancelar: épocas 5 · cancelado: False
+Control devolviendo True: épocas 3 · cancelado: False
+kfold_cabeza cancelado en la época 2 del primer pliegue: cancelado = True · pliegues hechos: 1 · llamadas: [1, 2] · predicciones OOF sin llenar (NaN): 400 de 600

@@ -1,0 +1,7 @@
+C:\proyectos\tumores-cerebrales\.venv\Lib\site-packages\sklearn\svm\_base.py:236: FutureWarning: The `probability` parameter was deprecated in 1.9 and will be removed in version 1.11. Use `CalibratedClassifierCV(SVC(), ensemble=False)` instead of `SVC(probability=True)`
+  warnings.warn(
+Rasgos básicos recalculados (500 imágenes): diferencia máxima 4.35e-08
+Logística (rasgos básicos): Pipeline con StandardScaler = True · .joblib contra CSV dif máx = 0.00e+00 · reentrenado solo con entrenamiento contra CSV dif máx = 0.00e+00 · media del escalador: dif con entrenamiento 4.0e-07, con todo el conjunto 1.1e-03 · OOF recalculado contra CSV dif máx = 0.00e+00
+Logística (MobileNetV2): Pipeline con StandardScaler = True · .joblib contra CSV dif máx = 0.00e+00 · reentrenado solo con entrenamiento contra CSV dif máx = 0.00e+00 · media del escalador: dif con entrenamiento 6.4e-06, con todo el conjunto 1.6e-02 · OOF recalculado contra CSV dif máx = 0.00e+00
+Random Forest (MobileNetV2): Pipeline con StandardScaler = True · .joblib contra CSV dif máx = 0.00e+00 · reentrenado solo con entrenamiento contra CSV dif máx = 0.00e+00 · media del escalador: dif con entrenamiento 6.4e-06, con todo el conjunto 1.6e-02 · OOF recalculado contra CSV dif máx = 0.00e+00
+SVM RBF (MobileNetV2): Pipeline con StandardScaler = True · .joblib contra CSV dif máx = 0.00e+00 · reentrenado solo con entrenamiento contra CSV dif máx = 0.00e+00 · media del escalador: dif con entrenamiento 6.4e-06, con todo el conjunto 1.6e-02

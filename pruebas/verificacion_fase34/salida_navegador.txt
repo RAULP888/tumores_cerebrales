@@ -1,0 +1,102 @@
+PASA  [9] título exacto de bienvenida :: Bienvenido al Sistema de Apoyo para Detección de Tumores Cerebrales
+PASA  [9] botón 'Iniciar' visible :: Iniciar
+PASA  [9] login doctor muestra panel del doctor :: doctor1
+PASA  [9] cookie de sesión no visible para JavaScript (HttpOnly) :: ''
+PASA  [9] identificador XSS no ejecuta ni crea <img src=x> :: El identificador debe tener el formato PAC-0001 (de 2 a 5 letras mayúsculas, guion y de 1 a 6 dígitos).
+PASA  [9] tarjetas de resultado (la interfaz acumula la imagen del intento anterior: 1 + 2 = 3) :: 3
+PASA  [9] tarjeta 0: etiqueta válida :: Se detecta posible tumor
+PASA  [9] tarjeta 0: porcentaje :: 99.9 %
+PASA  [9] tarjeta 0: tipo probable :: Tipo más probable: Meningioma (53 %)
+PASA  [9] tarjeta 0: imagen y Grad-CAM con rótulo 'Zona que más influyó' :: ['Imagen original', 'Zona que más influyó']
+PASA  [9] tarjeta 0: las 2 imágenes cargan :: [160, 160]
+PASA  [9] tarjeta 0: versión del modelo :: 
+PASA  [9] tarjeta 0: aviso exacto :: Resultado de apoyo. No sustituye el diagnóstico de un médico especialista.
+PASA  [9] tarjeta 0: 'ubicación del tumor' no aparece :: 
+PASA  [9] tarjeta 1: etiqueta válida :: Se detecta posible tumor
+PASA  [9] tarjeta 1: porcentaje :: 99.9 %
+PASA  [9] tarjeta 1: tipo probable :: Tipo más probable: Meningioma (53 %)
+PASA  [9] tarjeta 1: imagen y Grad-CAM con rótulo 'Zona que más influyó' :: ['Imagen original', 'Zona que más influyó']
+PASA  [9] tarjeta 1: las 2 imágenes cargan :: [160, 160]
+PASA  [9] tarjeta 1: versión del modelo :: 
+PASA  [9] tarjeta 1: aviso exacto :: Resultado de apoyo. No sustituye el diagnóstico de un médico especialista.
+PASA  [9] tarjeta 1: 'ubicación del tumor' no aparece :: 
+PASA  [9] tarjeta 2: etiqueta válida :: No se detecta tumor
+PASA  [9] tarjeta 2: porcentaje :: 99.7 %
+PASA  [9] tarjeta 2: sin tipo cuando no hay tumor :: 
+PASA  [9] tarjeta 2: imagen y Grad-CAM con rótulo 'Zona que más influyó' :: ['Imagen original', 'Zona que más influyó']
+PASA  [9] tarjeta 2: las 2 imágenes cargan :: [160, 160]
+PASA  [9] tarjeta 2: versión del modelo :: 
+PASA  [9] tarjeta 2: aviso exacto :: Resultado de apoyo. No sustituye el diagnóstico de un médico especialista.
+PASA  [9] tarjeta 2: 'ubicación del tumor' no aparece :: 
+PASA  [9] nombre de archivo XSS se muestra como texto :: ['Tr-gl_100.jpg', 'Tr-gl_100.jpg', '<img src=x onerror=alert(1)>.jpg']
+PASA  [9] confirmación 'No estoy de acuerdo' desde la tarjeta :: Confirmación registrada: en desacuerdo con el resultado. Diagnóstico real indicado: Sin tumor. opciones=['Sin tumor']
+PASA  [9] historial muestra el estudio PAC-3003 :: 35 estudios
+PASA  [9] filtro de historial 'desacuerdo' :: 35 estudios
+PASA  [9] filtro con XSS no ejecuta :: 0 estudios
+PASA  [9] resumen del administrador con indicadores :: Estudios registrados
+
+36
+
+Estudios de hoy
+
+36
+
+Con posible tumor
+
+44.4 %
+
+16 de 36 estudios
+
+Confirmados por un doctor
+
+4
+
+Desacuerdos del doctor
+
+4
+
+El doctor no coincidió con el sistema
+
+Falsos nega
+PASA  [9] reentrenar desde la interfaz con progreso y resultado :: estado=Terminado; vistos=[('En cola', '0 %'), ('En curso', '0 %'), ('En curso', '95 %'), ('En curso', '97 %'), ('Terminado', '100 %')]; detalle=Resultado del entrenamiento #7
+Versión generada: v006
+
+Las métricas del candidato son de validación (datos apartados del entrenamiento), no del conjunto de 
+PASA  [9] curvas visibles en el resultado :: [1690]
+PASA  [9] versiones del modelo :: Versión	Nombre	Tipo	Estado	Umbral	Sensibilidad	Especificidad	F1	AUC	Fecha	Acciones
+logistica_basica	Logística (rasgos básicos)	Clásico	
+Referencia	0.02	97.7 %	30.1 %	0.950	0.939	21 nov 2026, 04:35 a.m.	—
+logistica_mobilenet	Logística (MobileNetV2)	Clásico	
+Referencia	0.63	97.8 %	86.3 %	0.981	0.981	2
+PASA  [9] umbral con vista previa (cambia al mover el valor) :: antes='Indicador\tUmbral actual (0.5205)\tUmbral propuesto (0.5205)\tCambio\nFalsos negativos (tumores no detectados)\t51\t51\tSin cambio\nFalsos positivos (falsas a' despues='Indicador\tUmbral actual (0.5205)\tUmbral propuesto (0.3)\tCambio\nFalsos negativos (tumores no detectados)\t51\t35\t −16 ca
+PASA  [9] usuarios :: Usuario	Rol	Estado	Creado	Acciones
+doctor1	Doctor	
+Activo	21 nov 2026, 04:41 a.m.	
+Desactivar
+Cambiar contraseña
+
+doctor2	Doctor	
+Activo	21 nov 2026, 04:41 a.m.	
+Desactivar
+Cambiar contraseña
+
+admin1	
+PASA  [9] bitácora :: 104 eventos
+PASA  [9] sección Power BI :: Todavía no hay un tablero de Power BI configurado.
+
+Cómo configurarlo
+Construya el informe en Power BI Desktop siguiendo tablero/GUIA_POWER_BI.md y publíquelo en el servicio de Power BI.
+En el servici
+PASA  [9] asistente responde (Fase 5 pendiente) sin XSS :: Respuesta
+Error
+
+Pregunta: ¿Cuántos estudios hay? <img src=x onerror=alert(1)>
+
+El asistente de consultas se habilita en la Fase 5.
+PASA  [9] la clave falsa no aparece en el DOM :: 
+PASA  [9] sin peticiones a dominios externos :: []
+PASA  [9] sin errores de JavaScript (pageerror) :: []
+PASA  [9] sin diálogos (alert) disparados :: []
+FALLA [9] consola sin errores :: ['error: Failed to load resource: the server responded with a status of 401 (Unauthorized)']
+Respuestas HTTP >= 400: ['401 GET http://127.0.0.1:8765/api/yo']
+TOTAL 49; fallas 1

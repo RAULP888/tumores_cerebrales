@@ -1,0 +1,50 @@
+Manifiesto: 6065 filas · duplicados.csv: 1761 filas
+
+== Estructura del manifiesto ==
+Rutas repetidas: 0
+Rutas que no existen: 0
+Prefijo distinto de 'datos': 0
+carpeta_origen != carpeta real: 0
+clase != carpeta real: 0
+es_tumor incoherente con clase: 0
+Valores de particion: {'entrenamiento': 4852, 'prueba': 1213}
+particion   entrenamiento  prueba  frac_prueba
+clase                                         
+glioma               1382     346     0.200231
+meningioma           1319     329     0.199636
+notumor               770     193     0.200415
+pituitary            1381     345     0.199884
+Fracción de prueba global: 0.20000
+Filas cuya partición difiere de train_test_split(test_size=0.2, stratify=clase, random_state=42): 0
+
+Archivos en disco: 7200 · en manifiesto: 6065 · quitados según duplicados.csv: 1135
+En manifiesto y a la vez quitados: 0
+En disco pero ni en manifiesto ni quitados: 0
+En manifiesto pero no en disco: 0
+
+== Huellas recalculadas desde los archivos (6065 imágenes; 4852 entrenamiento, 1213 prueba) ==
+(a) SHA-256 de los bytes del archivo: valores compartidos entre particiones = 0 (imágenes de prueba afectadas: 0) · valores repetidos en todo el manifiesto = 0
+(b) SHA-256 de los pixeles decodificados (PIL, RGB): valores compartidos entre particiones = 0 (imágenes de prueba afectadas: 0) · valores repetidos en todo el manifiesto = 0
+(c1) pHash-DCT 64 bits, imagen completa: valores compartidos entre particiones = 43 (imágenes de prueba afectadas: 44) · valores repetidos en todo el manifiesto = 141
+(c2) pHash-DCT 64 bits, recorte propio: valores compartidos entre particiones = 20 (imágenes de prueba afectadas: 21) · valores repetidos en todo el manifiesto = 79
+pHash imagen completa: imágenes de prueba con distancia de Hamming mínima a entrenamiento <= 0: 44 · <= 2: 156 · <= 4: 395 · <= 6: 657 · <= 8: 889
+pHash recorte propio: imágenes de prueba con distancia de Hamming mínima a entrenamiento <= 0: 21 · <= 2: 101 · <= 4: 268 · <= 6: 467 · <= 8: 711
+
+Columna sha256 del manifiesto distinta de la recalculada con la receta del autor: 0
+imagenes_160.npy: filas cuyo SHA-256 difiere de sha256_preparada del manifiesto: 0
+SHA-256 de la imagen preparada guardada (imagenes_160.npy): valores compartidos entre particiones = 0 (imágenes de prueba afectadas: 0) · valores repetidos en todo el manifiesto = 0
+
+== Imágenes de prueba casi idénticas a alguna de entrenamiento ==
+Correlación de pixeles, miniatura 32x32 imagen completa (mediana del máximo 0.941):
+   directa : > 0.9: 898 · > 0.95: 492 · > 0.97: 221 · > 0.98: 131 · > 0.99: 82 · > 0.995: 63 · > 0.999: 41
+   espejo  : > 0.9: 921 · > 0.95: 768 · > 0.97: 689 · > 0.98: 661 · > 0.99: 642 · > 0.995: 626 · > 0.999: 595
+Correlación de pixeles, miniatura 32x32 recorte propio (mediana del máximo 0.895):
+   directa : > 0.9: 572 · > 0.95: 229 · > 0.97: 99 · > 0.98: 65 · > 0.99: 46 · > 0.995: 30 · > 0.999: 17
+   espejo  : > 0.9: 733 · > 0.95: 592 · > 0.97: 531 · > 0.98: 502 · > 0.99: 458 · > 0.995: 395 · > 0.999: 247
+Cualquiera de las cuatro variantes: > 0.9: 1015 · > 0.95: 835 · > 0.97: 721 · > 0.98: 682 · > 0.99: 657 · > 0.995: 638 · > 0.999: 603
+Similitud coseno de rasgos MobileNetV2 (máximo contra entrenamiento): > 0.95: 294 · > 0.98: 26 · > 0.99: 9 · > 0.995: 6 · > 0.999: 0
+Prueba con correlación de pixeles (recorte) > 0.98 Y coseno > 0.98: 13
+Prueba con correlación de pixeles (cualquiera) > 0.98 O coseno > 0.98: 691
+Pares con correlación (recorte) > 0.98: 65 · con clase distinta entre prueba y su par: 0
+Por clase de la imagen de prueba (corr recorte > 0.98): {'notumor': 57, 'meningioma': 8}
+Montajes guardados en C:\proyectos\tumores-cerebrales\pruebas\verificacion_fase12

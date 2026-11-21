@@ -1,0 +1,2 @@
+﻿entrenamiento_id,estado,epocas_max,epoca_actual,mejor_epoca,diagnostico,iniciado_en,terminado_en,version,solicitado_por
+1,terminado,60,20,12,convergió,2026-11-21 04:35:26.000000,2026-11-21 04:35:26.000000,v001,

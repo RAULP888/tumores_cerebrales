@@ -1,0 +1,4 @@
+﻿usuario_id,usuario,rol,activo
+1,doctor1,doctor,TRUE
+2,doctor2,doctor,TRUE
+3,admin1,administrador,TRUE

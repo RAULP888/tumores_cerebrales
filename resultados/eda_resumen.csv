@@ -1,0 +1,17 @@
+concepto,valor
+imagenes_en_carpetas,7200
+ilegibles,0
+demasiado_pequenas,0
+quitadas_por_aumento_del_dataset,203
+quitadas_por_etiqueta_contradictoria,34
+pares_contradictorios,27
+quitadas_por_copia_exacta,215
+quitadas_por_casi_identica,409
+quitadas_por_espejo_o_giro,2739
+quitadas_total,3600
+recuperadas_frente_al_metodo_encadenado,90
+imagenes_limpias,3600
+grupos_de_similitud,3258
+grupo_de_similitud_mas_grande,10
+entrenamiento,2880
+prueba,720

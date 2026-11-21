@@ -1,0 +1,1 @@
+{"ids_doctor1": [3601, 3602], "pid_desacuerdo": 3602, "pid_doctor2": 3603, "con_tumor": "datos/Training/glioma/Tr-gl_100.jpg", "sin_tumor": "datos/Training/notumor/Tr-no_100.jpg"}

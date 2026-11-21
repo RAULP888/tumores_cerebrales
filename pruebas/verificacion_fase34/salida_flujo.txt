@@ -1,0 +1,140 @@
+Imágenes de prueba: datos/Training/glioma/Tr-gl_100.jpg datos/Training/notumor/Tr-no_100.jpg
+PASA  [3] login doctor1 200 :: {"usuario_id":1,"usuario":"doctor1","rol":"doctor"}
+PASA  [4] cookie ts_sesion con HttpOnly y SameSite=Lax :: ts_sesion=-KoZtRUQ3PAPMh912lLK...APMh912lLKAz3Z1GLf-CSwOofRZ0kFg2Q; HttpOnly; Max-Age=28800; Path=/; SameSite=lax
+PASA  [3] POST /api/estudios 200 :: 200
+PASA  [3] 2 resultados válidos + 1 error para el .txt :: [{"archivo": "notas.txt", "error": "El archivo no es una imagen JPG o PNG."}]
+PASA  [3] campos del contrato (Tr-gl_100.jpg) :: faltan=set()
+PASA  [3] aviso exacto (Tr-gl_100.jpg) :: Resultado de apoyo. No sustituye el diagnóstico de un médico especialista.
+PASA  [3] hay_tumor == (p >= umbral) y etiqueta (Tr-gl_100.jpg) :: p=0.999274 umbral=0.520507 etiqueta=Se detecta posible tumor
+PASA  [3] confianza coherente (Tr-gl_100.jpg) :: 0.9992740154266357
+PASA  [3] tipo_* presente si hay tumor :: Meningioma
+PASA  [3] probabilidad vs predicciones_prueba.csv Red Keras (Tr-gl_100.jpg) :: api=0.9992740 csv=0.9992740 dif=0.00e+00
+PASA  [3] /media imagen_url PNG (Tr-gl_100.jpg) :: /media/d414c360fa613c54dca0e5daf1426285_img.png -> 200 45517 bytes
+PASA  [3] /media gradcam_url PNG (Tr-gl_100.jpg) :: /media/26f63bd33fb233d189d7012e8a15ad9c_cam.png -> 200 45819 bytes
+PASA  [3] campos del contrato (Tr-no_100.jpg) :: faltan=set()
+PASA  [3] aviso exacto (Tr-no_100.jpg) :: Resultado de apoyo. No sustituye el diagnóstico de un médico especialista.
+PASA  [3] hay_tumor == (p >= umbral) y etiqueta (Tr-no_100.jpg) :: p=0.003480 umbral=0.520507 etiqueta=No se detecta tumor
+PASA  [3] confianza coherente (Tr-no_100.jpg) :: 0.9965201676823199
+PASA  [3] tipo_* nulo si no hay tumor :: {'prediccion_id': 3602, 'archivo': 'Tr-no_100.jpg', 'hay_tumor': False, 'etiqueta': 'No se detecta tumor', 'probabilidad_tumor': 0.0034798323176801205, 'confianza': 0.9965201676823199, 'umbral': 0.5205068290233612, 'tipo_probable': None, 'tipo_nombre': None, 'probabilidad_tipo': None, 'imagen_url': 
+PASA  [3] probabilidad vs predicciones_prueba.csv Red Keras (Tr-no_100.jpg) :: api=0.0034798 csv=0.0034798 dif=4.14e-08
+PASA  [3] /media imagen_url PNG (Tr-no_100.jpg) :: /media/7793ee5d018ddb0f3f2bc4c4538536e3_img.png -> 200 44946 bytes
+PASA  [3] /media gradcam_url PNG (Tr-no_100.jpg) :: /media/440c3402f774d5ab31eb9b62ba5a76f7_cam.png -> 200 44088 bytes
+PASA  [3] consulta SQL parametrizada recupera las 2 filas :: [{"prediccion_id": 3601, "identificador": "PAC-9001", "fecha": "2026-11-20", "doctor": "doctor1", "modelo": "v001", "probabilidad_tumor": 0.9992740154266357, "umbral": 0.5205068290233612, "tiempo_respuesta_ms": 547.9, "origen": "uso", "predicho": "tumor"}, {"prediccion_id": 3602, "identificador": "P
+PASA  [3] confirmación desacuerdo 200 :: {"prediccion_id":3602,"creado_en":"2026-11-21T04:43:47","identificador":"PAC-9001","edad":45,"sexo":"F","fecha_estudio":"2026-11-20","hay_tumor":false,"etiqueta":"No se detecta tumor","probabilidad_tumor":0.0034798323176801205,"confianza":0.9965201676823199,"tipo_nombre":null,"modelo_version":"v001"
+PASA  [3] confirmación guardada en la base :: [{'de_acuerdo': 0, 'clave': 'meningioma'}]
+PASA  [3] de_acuerdo=true contradictorio -> 422 :: {"detail":"Marcaste 'de acuerdo' pero el diagnóstico real contradice el resultado del sistema."}
+PASA  [3] diagnóstico real inválido -> 422 :: {"detail":"diagnostico_real debe ser una de: sin_tumor, tumor, glioma, meningioma, pituitary"}
+PASA  [3] intentos rechazados no alteran la confirmación :: [{'de_acuerdo': 0}]
+PASA  [3] historial doctor1 ve sus 2 estudios :: n=2
+PASA  [3] filtro confirmacion=desacuerdo :: {"estudios":[{"prediccion_id":3602,"creado_en":"2026-11-21T04:43:47","identificador":"PAC-9001","edad":45,"sexo":"F","fecha_estudio":"2026-11-20","hay_tumor":false,"etiqueta":"No se detecta tumor","pr
+PASA  [3] filtro confirmacion=pendiente :: {"estudios":[{"prediccion_id":3601,"creado_en":"2026-11-21T04:43:46","identificador":"PAC-9001","edad":45,"sexo":"F","fecha_estudio":"2026-11-20","hay_tumor":true,"etiqueta":"Se detecta posible tumor"
+PASA  [3] filtro resultado :: {"estudios":[{"prediccion_id":3601,"creado_en":"2026-11-21T04:43:46","identificador":"PAC-9001","edad":45,"sexo":"F","fecha_estudio":"2026-11-20","hay_tumor":true,"etiqueta":"Se detecta posible tumor"
+PASA  [3] filtro identificador (minúsculas) + fechas :: 2
+PASA  [3] filtro desde futuro -> vacío :: {"estudios":[]}
+PASA  [3] limite=1 :: 1
+PASA  [3] doctor2 no ve estudios de doctor1 :: [(3603, 'doctor2')]
+PASA  [3] doctor2 filtrando por paciente de doctor1 -> vacío :: {"estudios":[]}
+PASA  [4] doctor2 pide imagen de doctor1 -> 403 :: 403
+PASA  [4] doctor2 pide gradcam de doctor1 -> 403 :: 403
+PASA  [4] doctor2 confirma estudio de doctor1 -> 403 :: 403
+PASA  [4] doctor en cada /api/admin/* -> 403 :: [('GET', '/api/admin/resumen', 403), ('POST', '/api/admin/entrenamientos', 403), ('GET', '/api/admin/entrenamientos', 403), ('GET', '/api/admin/entrenamientos/1', 403), ('GET', '/api/admin/entrenamientos/1/curvas', 403), ('POST', '/api/admin/entrenamientos/1/cancelar', 403), ('GET', '/api/admin/mode
+PASA  [4] cada intento quedó como ACCESO_DENEGADO (usuario, rol, ip, exito=0) :: nuevos=16 de 16; ejemplo=[{'usuario': 'doctor1', 'rol': 'doctor', 'ip': '127.0.0.1', 'exito': 0, 'detalle': 'POST /api/admin/asistente'}, {'usuario': 'doctor1', 'rol': 'doctor', 'ip': '127.0.0.1', 'exito': 0, 'detalle': 'GET /api/admin/bitacora'}]
+PASA  [4] doctor no creó usuario 'intruso' ni se volvió admin :: [{'usuario': 'doctor1', 'rol': 'doctor'}, {'usuario': 'doctor2', 'rol': 'doctor'}, {'usuario': 'admin1', 'rol': 'administrador'}]
+PASA  [4] umbral no cambió por el doctor :: 
+PASA  [4] sin sesión -> 401 en protegidas y /media :: [('GET', '/api/yo', 401), ('GET', '/api/estudios', 401), ('POST', '/api/estudios', 401), ('POST', '/api/estudios/3602/confirmacion', 401), ('GET', '/api/admin/resumen', 401), ('GET', '/api/admin/bitacora', 401), ('PUT', '/api/admin/umbral', 401), ('POST', '/api/admin/entrenamientos', 401), ('GET', '
+C:\proyectos\tumores-cerebrales\pruebas\verificacion_fase34\flujo.py:40: DeprecationWarning: Setting per-request cookies=<...> is being deprecated, because the expected behaviour on cookie persistence is ambiguous. Set cookies directly on the client instance instead.
+  r = super().request(*a, **k)
+PASA  [4] cookie inventada -> 401 :: 401
+PASA  [4] login con rol equivocado -> 403 :: {"detail":"Este usuario no tiene el rol elegido."}
+PASA  [4] admin con rol doctor -> 403 :: {"detail":"Este usuario no tiene el rol elegido."}
+PASA  [4] contraseña mala -> 401 y LOGIN_FALLIDO :: 401 [{'usuario': 'doctor1', 'ip': '127.0.0.1', 'exito': 0, 'detalle': 'Intento fallido: contraseña incorrecta'}]
+PASA  [4] usuario inexistente -> 401 mismo mensaje :: {"detail":"Usuario o contraseña incorrectos."}
+PASA  [4] la contraseña mala no se guardó en la bitácora :: 
+PASA  [4] login admin1 :: {"usuario_id":3,"usuario":"admin1","rol":"administrador"}
+PASA  [6] admin crea usuario doctor3 :: {"usuario_id":4,"usuario":"doctor3","rol":"doctor","activo":true,"creado_en":"2026-11-21T04:43:50"}
+PASA  [4] doctor3 entra mientras está activo :: 200
+PASA  [6] admin desactiva doctor3 :: {"usuario_id":4,"usuario":"doctor3","rol":"doctor","activo":false,"creado_en":"2026-11-21T04:43:50"}
+PASA  [4] sesión abierta de doctor3 se invalida al desactivarlo :: 401
+PASA  [4] usuario desactivado no puede entrar :: {"detail":"Usuario o contraseña incorrectos."}
+PASA  [4] contraseña corta rechazada :: {"detail":"La contraseña debe tener entre 8 y 72 caracteres."}
+PASA  [4] admin no puede desactivarse a sí mismo :: {"detail":"No puedes desactivarte ni quitarte el rol de administrador a ti mismo."}
+PASA  [4] GET usuarios sin hash :: {"usuarios":[{"usuario_id":1,"usuario":"doctor1","rol":"doctor","activo":true,"creado_en":"2026-11-21T04:41:02"},{"usuario_id":2,"usuario":"doctor2","rol":"doctor","activo":true,"creado_en":"2026-11-2
+PASA  [4] contraseñas con bcrypt $2b$ y no en claro :: [('doctor1', '$2b$12$'), ('doctor2', '$2b$12$'), ('admin1', '$2b$12$'), ('doctor3', '$2b$12$')]
+PASA  [4] dim_usuario y vistas sin hash :: {'dim_usuario': ['usuario_id', 'usuario', 'rol', 'activo'], 'vw_predicciones': ['prediccion_id', 'origen', 'creado_en', 'fecha', 'anio', 'mes', 'nombre_mes', 'semana', 'dia_semana', 'edad', 'grupo_edad', 'sexo', 'doctor', 'modelo', 'tipo_modelo', 'modelo_version', 'estado_modelo', 'diagnostico_predi
+PASA  [6] logout doctor1 :: {"ok":true}
+PASA  [4] tras logout la sesión ya no sirve :: 401
+PASA  [5] identificador rechazado: "PAC-1' OR '1'='1" :: {"detail":"El identificador debe ser ficticio con el formato PAC-0001 (2 a 5 letras, guion y 1 a 6 dígitos). No escribas nombres ni datos personales."}
+PASA  [5] identificador rechazado: "PAC-1'; DROP TABLE usuarios;--" :: {"detail":"El identificador debe ser ficticio con el formato PAC-0001 (2 a 5 letras, guion y 1 a 6 dígitos). No escribas nombres ni datos personales."}
+PASA  [5] identificador rechazado: 'Juan Pérez' :: {"detail":"El identificador debe ser ficticio con el formato PAC-0001 (2 a 5 letras, guion y 1 a 6 dígitos). No escribas nombres ni datos personales."}
+PASA  [5] identificador rechazado: 'JUAN-PEREZ' :: {"detail":"El identificador debe ser ficticio con el formato PAC-0001 (2 a 5 letras, guion y 1 a 6 dígitos). No escribas nombres ni datos personales."}
+PASA  [5] identificador rechazado: 'María López García' :: {"detail":"El identificador debe ser ficticio con el formato PAC-0001 (2 a 5 letras, guion y 1 a 6 dígitos). No escribas nombres ni datos personales."}
+PASA  [5] identificador rechazado: '<img src=x onerror=alert(1)>' :: {"detail":"El identificador debe ser ficticio con el formato PAC-0001 (2 a 5 letras, guion y 1 a 6 dígitos). No escribas nombres ni datos personales."}
+PASA  [5] identificador rechazado: 'PAC-0001 Juan' :: {"detail":"El identificador debe ser ficticio con el formato PAC-0001 (2 a 5 letras, guion y 1 a 6 dígitos). No escribas nombres ni datos personales."}
+PASA  [5] no se crearon pacientes con esos identificadores :: 
+PASA  [5] tabla usuarios intacta :: 
+PASA  [5] SQLi en filtro {'identificador': "' OR '1'='1"} :: 200 n=0
+PASA  [5] SQLi en filtro {'identificador': "PAC-9002' OR 1=1 --"} :: 200 n=0
+PASA  [5] SQLi en filtro {'resultado': "tumor' OR '1'='1"} -> 422 :: 422 {"detail":"'resultado' debe ser tumor o sin_tumor."}
+PASA  [5] SQLi en filtro {'confirmacion': "pendiente' OR 1=1--"} -> 422 :: 422 {"detail":"'confirmacion' debe ser pendiente, de_acuerdo o desacuerdo."}
+PASA  [5] SQLi en filtro {'desde': "2026-01-01' OR 1=1--"} -> 422 :: 422 {"detail":"'desde' debe tener el formato AAAA-MM-DD."}
+PASA  [5] SQLi en filtro {'hasta': "x'); DROP TABLE bitacora;--"} -> 422 :: 422 {"detail":"'hasta' debe tener el formato AAAA-MM-DD."}
+PASA  [5] SQLi en filtro {'limite': '1; DROP TABLE usuarios'} -> 422 :: 422 {"detail":"Datos no válidos en: limite."}
+PASA  [5] SQLi en filtros de bitácora -> 0 eventos :: {"total":0,"pagina":1,"paginas":1,"eventos":[],"acciones":["LOGIN_OK","LOGIN_FALLIDO","LOGOUT","ACCESO_DENEGADO","ESTUDI
+PASA  [5] SQLi identificador como admin -> 0 :: {"estudios":[]}
+PASA  [5] SQLi en login -> 401 :: 401
+FALLA [5] tablas siguen existiendo :: 
+PASA  [5] ruta con .. en /media: /media/../entorno/verif.db :: 404 b'{"detail":"No se encontr\xc3\xb3 el recurso."}'
+PASA  [5] ruta con .. en /media: /media/..%2F..%2Fapp%2Fbackend%2Fconfig.py :: 404 b'{"detail":"No se encontr\xc3\xb3 el recurso."}'
+PASA  [5] ruta con .. en /media: /media/..%5C..%5Cverif.db :: 404 b'{"detail":"Nombre de archivo no v\xc3\xa1lido."}'
+PASA  [5] ruta con .. en /media: /media/%2e%2e%2f%2e%2e%2fCLAUDE.md :: 404 b'{"detail":"No se encontr\xc3\xb3 el recurso."}'
+PASA  [5] ruta con .. en /media: /media/....//....//CLAUDE.md :: 404 b'{"detail":"No se encontr\xc3\xb3 el recurso."}'
+FALLA [5] ruta con .. en /media: /media/.. :: 200 b'<!doctype html>\n<html lang="es-MX">\n<head>\n  <meta charset="utf-8">\n  <meta name'
+PASA  [5] ruta con .. en /media: /media/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa_img.png/../../verif.db :: 404 b'{"detail":"No se encontr\xc3\xb3 el recurso."}'
+PASA  [5] ruta con .. en /media: /media/C:%5CWindows%5Cwin.ini :: 404 b'{"detail":"Nombre de archivo no v\xc3\xa1lido."}'
+PASA  [5] archivo > 10 MB rechazado (sin tumbar los demás) :: 200 [{"archivo": "grande.png", "error": "El archivo pesa más de 10 MB."}, {"prediccion_id": 3604, "archivo": "Tr-no_100.jpg", "hay_tumor": false, "etiqueta": "No se detecta tumor", "probabilidad_tumor": 0.0034798323176801205, "confianza": 0.9965201676823
+PASA  [5] 9 archivos -> 422 :: {"detail":"Puedes subir como máximo 8 imágenes por estudio."}
+PASA  [5] 8 archivos -> 200 con 8 resultados :: 200
+PASA  [5] PNG con firma pero dañado -> error controlado :: {"resultados":[{"archivo":"falsa.png","error":"No se pudo leer la imagen: está dañada o no es válida."}]}
+PASA  [5] contenido no imagen con extensión .jpg -> error :: {"resultados":[{"archivo":"script.jpg","error":"El archivo no es una imagen JPG o PNG."}]}
+PASA  [5] nombre de archivo XSS se devuelve como dato (texto) :: <img src=x onerror=alert(1)>.jpg
+PASA  [5] validación edad=121 -> 422 :: {"detail":"La edad debe ser un número entero entre 0 y 120."}
+PASA  [5] validación edad=-1 -> 422 :: {"detail":"La edad debe ser un número entero entre 0 y 120."}
+PASA  [5] validación edad=abc -> 422 :: {"detail":"La edad debe ser un número entero entre 0 y 120."}
+PASA  [5] validación sexo=X -> 422 :: {"detail":"El sexo debe ser F, M u Otro."}
+PASA  [5] validación fecha=2099-01-01 -> 422 :: {"detail":"La fecha del estudio debe tener el formato AAAA-MM-DD y no puede ser futura."}
+PASA  [5] validación fecha=21/11/2026 -> 422 :: {"detail":"La fecha del estudio debe tener el formato AAAA-MM-DD y no puede ser futura."}
+PASA  [5] sin archivos -> 422 :: {"detail":"Sube al menos una imagen."}
+PASA  [8] umbral 0.2: VP/VN/FP/FN recalculados :: api={'vp': 2559, 'vn': 245, 'fp': 49, 'fn': 27} mio={'vp': 2559, 'vn': 245, 'fp': 49, 'fn': 27} n=2880 origen=predicciones fuera de pliegue de la validación cruzada de la cabeza (2880 imágenes de entrenamiento)
+PASA  [8] umbral 0.5205068290233612: VP/VN/FP/FN recalculados :: api={'vp': 2535, 'vn': 266, 'fp': 28, 'fn': 51} mio={'vp': 2535, 'vn': 266, 'fp': 28, 'fn': 51} n=2880 origen=predicciones fuera de pliegue de la validación cruzada de la cabeza (2880 imágenes de entrenamiento)
+PASA  [8] umbral 0.9: VP/VN/FP/FN recalculados :: api={'vp': 2440, 'vn': 279, 'fp': 15, 'fn': 146} mio={'vp': 2440, 'vn': 279, 'fp': 15, 'fn': 146} n=2880 origen=predicciones fuera de pliegue de la validación cruzada de la cabeza (2880 imágenes de entrenamiento)
+PASA  [8] PUT umbral 0 rechazado :: 422 {"detail":"El umbral debe estar entre 0.01 y 0.99."}
+PASA  [8] PUT umbral 0.005 rechazado :: 422 {"detail":"El umbral debe estar entre 0.01 y 0.99."}
+PASA  [8] PUT umbral 0.995 rechazado :: 422 {"detail":"El umbral debe estar entre 0.01 y 0.99."}
+PASA  [8] PUT umbral 1 rechazado :: 422 {"detail":"El umbral debe estar entre 0.01 y 0.99."}
+PASA  [8] PUT umbral 1.5 rechazado :: 422 {"detail":"El umbral debe estar entre 0.01 y 0.99."}
+PASA  [8] PUT umbral -0.2 rechazado :: 422 {"detail":"El umbral debe estar entre 0.01 y 0.99."}
+PASA  [8] PUT umbral abc rechazado :: 422 {"detail":"Datos no válidos en: valor."}
+PASA  [8] GET umbral valor=1.5 rechazado :: 422
+PASA  [8] PUT 0.999999 rechazado :: 422
+PASA  [8] PUT umbral 0.97 :: {"ok":true,"valor":0.97,"anterior":0.5205068290233612,"version":"v001"}
+PASA  [8] la siguiente predicción usa el umbral nuevo :: umbral=0.97 p=0.0034798323176801205
+PASA  [8] /api/estado refleja el umbral :: 
+PASA  [8] UMBRAL_ACTUALIZADO en bitácora :: [{'usuario': 'admin1', 'rol': 'administrador', 'ip': '127.0.0.1', 'exito': 1, 'detalle': 'v001: umbral 0.5205 -> 0.9700'}]
+PASA  [8] umbral restaurado :: {"ok":true,"valor":0.5205068290233612,"anterior":0.97,"version":"v001"}
+PASA  [11] mediana de latencia (10 imágenes) :: servidor mediana=499.7 ms (min 388.7, max 829.2); ida y vuelta mediana=513.4 ms (min 396.6, max 839.7)
+PASA  [3] 10 imágenes extra de prueba: |p_api - p_csv| < 1e-4 :: máx dif=1.02e-06
+PASA  [6] bitácora paginada :: total=61 paginas=2 n=50
+PASA  [6] página 2 distinta de la 1 :: pagina2 n=11
+PASA  [6] filtros usuario+accion+exito :: total=16
+PASA  [6] filtro desde/hasta hoy :: 61 vs 61
+PASA  [6] filtro desde futuro -> 0 :: 0
+PASA  [6] exito inválido -> 422 :: 422
+PASA  [6] pagina=0 no rompe :: 200
+PASA  [3] resumen admin :: {"estudios":24,"estudios_hoy":24,"con_tumor":10,"pct_tumor":41.7,"confirmados":1,"desacuerdos":1,"falsos_negativos":1,"falsos_positivos":0,"tiempo_promedio_ms":486.8,"modelo_produccion":{"modelo_id":5,"version":"v001","nombre":"Red Keras (MobileNetV2)","umbral":0.5205068290233612}}
+PASA  [3] resumen.estudios == filas de uso en la base; falsos_negativos=1 (desacuerdo sin_tumor->meningioma) :: {'estudios': 24, 'estudios_hoy': 24, 'con_tumor': 10, 'pct_tumor': 41.7, 'confirmados': 1, 'desacuerdos': 1, 'falsos_negativos': 1, 'falsos_positivos': 0, 'tiempo_promedio_ms': 486.8, 'modelo_produccion': {'modelo_id': 5, 'version': 'v001', 'nombre': 'Red Keras (MobileNetV2)', 'umbral': 0.5205068290
+PASA  [10] asistente responde sin la clave :: {"estado":"error","respuesta":"El asistente de consultas se habilita en la Fase 5.","sql":null,"columnas":[],"filas":[]}
+PASA  [10] la clave falsa no aparece en ninguna respuesta HTTP :: 262 respuestas revisadas
+
+TOTAL 133 comprobaciones, 2 fallas
+FALLA {'punto': 5, 'prueba': 'tablas siguen existiendo', 'ok': False, 'evidencia': ''}
+FALLA {'punto': 5, 'prueba': 'ruta con .. en /media: /media/..', 'ok': False, 'evidencia': '200 b\'<!doctype html>\\n<html lang="es-MX">\\n<head>\\n  <meta charset="utf-8">\\n  <meta name\''}
