@@ -275,6 +275,37 @@ button{font-family:inherit}
 .cursor::after{content:"▍";animation:parpadeo2 .8s steps(1) infinite;margin-left:2px;color:#9fb4ff}
 @keyframes parpadeo2{50%{opacity:0}}
 
+/* =================== la red neuronal por dentro =================== */
+.arquitectura{display:flex;align-items:stretch;gap:0;height:250px}
+.bloque-red{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;gap:8px;padding:16px 12px;border-radius:20px;
+  border:2px solid color-mix(in srgb,var(--c) 70%,transparent);background:color-mix(in srgb,var(--c) 12%,#141a32);transition:box-shadow .5s,transform .5s}
+.bloque-red.vivo{box-shadow:0 0 34px -4px color-mix(in srgb,var(--c) 75%,transparent);transform:translateY(-4px)}
+.bloque-red b{font-size:25px;line-height:1.15}
+.bloque-red small{font-size:18px;color:#c3c9e0;line-height:1.3}
+.bloque-red img{width:92px;height:92px;border-radius:14px;border:2px solid #34406a}
+.bloque-red .mini-capas{display:flex;gap:6px;align-items:center;height:86px}
+.bloque-red .mini-capas i{width:16px;border-radius:5px;background:linear-gradient(180deg,#4b8dff,#8a7cf6);animation:late 2.4s ease-in-out infinite}
+.bloque-red .escala{font-family:var(--mono);font-size:22px;font-weight:700}
+.unir{flex:0 0 46px;position:relative;align-self:center;height:3px;background:#4a5585}
+.unir::after{content:"";position:absolute;right:-2px;top:-6px;border:7px solid transparent;border-left:10px solid #6b78b0}
+.unir i{position:absolute;top:-5px;width:13px;height:13px;border-radius:50%;background:#ffd36b;box-shadow:0 0 14px 4px rgba(255,190,80,.7);animation:viaja 1.6s linear infinite}
+.salidas-red{flex:1.1;display:flex;flex-direction:column;gap:12px}
+.salidas-red .bloque-red{flex:1;padding:10px}
+.datos-entreno{margin-top:16px;display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+.datos-entreno .chip{font-size:20px;padding:7px 16px}
+.red-abajo{display:grid;grid-template-columns:1fr 1.25fr;gap:26px;margin-top:22px}
+.normal-pasos{display:flex;flex-direction:column;gap:14px;margin-top:12px}
+.normal-pasos div{display:flex;align-items:center;gap:16px;font-size:24px;font-weight:700}
+.normal-pasos span{flex:none;width:52px;height:52px;border-radius:14px;display:grid;place-items:center;font-size:26px;background:#1c2244;border:1px solid #34406a}
+.normal-pasos small{display:block;font-size:18px;font-weight:500;color:var(--tenue)}
+.costo-cab{display:flex;justify-content:space-between;align-items:center;gap:16px}
+.costo-cab input{flex:1;accent-color:var(--naranja);height:30px;cursor:pointer}
+.costo-filas{display:flex;flex-direction:column;gap:9px;margin-top:10px}
+.costo-fila{display:grid;grid-template-columns:200px 1fr 70px;align-items:center;gap:12px;font-size:20px;font-weight:700}
+.costo-fila .pista{height:28px;border-radius:8px;background:#1a2040;overflow:hidden}
+.costo-fila .rel{height:100%;width:0;border-radius:8px;transition:width .7s cubic-bezier(.2,.8,.2,1),background .4s}
+.costo-fila .v{font-family:var(--mono);text-align:right}
+
 /* =================== Power BI simulado =================== */
 .pbi{position:absolute;left:96px;right:96px;top:246px;bottom:132px;border-radius:14px;overflow:hidden;background:#f3f2f1;color:#252423;
   font-family:"Segoe UI","Segoe UI Variable Text",var(--sans);display:grid;grid-template-rows:46px 1fr 42px;
@@ -365,7 +396,7 @@ button{font-family:inherit}
   </section>
 
   <!-- 2 · EL RETO -->
-  <section class="slide" data-titulo="El reto" data-parte="PARTE 1 · EL PROBLEMA" data-color="naranja"
+  <section class="slide" data-titulo="El reto" data-anim="reto" data-parte="PARTE 1 · EL PROBLEMA" data-color="naranja"
     data-narracion="Por eso medimos sobre todo cuántos tumores detecta: la sensibilidad.">
     <h2 class="titulo en">No todos los errores pesan igual</h2><div class="subrayado"></div>
     <div class="cuerpo reto">
@@ -388,7 +419,7 @@ button{font-family:inherit}
   </section>
 
   <!-- 3 · LOS DATOS -->
-  <section class="slide" data-titulo="Los datos" data-parte="PARTE 2 · LOS DATOS" data-color="verde"
+  <section class="slide" data-titulo="Los datos" data-anim="datos" data-parte="PARTE 2 · LOS DATOS" data-color="verde"
     data-narracion="Casi la mitad eran copias: sin quitarlas, el examen sería trampa.">
     <h2 class="titulo en">La mitad eran copias</h2><div class="subrayado"></div>
     <div class="cuerpo datos">
@@ -417,7 +448,7 @@ button{font-family:inherit}
   </section>
 
   <!-- 4 · SIN TRAMPA -->
-  <section class="slide" data-titulo="Sin hacer trampa" data-parte="PARTE 2 · LOS DATOS" data-color="morado"
+  <section class="slide" data-titulo="Sin hacer trampa" data-anim="trampa" data-parte="PARTE 2 · LOS DATOS" data-color="morado"
     data-narracion="Como estudiar con exámenes de práctica… y guardar el examen final bajo llave.">
     <h2 class="titulo en">Un examen final que nadie vio</h2><div class="subrayado"></div>
     <div class="cuerpo">
@@ -440,8 +471,58 @@ button{font-family:inherit}
     </div>
   </section>
 
-  <!-- 5 · EDA -->
-  <section class="slide" data-titulo="Lo que dicen los datos" data-parte="PARTE 3 · ESTADÍSTICA" data-color="amarillo"
+  <!-- 5 · LA RED NEURONAL POR DENTRO -->
+  <section class="slide" data-titulo="La red neuronal por dentro" data-anim="red" data-parte="PARTE 2 · EL MODELO" data-color="morado"
+    data-narracion="Usamos una red que ya sabe ver formas; nosotros entrenamos solo la parte final.">
+    <h2 class="titulo en">La red neuronal por dentro</h2><div class="subrayado"></div>
+    <div class="cuerpo">
+      <div class="arquitectura en" style="--d:.3" aria-label="Arquitectura de la red: imagen, normalización, MobileNetV2 congelada, promedio global, capa densa con dropout y dos salidas">
+        <div class="bloque-red" style="--c:#4b8dff"><img src="img/par_a.jpg" alt=""><b>Imagen</b><small>160 × 160 · 3 canales</small></div>
+        <div class="unir"><i></i></div>
+        <div class="bloque-red" style="--c:#2dd4bf"><span class="escala">0…255<br>→ −1…1</span><b>Normalización</b><small>dentro del modelo</small></div>
+        <div class="unir"><i></i></div>
+        <div class="bloque-red" style="--c:#a78bfa;flex:1.25"><div class="mini-capas"><i style="height:86px"></i><i style="height:72px;animation-delay:.2s"></i><i style="height:58px;animation-delay:.4s"></i><i style="height:44px;animation-delay:.6s"></i><i style="height:32px;animation-delay:.8s"></i></div><b>MobileNetV2</b><small>congelada · ya sabe ver<br>2.26 M parámetros</small></div>
+        <div class="unir"><i></i></div>
+        <div class="bloque-red" style="--c:#4b8dff"><span class="escala">1,280</span><b>Promedio global</b><small>números por imagen</small></div>
+        <div class="unir"><i></i></div>
+        <div class="bloque-red" style="--c:#fbbf24"><span class="escala">256</span><b>Capa densa</b><small>ReLU + dropout 30 %<br>(apaga neuronas al azar)</small></div>
+        <div class="unir"><i></i></div>
+        <div class="salidas-red">
+          <div class="bloque-red" style="--c:#f0607f"><b>¿Tumor?</b><small>sigmoide · 0 a 1</small></div>
+          <div class="bloque-red" style="--c:#fb7a1e"><b>¿Qué tipo?</b><small>softmax · 3 tipos</small></div>
+        </div>
+      </div>
+      <div class="datos-entreno en" style="--d:.6">
+        <span class="chip">Se entrenan <b>328,964</b> parámetros</span>
+        <span class="chip">Adam · tasa <b>0.001</b></span>
+        <span class="chip">Lote <b>64</b></span>
+        <span class="chip">Detención temprana · paciencia <b>8</b></span>
+        <span class="chip">Cada imagen sin tumor pesa <b>≈ 9×</b></span>
+      </div>
+      <div class="red-abajo">
+        <div class="tarjeta brillo c-verde en izq" style="--d:.8;padding:22px 28px">
+          <div class="etiqueta">Normalización de los datos</div>
+          <div class="normal-pasos">
+            <div><span>✂️</span><div>Recorte del cerebro<small>se quita el fondo negro</small></div></div>
+            <div><span>📐</span><div>Mismo tamaño<small>160 × 160 píxeles para todas</small></div></div>
+            <div><span>⚖️</span><div>Misma escala<small>de 0…255 a −1…1, como aprendió MobileNetV2</small></div></div>
+          </div>
+        </div>
+        <div class="tarjeta brillo c-naranja en der" style="--d:1;padding:20px 28px">
+          <div class="costo-cab">
+            <div><div class="etiqueta" style="color:#ffb27a">Costo esperado del error</div><div style="font-size:21px;color:#d7dbea">1 tumor sin detectar = <b class="mono" id="costo-r" style="color:var(--naranja)">20</b> falsas alarmas <span class="tenue">(supuesto)</span></div></div>
+          </div>
+          <label class="sr" for="costo-red">Cuántas falsas alarmas equivale un tumor sin detectar</label>
+          <input id="costo-red" type="range" min="1" max="50" step="1" value="20" style="width:100%">
+          <div class="costo-filas" id="costo-filas"></div>
+          <div class="tenue" style="font-size:16px;margin-top:8px">Costo por cada 100 estudios = (tumores sin detectar × peso + falsas alarmas) ÷ 720 × 100 · errores reales del examen final</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 · EDA -->
+  <section class="slide" data-titulo="Lo que dicen los datos" data-anim="eda" data-parte="PARTE 3 · ESTADÍSTICA" data-color="amarillo"
     data-narracion="La estadística nos avisó de una trampa antes de entrenar.">
     <h2 class="titulo en">Las imágenes sin tumor brillan más</h2><div class="subrayado"></div>
     <div class="cuerpo eda">
@@ -465,7 +546,7 @@ button{font-family:inherit}
   </section>
 
   <!-- 6 · CÓMO APRENDE -->
-  <section class="slide" data-titulo="Cómo aprende" data-parte="PARTE 4 · LOS MODELOS" data-color="azul"
+  <section class="slide" data-titulo="Cómo aprende" data-anim="aprende" data-parte="PARTE 4 · LOS MODELOS" data-color="azul"
     data-narracion="Cinco competidores, el mismo examen y las mismas reglas.">
     <h2 class="titulo en">Cómo aprende la computadora</h2><div class="subrayado"></div>
     <div class="cuerpo">
@@ -487,7 +568,7 @@ button{font-family:inherit}
   </section>
 
   <!-- 7 · LA RED APRENDE -->
-  <section class="slide" data-titulo="La red neuronal aprende" data-parte="PARTE 4 · LA RED NEURONAL" data-color="morado"
+  <section class="slide" data-titulo="La red neuronal aprende" data-anim="curva" data-parte="PARTE 4 · LA RED NEURONAL" data-color="morado"
     data-narracion="Se detuvo sola cuando dejó de mejorar con imágenes que no conocía.">
     <h2 class="titulo en">¿La red aprendió bien?</h2><div class="subrayado"></div>
     <div class="cuerpo curva">
@@ -503,7 +584,7 @@ button{font-family:inherit}
   </section>
 
   <!-- 8 · QUIÉN GANÓ -->
-  <section class="slide" data-titulo="¿Quién ganó?" data-parte="PARTE 5 · RESULTADOS" data-color="verde"
+  <section class="slide" data-titulo="¿Quién ganó?" data-anim="gano" data-parte="PARTE 5 · RESULTADOS" data-color="verde"
     data-narracion="Examen final: 720 imágenes que ningún modelo había visto.">
     <h2 class="titulo en">¿Quién ganó el examen final?</h2><div class="subrayado"></div>
     <div class="cuerpo">
@@ -542,7 +623,7 @@ button{font-family:inherit}
   </section>
 
   <!-- 11 · ADMINISTRADOR -->
-  <section class="slide" data-titulo="El administrador" data-parte="PARTE 6 · EL SISTEMA" data-color="morado"
+  <section class="slide" data-titulo="El administrador" data-anim="admin" data-parte="PARTE 6 · EL SISTEMA" data-color="morado"
     data-narracion="Bajar el umbral detecta más tumores… a cambio de más falsas alarmas.">
     <h2 class="titulo en">El administrador tiene el control</h2><div class="subrayado"></div>
     <div class="cuerpo admin">
@@ -570,7 +651,7 @@ button{font-family:inherit}
   </section>
 
   <!-- 12 · DATOS E IA GENERATIVA -->
-  <section class="slide" data-titulo="Datos e IA generativa" data-parte="PARTE 7 · DATOS E IA GENERATIVA" data-color="verde"
+  <section class="slide" data-titulo="Datos e IA generativa" data-anim="bi" data-parte="PARTE 7 · DATOS E IA GENERATIVA" data-color="verde"
     data-narracion="Le preguntas en español; Claude escribe la consulta… solo de lectura.">
     <h2 class="titulo en">Todo queda guardado… y se puede preguntar</h2><div class="subrayado"></div>
     <div class="cuerpo bi">
@@ -584,7 +665,7 @@ button{font-family:inherit}
   </section>
 
   <!-- 13 · POWER BI: COMPARACIÓN -->
-  <section class="slide" data-titulo="Power BI · Comparación de modelos" data-parte="PARTE 7 · POWER BI" data-color="amarillo"
+  <section class="slide" data-titulo="Power BI · Comparación de modelos" data-anim="pbi1" data-parte="PARTE 7 · POWER BI" data-color="amarillo"
     data-narracion="Tocas un modelo… y todas las gráficas se actualizan, como en Power BI.">
     <h2 class="titulo en">El tablero en Power BI</h2><div class="subrayado"></div>
     <div class="pbi en zoom" style="--d:.3" id="pbi1">
@@ -605,7 +686,7 @@ button{font-family:inherit}
   </section>
 
   <!-- 14 · POWER BI: ACIERTOS Y ERRORES -->
-  <section class="slide" data-titulo="Power BI · Aciertos y errores" data-parte="PARTE 7 · POWER BI" data-color="amarillo"
+  <section class="slide" data-titulo="Power BI · Aciertos y errores" data-anim="pbi2" data-parte="PARTE 7 · POWER BI" data-color="amarillo"
     data-narracion="En práctica rozó la meta; en el examen final la red quedó en 96.75 %.">
     <h2 class="titulo en">Power BI: aciertos y errores</h2><div class="subrayado"></div>
     <div class="pbi en zoom" style="--d:.3" id="pbi2">
@@ -709,7 +790,7 @@ button{font-family:inherit}
     pintarPuntos(); pintarLista();
     try { history.replaceState(null, "", "#" + (i + 1)); } catch (e) {}
     animarEntrada(s);
-    (animaciones[i] || (() => {}))(s);
+    (animaciones[s.dataset.anim] || (() => {}))(s);
     if (!relojInicio) relojInicio = Date.now();
   }
   function paso(d) {
@@ -1205,31 +1286,60 @@ button{font-family:inherit}
     if (desdeCero) { dTumor.setAttribute("stroke-dasharray", `0 ${DL}`); despues(500, () => dTumor.setAttribute("stroke-dasharray", `${(DL * 647 / 720).toFixed(1)} ${DL}`)); }
   }
 
+  /* ---------- costo esperado del error (FN y FP reales de resultados/prueba_resumen.csv) ---------- */
+  const errores = [["Solo brillo", 15, 51], ["Regresión logística", 14, 10], ["Random Forest", 11, 15], ["SVM", 14, 10], ["Red neuronal", 21, 8]];
+  const costoRed = $("#costo-red"), cfilas = $("#costo-filas");
+  errores.forEach(([n]) => {
+    const f = document.createElement("div"); f.className = "costo-fila";
+    const a = document.createElement("span"); a.textContent = n;
+    const p = document.createElement("div"); p.className = "pista"; const r = document.createElement("div"); r.className = "rel"; p.appendChild(r);
+    const v = document.createElement("span"); v.className = "v";
+    f.append(a, p, v); cfilas.appendChild(f);
+  });
+  function pintarCosto(desdeCero) {
+    const k = +costoRed.value; $("#costo-r").textContent = k;
+    const costos = errores.map(([, fn, fp]) => (fn * k + fp) / 720 * 100);
+    const max = Math.max(...costos), min = Math.min(...costos);
+    $$(".costo-fila", cfilas).forEach((f, i) => {
+      const r = f.querySelector(".rel"), v = f.querySelector(".v");
+      v.textContent = costos[i].toFixed(1);
+      r.style.background = costos[i] === min ? "linear-gradient(90deg,#14b8a6,#2dd4bf)" : (errores[i][0] === "Red neuronal" ? "linear-gradient(90deg,#c2410c,#fb7a1e)" : "linear-gradient(90deg,#2f5fd0,#4b8dff)");
+      if (desdeCero) r.style.width = "0";
+      despues(desdeCero ? 900 + i * 110 : 0, () => { r.style.width = Math.max(2, costos[i] / max * 100) + "%"; });
+    });
+    costoRed.setAttribute("aria-valuetext", `un tumor sin detectar equivale a ${k} falsas alarmas`);
+  }
+  costoRed.addEventListener("input", () => pintarCosto(false));
+
   /* ---------- animaciones al entrar a cada diapositiva ---------- */
   const animaciones = {
-    1: s => { // 98 de 100
+    reto: s => { // 98 de 100
       const ds = $$("#rejilla100 i"); ds.forEach(d => d.className = "");
       ds.forEach((d, i) => despues(900 + i * 22, () => { d.className = (i === 37 || i === 81) ? "mal" : "ok"; }));
     },
-    2: s => { $$("#apilada span").forEach(e => { e.style.width = "0"; }); despues(700, () => $$("#apilada span").forEach(e => { e.style.width = e.dataset.ancho + "%"; })); },
-    3: s => {
+    datos: s => { $$("#apilada span").forEach(e => { e.style.width = "0"; }); despues(700, () => $$("#apilada span").forEach(e => { e.style.width = e.dataset.ancho + "%"; })); },
+    trampa: s => {
       const celdas = $$("#kfold span"); let r = 0;
       const ciclo = () => { celdas.forEach(c => c.classList.toggle("prueba", +c.dataset.c === +c.dataset.r && +c.dataset.r <= r)); r = (r + 1) % 6; despues(r === 0 ? 1600 : 900, ciclo); };
       despues(800, ciclo);
     },
-    4: s => { $$(".barra-v", s).forEach(b => { b.style.height = "0"; }); despues(600, () => $$(".barra-v", s).forEach(b => { b.style.height = b.dataset.alto + "px"; })); },
-    5: s => { elegirCompetidor(4); let i = 0; const rota = () => { despues(3600, () => { i = (i + 1) % 5; elegirCompetidor(i); rota(); }); }; despues(1800, () => elegirCompetidor(0)); rota(); },
-    6: s => {
+    eda: s => { $$(".barra-v", s).forEach(b => { b.style.height = "0"; }); despues(600, () => $$(".barra-v", s).forEach(b => { b.style.height = b.dataset.alto + "px"; })); },
+    aprende: s => { elegirCompetidor(4); let i = 0; const rota = () => { despues(3600, () => { i = (i + 1) % 5; elegirCompetidor(i); rota(); }); }; despues(1800, () => elegirCompetidor(0)); rota(); },
+    curva: s => {
       dibujar(pE, 2200, 500); dibujar(pV, 2200, 700);
       [guia, tMejor].forEach(e => e.setAttribute("opacity", 0)); punto.setAttribute("r", 0); halo.setAttribute("r", 0);
       despues(3000, () => { guia.setAttribute("opacity", 1); tMejor.setAttribute("opacity", 1); punto.setAttribute("r", 12);
         let t = 0; const late = () => { t = (t + 1) % 30; halo.setAttribute("r", 12 + t); halo.setAttribute("opacity", (1 - t / 30).toFixed(2)); if (slides[actual] === s) despues(40, late); }; late(); });
     },
-    7: s => { mostrarMetrica(0); },
-    10: s => { rango.value = 10; leerUmbral(); },
-    11: s => { lineasE.forEach((l, i) => dibujar(l, 900, 300 + i * 150)); correrChat(); },
-    12: s => { despues(500, () => actualizarPbi1(true)); },
-    13: s => { despues(500, () => actualizarPbi2(true)); }
+    gano: s => { mostrarMetrica(0); },
+    admin: s => { rango.value = 10; leerUmbral(); },
+    bi: s => { lineasE.forEach((l, i) => dibujar(l, 900, 300 + i * 150)); correrChat(); },
+    pbi1: s => { despues(500, () => actualizarPbi1(true)); },
+    pbi2: s => { despues(500, () => actualizarPbi2(true)); },
+    red: s => {
+      $$(".bloque-red", s).forEach((b, i) => { b.classList.remove("vivo"); despues(500 + i * 260, () => b.classList.add("vivo")); });
+      costoRed.value = 20; pintarCosto(true);
+    }
   };
 
   /* ---------- etiquetas de la portada centradas bajo cada pieza ---------- */
