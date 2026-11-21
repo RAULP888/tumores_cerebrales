@@ -1,0 +1,100 @@
+\documentclass[10pt,letterpaper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish,es-noshorthands,es-tabla]{babel}
+\usepackage{lmodern}
+\usepackage[margin=1.3cm]{geometry}
+\usepackage[hidelinks]{hyperref}
+\def\UrlBreaks{\do\/\do-\do.\do\_\do\:}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{2.5pt}
+\setlength{\columnsep}{0.55cm}
+\newcommand{\seccion}[1]{\par\vspace{3pt}{\small\bfseries #1}\par\vspace{0.5pt}}
+\newcommand{\refapa}[1]{\par\hangindent=1.2em\hangafter=1 #1\par}
+
+\begin{document}
+
+% ------------------------------------------------------------------ PORTADA
+\begin{titlepage}
+\centering
+\vspace*{2cm}
+{\Large\bfseries UNIVERSIDAD ANÁHUAC QUERÉTARO\par}
+\vspace{0.6cm}
+{\large Diplomado Liderazgo en la Era de la IA\par}
+{\normalsize Estrategias de IA Generativa, Business Intelligence y Ciencia de Datos\par}
+\vspace{3cm}
+{\large Proyecto final\par}
+\vspace{0.5cm}
+{\LARGE\bfseries Detección de tumores cerebrales en resonancias magnéticas con inteligencia artificial\par}
+\vspace{0.4cm}
+{\large Un sistema de apoyo para el médico\par}
+\vspace{3cm}
+{\large Equipo N\par}
+\vspace{0.3cm}
+{\large Raúl Pichardo Manzano\par}
+\vfill
+{\normalsize Repositorio: \url{https://github.com/RAULP888/tumores_cerebrales}\par}
+\vspace{0.4cm}
+{\normalsize Santiago de Querétaro, 21 de noviembre de 2026\par}
+\end{titlepage}
+
+% ------------------------------------------------------------------ CONTENIDO
+\twocolumn[{%
+\centering
+{\large\bfseries Detección de tumores cerebrales en resonancias magnéticas con inteligencia artificial\par}
+\vspace{2pt}
+{\small Raúl Pichardo Manzano · Universidad Anáhuac Querétaro\par}
+\vspace{6pt}
+}]
+\small
+
+\seccion{Resumen}
+Los tumores cerebrales se tienen que detectar a tiempo, y revisar muchas resonancias toma horas. En este proyecto hicimos un sistema que ayuda al médico: el doctor sube una resonancia y el sistema le dice si ve un posible tumor y qué tan seguro está. Usamos 7,200 imágenes públicas de Kaggle; al limpiarlas descubrimos que la mitad eran copias (muchas volteadas como espejo), así que nos quedamos con 3,600. Comparamos cinco modelos con validación cruzada de 5 pliegues y con un examen final de 720 imágenes que ningún modelo había visto. Como el error más grave es no detectar un tumor, medimos sobre todo la sensibilidad (cuántos tumores detecta). Random Forest fue el único que llegó a la meta de 98\,\% (98.3\,\%); la red neuronal en Keras logró 96.8\,\%, pero dio menos falsas alarmas. Recomendamos usar el sistema solo como apoyo y probarlo con datos reales de un hospital antes de usarlo con pacientes.
+
+\seccion{1. Introducción y problema}
+En un hospital, el radiólogo decide qué resonancias revisar primero. Si el sistema dice ``sin tumor'' y sí había uno (\emph{falso negativo}), el paciente pierde tiempo valioso; si da una falsa alarma, solo se hace un estudio de más. Por eso supusimos que un tumor sin detectar cuesta 20 veces más que una falsa alarma. Quien decide siempre es el médico; el sistema solo le ayuda a priorizar.
+
+\seccion{2. Estado del arte}
+En Stanford se mostró que una red neuronal puede reconocer cáncer de piel (Esteva et al., 2017) y neumonía en radiografías (Rajpurkar et al., 2017) con un nivel parecido al de especialistas. Google creó MobileNetV2, una red ligera que usamos como base (Sandler et al., 2018). NVIDIA ganó el reto BraTS 2018 de tumores cerebrales con una red 3D (Myronenko, 2018). Para ver en qué se fija la red usamos Grad-CAM (Selvaraju et al., 2017).
+
+\seccion{3. Datos}
+Usamos el \emph{Brain Tumor MRI Dataset} (Nickparvar, 2021), con licencia CC~BY~4.0: 7,200 imágenes de glioma, meningioma, tumor hipofisario y sin tumor, que juntamos en ``tumor'' contra ``sin tumor''. Al limpiarlas quitamos 2,739 copias en espejo o giradas, 409 casi idénticas, 215 copias exactas, 203 aumentos y 34 con etiquetas contradictorias; quedaron 3,600 (3,233 con tumor y 367 sin tumor). En la exploración vimos que las imágenes sin tumor son más brillantes (0.338 contra 0.242), y la prueba de Mann-Whitney confirmó que no es casualidad ($p<0.001$). Todo se guardó en una base SQL en Microsoft Fabric con modelo estrella, y se analizó con consultas SQL y un tablero de Power BI.
+
+\seccion{4. Metodología}
+Separamos 80\,\% para aprender (2,880 imágenes) y 20\,\% para el examen final (720), cuidando que imágenes parecidas quedaran del mismo lado. Con las 2,880 hicimos validación cruzada de 5 pliegues. Cada imagen se recortó, se llevó a 160$\times$160 píxeles y MobileNetV2 la convirtió en 1,280 números. Comparamos: (1) la solución más simple, que solo mira el brillo; (2) regresión logística; (3) Random Forest; (4) SVM; y (5) una red neuronal en Keras con detención temprana para que no memorice. El umbral de cada modelo se ajustó para detectar 98\,\% de los tumores en la validación. Además, un asistente con IA generativa (Claude) convierte preguntas en español en consultas SQL que solo pueden leer datos.
+
+\newpage
+\seccion{5. Resultados}
+\begin{center}
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lcccc}
+\hline
+\textbf{Modelo} & \textbf{Detecta} & \textbf{Sin} & \textbf{Falsas} & \textbf{Costo*} \\
+ & \textbf{tumores} & \textbf{detectar} & \textbf{alarmas} & \\
+\hline
+Solo brillo & 97.7\,\% & 15 & 51 & 48.8 \\
+Reg. logística & 97.8\,\% & 14 & 10 & 40.3 \\
+Random Forest & \textbf{98.3\,\%} & \textbf{11} & 15 & \textbf{32.6} \\
+SVM & 97.8\,\% & 14 & 10 & 40.3 \\
+Red (Keras) & 96.8\,\% & 21 & \textbf{8} & 59.4 \\
+\hline
+\end{tabular}\\[2pt]
+{\footnotesize Examen final: 647 con tumor y 73 sin tumor. *Costo por cada 100 estudios con el supuesto de 20 a 1.}
+\end{center}
+Random Forest fue el único que llegó a la meta y el de menor costo. La red neuronal aprendió bien (su mejor punto fue la vuelta 12) y dio la menor cantidad de falsas alarmas, pero dejó pasar 21 tumores; en los casos con tumor, el SVM fue mejor que la red (McNemar, $p=0.016$). El modelo más simple detectó muchos tumores, pero con 51 falsas alarmas de 73 casos sin tumor.
+
+\seccion{6. Retos, límites y conclusión}
+No sabemos qué imágenes son del mismo paciente, así que puede haber cortes del mismo estudio en el entrenamiento y en el examen; además, solo hubo 73 imágenes sin tumor en el examen, el costo de 20 a 1 es un supuesto y no buscamos los mejores ajustes de cada modelo. Aprendimos que un modelo más complejo no siempre es mejor. Recomendamos usar el sistema solo como apoyo, empezar con Random Forest o bajar el umbral de la red, y probarlo con datos de un hospital, con permiso, antes de usarlo con pacientes. \emph{Resultado de apoyo: no sustituye el diagnóstico de un médico especialista.}
+
+\seccion{Referencias}
+{\footnotesize
+\refapa{Esteva, A., Kuprel, B., Novoa, R. A., Ko, J., Swetter, S. M., Blau, H. M., \& Thrun, S. (2017). Dermatologist-level classification of skin cancer with deep neural networks. \emph{Nature, 542}(7639), 115--118. \url{https://doi.org/10.1038/nature21056}}
+\refapa{Myronenko, A. (2018). \emph{3D MRI brain tumor segmentation using autoencoder regularization} [Preprint]. arXiv. \url{https://arxiv.org/abs/1810.11654}}
+\refapa{Nickparvar, M. (2021). \emph{Brain tumor MRI dataset} [Conjunto de datos]. Kaggle. \url{https://www.kaggle.com/datasets/masoudnickparvar/brain-tumor-mri-dataset}}
+\refapa{Rajpurkar, P., Irvin, J., Zhu, K., Yang, B., Mehta, H., Duan, T., Ding, D., Bagul, A., Langlotz, C., Shpanskaya, K., Lungren, M. P., \& Ng, A. Y. (2017). \emph{CheXNet: Radiologist-level pneumonia detection on chest X-rays with deep learning} [Preprint]. arXiv. \url{https://arxiv.org/abs/1711.05225}}
+\refapa{Sandler, M., Howard, A., Zhu, M., Zhmoginov, A., \& Chen, L.-C. (2018). MobileNetV2: Inverted residuals and linear bottlenecks. En \emph{Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition} (pp. 4510--4520). \url{https://doi.org/10.1109/CVPR.2018.00474}}
+\refapa{Selvaraju, R. R., Cogswell, M., Das, A., Vedantam, R., Parikh, D., \& Batra, D. (2017). Grad-CAM: Visual explanations from deep networks via gradient-based localization. En \emph{Proceedings of the IEEE International Conference on Computer Vision} (pp. 618--626). \url{https://doi.org/10.1109/ICCV.2017.74}}
+}
+
+\end{document}
