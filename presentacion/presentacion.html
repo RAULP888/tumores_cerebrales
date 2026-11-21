@@ -306,6 +306,29 @@ button{font-family:inherit}
 .costo-fila .rel{height:100%;width:0;border-radius:8px;transition:width .7s cubic-bezier(.2,.8,.2,1),background .4s}
 .costo-fila .v{font-family:var(--mono);text-align:right}
 
+/* =================== los 5 pliegues =================== */
+.pliegues{display:grid;grid-template-columns:.95fr 1.35fr;gap:30px}
+.rondas{display:flex;flex-direction:column;gap:12px}
+.ronda{display:grid;grid-template-columns:110px 1fr;align-items:center;gap:12px;cursor:pointer;border-radius:12px;padding:4px 6px;transition:background .3s}
+.ronda:hover{background:#1a2040}
+.ronda label{font-size:21px;font-weight:700;color:#c3c9e0;cursor:pointer}
+.ronda .partes{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+.ronda .partes span{height:44px;border-radius:9px;background:rgba(75,141,255,.28);border:1px solid rgba(75,141,255,.55);transition:all .45s}
+.ronda .partes span.val{background:rgba(251,191,36,.85);border-color:#fde68a;box-shadow:0 0 18px rgba(251,191,36,.6)}
+.ronda.act{background:#1c2347}
+.ronda.act label{color:#fff}
+.leyenda-pl{display:flex;gap:22px;font-size:19px;color:var(--tenue);margin-top:6px}
+.leyenda-pl i{display:inline-block;width:16px;height:16px;border-radius:4px;vertical-align:-2px;margin-right:6px}
+.calor{width:100%;border-collapse:separate;border-spacing:6px;table-layout:fixed}
+.calor th{font-size:18px;font-weight:700;color:var(--tenue);padding:2px;transition:color .3s}
+.calor th.act{color:var(--amarillo)}
+.calor th.mod{text-align:left;color:#e3e7f5;font-size:20px;width:190px}
+.calor td{height:58px;border-radius:9px;text-align:center;font-family:var(--mono);font-size:21px;font-weight:800;color:#0b0e1c;transition:background .5s,outline-color .3s;outline:3px solid transparent;outline-offset:-2px}
+.calor td.act{outline-color:#fff}
+.calor td.prom{background:#1b2140!important;color:#e9ecf7;font-size:18px;width:150px}
+.calor th.prom{width:150px}
+.nota-pl{font-size:18px;color:var(--tenue);margin-top:8px}
+
 /* =================== Power BI simulado =================== */
 .pbi{position:absolute;left:96px;right:96px;top:246px;bottom:132px;border-radius:14px;overflow:hidden;background:#f3f2f1;color:#252423;
   font-family:"Segoe UI","Segoe UI Variable Text",var(--sans);display:grid;grid-template-rows:46px 1fr 42px;
@@ -604,6 +627,25 @@ button{font-family:inherit}
       <div class="tarjeta brillo c-azul en izq" style="--d:.6"><div class="ico">⚖️</div><div><b class="n" style="color:var(--azul)">p = 0.016</b>En tumores, el SVM superó a la red</div></div>
       <div class="tarjeta brillo c-amarillo en der" style="--d:.75"><div class="ico">💡</div><div><b class="n" style="color:var(--amarillo)">51</b>falsas alarmas del modelo “solo brillo”</div></div>
       <div class="mensaje en zoom" style="--d:1">Más complejo no siempre es mejor… y lo decimos</div>
+    </div>
+  </section>
+
+  <!-- · LOS 5 PLIEGUES -->
+  <section class="slide" data-titulo="Los 5 pliegues" data-anim="folds" data-parte="PARTE 5 · RESULTADOS" data-color="amarillo"
+    data-narracion="Cada modelo hizo 5 exámenes de práctica; el promedio dice qué tan estable es.">
+    <h2 class="titulo en">Los 5 pliegues de la validación cruzada</h2><div class="subrayado"></div>
+    <div class="cuerpo pliegues">
+      <div class="tarjeta en izq" style="--d:.3;padding:24px 26px">
+        <div class="etiqueta" style="margin-bottom:14px">2,880 imágenes de entrenamiento en 5 partes de 576</div>
+        <div class="rondas" id="rondas"></div>
+        <div class="leyenda-pl"><span><i style="background:rgba(75,141,255,.6)"></i>aprende · 2,304</span><span><i style="background:#fbbf24"></i>examen de práctica · 576</span></div>
+        <div class="nota-pl">Cada parte: ≈ 517 con tumor y 58–59 sin tumor · imágenes parecidas siempre en la misma parte · clic en una ronda</div>
+      </div>
+      <div class="tarjeta brillo c-amarillo en der" style="--d:.5;padding:22px 26px">
+        <div class="pestanas" id="pestanas-pl" role="tablist" style="margin-bottom:14px"></div>
+        <table class="calor" id="calor" aria-label="Resultado de cada modelo en cada pliegue"></table>
+        <div class="nota-pl" id="nota-pl"></div>
+      </div>
     </div>
   </section>
 
@@ -1311,6 +1353,67 @@ button{font-family:inherit}
   }
   costoRed.addEventListener("input", () => pintarCosto(false));
 
+  /* ---------- los 5 pliegues (resultados/cv_pliegues.csv) ---------- */
+  const CV = [
+    {n: "Solo brillo", sens: [.9768, .9807, .9768, .9845, .9826], esp: [.2034, .3390, .3276, .2712, .2034], fn: [12, 10, 12, 8, 9]},
+    {n: "Regresión logística", sens: [.9884, .9749, .9710, .9787, .9884], esp: [.8814, .8814, .8793, .9153, .8644], fn: [6, 13, 15, 11, 6]},
+    {n: "Random Forest", sens: [.9749, .9729, .9865, .9826, .9845], esp: [.8136, .8136, .7414, .7966, .7458], fn: [13, 14, 7, 9, 8]},
+    {n: "SVM", sens: [.9884, .9710, .9730, .9787, .9903], esp: [.9322, .9153, .9310, .8814, .9153], fn: [6, 15, 14, 11, 5]},
+    {n: "Red neuronal", sens: [.9884, .9749, .9768, .9729, .9884], esp: [.8983, .8644, .9138, .9492, .8983], fn: [6, 13, 12, 14, 6]}
+  ];
+  const METRICAS_PL = [
+    {k: "sens", t: "Detecta tumores", fmt: v => (v * 100).toFixed(1), bueno: v => (v - .965) / .03, nota: "Sensibilidad (%). El umbral se fijó para lograr 98 % en promedio, por eso todos rondan la meta."},
+    {k: "esp", t: "Evita falsas alarmas", fmt: v => (v * 100).toFixed(1), bueno: v => (v - .2) / .75, nota: "Especificidad (%). Aquí sí se separan: el modelo de solo brillo casi no reconoce las imágenes sin tumor."},
+    {k: "fn", t: "Tumores sin detectar", fmt: v => String(v), bueno: v => 1 - (v - 5) / 10, nota: "Tumores sin detectar en cada parte (≈ 517 con tumor). Menos es mejor."}
+  ];
+  let metPl = 0, foldAct = 0;
+  const rondas = $("#rondas"), calor = $("#calor");
+  for (let r = 0; r < 5; r++) {
+    const fila = document.createElement("div"); fila.className = "ronda"; fila.dataset.r = r;
+    const l = document.createElement("label"); l.textContent = `Pliegue ${r + 1}`;
+    const p = document.createElement("div"); p.className = "partes";
+    for (let c = 0; c < 5; c++) { const s = document.createElement("span"); if (c === r) s.className = "val"; p.appendChild(s); }
+    fila.append(l, p); fila.addEventListener("click", () => { elegirFold(r); ciclarFolds(); }); rondas.appendChild(fila);
+  }
+  METRICAS_PL.forEach((m, i) => { const b = document.createElement("button"); b.className = "pestana"; b.textContent = m.t; b.setAttribute("role", "tab"); b.addEventListener("click", () => { metPl = i; pintarCalor(); }); $("#pestanas-pl").appendChild(b); });
+  const media = a => a.reduce((x, y) => x + y, 0) / a.length;
+  const desv = a => { const m = media(a); return Math.sqrt(a.reduce((x, y) => x + (y - m) ** 2, 0) / (a.length - 1)); };
+  function pintarCalor() {
+    const m = METRICAS_PL[metPl];
+    $$("#pestanas-pl .pestana").forEach((b, i) => b.setAttribute("aria-selected", String(i === metPl)));
+    calor.replaceChildren();
+    const cab = document.createElement("tr"); const h0 = document.createElement("th"); h0.className = "mod"; cab.appendChild(h0);
+    for (let c = 0; c < 5; c++) { const th = document.createElement("th"); th.textContent = `P${c + 1}`; th.dataset.c = c; cab.appendChild(th); }
+    const hp = document.createElement("th"); hp.className = "prom"; hp.textContent = "promedio ± desv."; cab.appendChild(hp); calor.appendChild(cab);
+    CV.forEach(mod => {
+      const tr = document.createElement("tr"); const th = document.createElement("th"); th.className = "mod"; th.textContent = mod.n; tr.appendChild(th);
+      mod[m.k].forEach((v, c) => {
+        const td = document.createElement("td"); td.dataset.c = c; td.textContent = m.fmt(v);
+        const t = Math.max(0, Math.min(1, m.bueno(v)));
+        td.style.background = `color-mix(in srgb, #2dd4bf ${(t * 100).toFixed(0)}%, #fb7a1e)`;
+        td.title = `${mod.n} · pliegue ${c + 1}: ${m.fmt(v)}`;
+        tr.appendChild(td);
+      });
+      const tp = document.createElement("td"); tp.className = "prom";
+      const a = mod[m.k], esc = m.k === "fn" ? 1 : 100, dec = m.k === "fn" ? 1 : 1;
+      tp.textContent = `${(media(a) * esc).toFixed(dec)} ± ${(desv(a) * esc).toFixed(dec)}`; tr.appendChild(tp);
+      calor.appendChild(tr);
+    });
+    $("#nota-pl").textContent = m.nota;
+    elegirFold(foldAct);
+  }
+  function elegirFold(r) {
+    foldAct = r;
+    $$(".ronda", rondas).forEach((f, i) => f.classList.toggle("act", i === r));
+    $$("#calor [data-c]").forEach(e => e.classList.toggle("act", +e.dataset.c === r));
+  }
+  function ciclarFolds() {
+    clearTimeout(ciclarFolds.t);
+    const s = slides[actual];
+    const paso = () => { if (slides[actual] !== s || !s.querySelector("#rondas")) return; elegirFold((foldAct + 1) % 5); ciclarFolds.t = despues(2600, paso); };
+    ciclarFolds.t = despues(2600, paso);
+  }
+
   /* ---------- animaciones al entrar a cada diapositiva ---------- */
   const animaciones = {
     reto: s => { // 98 de 100
@@ -1336,6 +1439,7 @@ button{font-family:inherit}
     bi: s => { lineasE.forEach((l, i) => dibujar(l, 900, 300 + i * 150)); correrChat(); },
     pbi1: s => { despues(500, () => actualizarPbi1(true)); },
     pbi2: s => { despues(500, () => actualizarPbi2(true)); },
+    folds: s => { metPl = 0; foldAct = 0; pintarCalor(); ciclarFolds(); },
     red: s => {
       $$(".bloque-red", s).forEach((b, i) => { b.classList.remove("vivo"); despues(500 + i * 260, () => b.classList.add("vivo")); });
       costoRed.value = 20; pintarCosto(true);
